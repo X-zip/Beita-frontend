@@ -1,0 +1,225 @@
+/* pages/my_task/my_task.wxss */
+.empty{
+  margin-top: 20px;
+  width: 33%;
+  margin-left: 33%;
+}
+.userinfo {  
+  position: relative;  
+  width: 750rpx;  
+  height: 320rpx;  
+  color: #999999;  
+  display: flex;  
+  flex-direction: column;  
+  align-items: center;  
+}  
+
+.userinfo-avatar {  
+  overflow:hidden;  
+  display: block;  
+  width: 160rpx;  
+  height: 160rpx;  
+  margin: 20rpx;  
+  margin-top: 50rpx;  
+  border-radius: 50%;  
+  border: 2px solid #fff;  
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);  
+}
+
+
+
+.delete_icon {
+  left:10px;
+  top:10px;
+  height: 20px;
+  width: 20px;
+  vertical-align: center;
+}
+.delete{
+  float: left;
+  width: 10%;
+}
+
+.slide-image {
+  width: 100%;
+}
+.menu-wrp {
+  width: 90%;
+  margin-left: 5%;
+  background-color: #f6f6f6;
+  border-radius: 20rpx;
+}
+
+.menu-wrp:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+.menu-list {
+  float: left;
+  width: 25%;
+  box-sizing: border-box;
+  padding: 20rpx;
+}
+
+.menu-img {
+  width: 80rpx;
+  height: 80rpx;
+  display: block;
+  margin: 0 auto;
+  margin-bottom: 5px;
+}
+
+.menu-desc {
+  color: #2c2c2c;
+  width: 100%;
+  text-align: center;
+  display: block;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+
+.task-list-item {
+  width: 90%;
+  margin: 5%;
+  margin-top: 20rpx;
+  background: #f6f6f6;
+  border-radius: 20rpx;
+  height: 240rpx;
+}
+.box-left {
+  width: 60%;
+  height: 100%;
+  float: left;
+}
+.box-right {
+  margin-left: 60%;
+  width: 40%;
+  height: 100%;
+}
+
+.img {
+  width: 48rpx;
+  height: 48rpx;
+  border-radius: 50%;
+  margin: 20rpx;
+  float: left;
+}
+
+
+.names_fl {
+  font-size: 24rpx;
+  color: #2c2c2c;
+  margin-left: 20rpx;
+  line-height: 34px;
+  font-weight: 800;
+}
+
+.head {
+  height: 30%;
+  line-height: 30%;
+
+}
+.title_box {  
+  height: 70%;
+}
+.task_title {
+  height: 50%;
+  padding:20rpx;
+  font-size: 28rpx;
+  color: #2c2c2c;
+}
+
+.comment_num {
+  color: #2c2c2c;
+  font-size: 12px;
+  margin-left: 2px;
+  margin-left: 10rpx;
+}
+
+.like_img {
+  width: 12px;
+  height: 12px;
+  margin-left: 5rpx;
+}
+
+.comment_img {
+  width: 12px;
+  height: 12px;
+  margin-left: 20rpx;
+}
+
+.price {
+  color: red;
+  font-size: 12px;
+  margin-left: 20rpx;
+}
+
+
+
+
+.c_time {
+  font-size: 20rpx;
+  color: #999;
+  line-height: 32px;
+  text-align: center;
+  float: right;
+  margin-right: 15px;
+}
+
+.task_img {
+  width: 96px;
+  height: 72px;
+  float: right;
+  margin-right: 15px;
+}
+
+
+.campusBox {
+  float: right;
+  margin-right: 15px;
+}
+
+.campusTitle {
+  font-size: 20rpx;
+  color: #999;
+}
+
+.campus {
+  font-size: 20rpx;
+  color: #999;
+}
+
+.moreimg {
+  width: 50rpx;
+  height: 50rpx;
+  margin-top: 20rpx;
+}
+
+.hot-box {
+
+  height: 12px;
+  margin-left: 5rpx;
+  float: left;
+}
+@media (prefers-color-scheme: dark) {
+  /* DarkMode 下的样式 start */
+  page {
+    background: #191919;
+  }
+  .task-list-item {
+    background: #292929;
+  }
+  .task_title {
+    color: white;
+  }
+  .names_fl {
+    color: white;
+  }
+  .comment_num {
+    color: white;
+  }
+  /* DarkMode 下的样式 end */
+}

@@ -1,0 +1,121 @@
+<van-toast id="van-toast" />
+
+<!-- <van-notice-bar mode="link" bind:click="toGuide" text="点击查看北理工邮箱使用教程" /> -->
+
+<view style="padding: 30rpx 20rpx 20rpx 20rpx; text-align: center;">
+  <text style="font-size: 42rpx; font-weight: 600; color: mediumpurple;">校园认证</text>
+</view>
+
+<view class="detail-box">
+  <view style="padding: 30rpx 20rpx 20rpx;">
+    <text style="font-weight: 600;">收集以下重要信息的原因</text>
+  </view>
+  <view style="padding: 10rpx 20rpx;">
+    <text style="font-weight: 600; color: #CBBCCD;">1.为保障在校同学们人身和财产安全</text>
+  </view>
+  <view style="padding: 10rpx 20rpx;">
+    <text style="font-weight: 600; color: #CBBCCD;">2.为避免出现违反法律法规的内容</text>
+  </view>
+  <view style="padding: 30rpx 20rpx 20rpx;">
+    <text style="font-weight: 600;">校园认证说明：</text>
+  </view>
+  <view style="padding: 10rpx 20rpx;">
+    <text style="font-weight: 600; color: #CBBCCD;">1.建议优先选择邮箱验证，仅向邮箱发送验证码并对邮箱信息加密且立刻获得认证结果。</text>
+  </view>
+  <view style="padding: 10rpx 20rpx;">
+    <text style="font-weight: 600; color: #CBBCCD;">2.无校内邮箱用户请上传清晰无码录取通知书/学生证/校园卡/学位证/毕业证正面照片，此信息仅用于校园认证，验证确认后会自动删除</text>
+  </view>
+</view>
+
+<van-tabs active="{{ active }}" bind:change="onChange">
+  <van-tab title="邮箱认证">
+    <view class="container">
+      <van-row>
+        <van-col span="16">
+          <van-cell-group>
+            <van-field
+              value="{{ email }}"
+              label="邮箱:"
+              placeholder="请输入邮箱"
+              border="{{ false }}"
+              bind:change="onChangeEmail"
+              input-align="right"
+            />
+          </van-cell-group>
+        </van-col>
+        <van-col span="8">
+          <van-dropdown-menu>
+            <van-dropdown-item value="{{ value1 }}" options="{{ option1 }}" />
+          </van-dropdown-menu>
+        </van-col>
+      </van-row>
+
+      <van-row>
+        <van-col span="16">
+          <van-cell-group>
+            <van-field
+              value="{{ code }}"
+              label="验证码"
+              placeholder="请输入验证码"
+              border="{{ false }}"
+              bind:change="onChangeCode"
+              input-align="right"
+            />
+          </van-cell-group>
+        </van-col>
+        <van-col span="8">
+          <button
+            style="width: 100%; height: 100%; font-size: 28rpx; background-color: #1989fa; color: white;"
+            bindtap="sendEmail"
+            wx:if="{{!smsFlag}}"
+          >获取验证码</button>
+          <button
+            style="width: 100%; height: 100%; font-size: 28rpx; background-color: grey; color: white;"
+            disabled
+            wx:else
+          >{{snsMsgWait}}s</button>
+        </van-col>
+      </van-row>
+
+      <van-button round type="info" custom-class="btn-box" bind:click="verify">验证</van-button>
+    </view>
+  </van-tab>
+
+  <van-tab title="证件认证">
+    <view class="container">
+      <view class="detail-box">
+        <view class="item">
+          <van-uploader
+            class="van-uploader-box"
+            file-list="{{ fileListStudent }}"
+            deletable="true"
+            catch:delete="deleteImg"
+            bind:after-read="afterRead"
+            max-count="1"
+            name="student"
+          />
+        </view>
+      </view>
+      <van-button round type="info" custom-class="btn-box" bind:click="submitApplication">提交</van-button>
+    </view>
+  </van-tab>
+</van-tabs>
+
+<!--
+<view class="qr-box">
+  <view style="padding: 30rpx 20rpx 20rpx 20rpx; margin-top: 100rpx; text-align: center;">
+    <text style="font-weight: 600; color: black;">添加贝塔微信查询审核状态</text>
+  </view>
+  <view class="qr-list">
+    <view class="qr-item" data-id="https://imgbf.yqtech.ltd/beita/qr/bitqr2.jpg">
+      <image
+        class="qr-image"
+        src="../../images/bitqr2.jpg"
+        mode="widthFix"
+        bindtap="imgYu"
+        data-id="{{item.imageUrl}}"
+      />
+    </view>
+  </view>
+</view>
+-->

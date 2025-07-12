@@ -1,0 +1,52 @@
+<!-- pages/usercenter/usercenter.wxml -->
+<van-toast id="van-toast" />
+<view>
+  <view class="top-box">
+    <van-row custom-class="row-0">
+      <van-col span="8" ><image  class="userinfo-avatar" src='{{avatarUrl+"?imageView2/2/w/100"}}' mode="cover"></image></van-col>
+      <van-col span="16" >
+        <van-row custom-class="row-1">
+          <van-col span="24"><text class="userinfo-nickname">{{userName}}</text></van-col>
+        </van-row>
+        <van-row custom-class="row-2">
+          <!-- <van-col span="12"><van-button disabled plain round  icon="https://img.yzcdn.cn/vant/logo.png" type="info">切换学校</van-button></van-col> -->
+          <van-col span="12" ><van-button plain round icon="https://img.yzcdn.cn/vant/logo.png" type="info" bind:click="navLogin">更换头像</van-button></van-col>
+        </van-row>
+      </van-col>
+    </van-row>
+  </view>
+
+  <view class="info-box" >
+    <view class="menu-wrp" >
+      <!--设定一个item项后，遍历输出-->
+      <view class="menu-list" wx:for="{{menu.imgUrls}}" wx:key="index">
+        <view class="menu-item" data-id="{{ menu.name[index] }}" data-current="{{index}}" bindtap="chooseTab">
+          <image class="menu-img" src="{{item}}" data-id="{{ menu.name[index] }}"/>
+          <view class="menu-desc" data-id="{{ menu.name[index] }}">{{menu.descs[index]}}</view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="button-list">
+    <view class="list-item" bindtap="toApplication">
+      <image src="../../images/verify.png" mode="heightFix" class="item-image"></image>
+        <text class="item-text">校园认证</text>
+        <van-tag plain type="success" wx:if="{{isVerified == 1}}">已认证</van-tag>
+        <van-tag plain type="danger" wx:if="{{isVerified == -1}}">未认证</van-tag>
+        <van-tag plain type="primary" wx:if="{{isVerified == 0}}">认证中</van-tag>
+    </view>
+    <view class="list-item" bindtap="toGame">
+      <image src="../../images/game.png" mode="heightFix" class="item-image"></image>
+        <text class="item-text">合成北理工</text>
+    </view>
+    <view class="list-item" bindtap="toContact">
+      <image src="../../images/contact.png" mode="heightFix" class="item-image"></image>
+        <text class="item-text">联系我们</text>
+    </view>
+    <view class="list-item" bindtap="toSuggestion">
+      <image src="../../images/suggestion.png" mode="heightFix" class="item-image"></image>
+        <text class="item-text">意见/建议</text>
+    </view>
+  </view>
+</view>

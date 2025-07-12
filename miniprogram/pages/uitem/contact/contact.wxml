@@ -1,0 +1,35 @@
+<!--pages/contact/contact.wxml-->
+<text class="title">贝塔驿站</text>
+<view class="qr-list">
+  <view class="item">
+    <image class='image' src="http://yqtech.ltd/beita/contact/contact2.jpg" mode="widthFix" bindtap="imgYu"></image>
+  </view>
+  <view class="item">
+    <image class='image' src="http://yqtech.ltd/beita/contact/contact1.jpg" mode="widthFix" bindtap="imgYu2"></image>
+  </view>
+</view>
+<view class="text-list">
+  <text class="text">贝塔驿站公众号</text>
+  <text class="text">贝塔驿站客服</text>
+</view>
+
+<!-- <view class="qr-list">
+  <view class="item">
+    <image class='image' src="http://yqtech.ltd/beita/contact/contact4.jpg" mode="widthFix" bindtap="imgYu4"></image>
+  </view>
+  <view class="item">
+    <image class='image' src="http://yqtech.ltd/beita/contact/contact3.jpg" mode="widthFix" bindtap="imgYu3"></image>
+  </view>
+</view>
+<view class="text-list">
+  <text class="text">昱清科技公众号</text>
+  <text class="text">昱清科技客服</text>
+</view> -->
+
+<view class= "copy-right">
+    <image class='copy-logo' src="../../../images/favicon.ico" mode="widthFix" bindtap="imgYu"></image>
+    <text class="copy-text">昱清科技 © 2022 Powered By Yuqing Pte.Ltd</text>
+</view>
+
+
+

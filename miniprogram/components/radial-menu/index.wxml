@@ -1,0 +1,47 @@
+<!--components/radial-menu/index.wxml-->
+<view class="" style="width: 100%;height:100%;">
+    <image 
+    src="../../images/qun.png" 
+    class="radial-menu-plus-style {{pushStatus? '' : 'click-icon'}}" 
+    style="width:{{ iconWidth }}rpx;height:{{ iconWidth }}rpx;bottom: 280rpx;right: 20rpx;border-radius: 50%;" 
+    bindtap="goQun" wx:if="{{!pushStatus}}"
+    >
+  </image>
+  <image 
+    src="../../images/gzh.png" 
+    class="radial-menu-plus-style {{pushStatus? '' : 'click-icon'}}" 
+    style="width:{{ iconWidth }}rpx;height:{{ iconWidth }}rpx;bottom: 190rpx;right: 20rpx;border-radius: 50%;" 
+    bindtap="goGong" wx:if="{{!pushStatus}}"
+    >
+  </image>
+  <image 
+    src="{{ midIcon }}" 
+    class="radial-menu-plus-style {{pushStatus? '' : 'click-icon'}}" 
+    style="width:{{ iconWidth }}rpx;height:{{ iconWidth }}rpx;bottom: 100rpx;right: 20rpx" 
+    animation="{{ midBtnAnimation }}" 
+    bindtap="showTap">
+  </image>
+  <image 
+    src="../../images/top.png" 
+    class="radial-menu-plus-style {{pushStatus? '' : 'click-icon'}}" 
+    style="width:{{ iconWidth }}rpx;height:{{ iconWidth }}rpx;bottom: 10rpx;right: 20rpx;border-radius: 50%;" 
+    bindtap="goTop" 
+    >
+  </image>
+  <view class="radial-menu-view  {{pushStatus? 'pushColor' : 'popWidth'}}">
+    <block wx:for="{{ items }}" wx:key="{{ index }}">
+      <view 
+        class="radial-menu-item-view item-background" 
+        style="width:{{ iconWidth +40}}rpx;height:{{ iconWidth }}rpx;" 
+        bindtap="clickItem" 
+        data-index="{{ index }}" 
+        animation="{{ animations[index] }}" >
+        <image 
+          class="radial-menu-icon" 
+          src="{{ item.icon }}" >
+        </image>
+        <text class = "item-text" >{{ item.name }}</text>
+      </view>
+    </block>
+  </view>
+</view>

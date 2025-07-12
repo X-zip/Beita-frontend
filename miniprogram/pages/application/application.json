@@ -1,0 +1,20 @@
+{
+    "usingComponents": {
+        "van-field": "@vant/weapp/field/index",
+        "van-cell": "@vant/weapp/cell/index",
+        "van-cell-group": "@vant/weapp/cell-group/index",
+        "van-uploader": "@vant/weapp/uploader/index",
+        "van-toast": "@vant/weapp/toast/index",
+        "van-button": "@vant/weapp/button/index",
+        "van-tab": "@vant/weapp/tab/index",
+        "van-tabs": "@vant/weapp/tabs/index",
+        "van-row": "@vant/weapp/row/index",
+        "van-col": "@vant/weapp/col/index",
+        "van-dropdown-menu": "@vant/weapp/dropdown-menu/index",
+        "van-dropdown-item": "@vant/weapp/dropdown-item/index",
+        "van-image": "@vant/weapp/image/index",
+        "van-count-down": "@vant/weapp/count-down/index",
+        "van-loading": "@vant/weapp/loading/index",
+        "van-notice-bar": "@vant/weapp/notice-bar/index"
+    }
+  }

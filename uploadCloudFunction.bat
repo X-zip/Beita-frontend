@@ -1,0 +1,1 @@
+"D:\微信小程序开发工具\微信web开发者工具\cli.bat" cloud functions deploy --e cloud1-0gy2dabtcfc0bbad --n quickstartFunctions --r --project "D:\公司\项目\bit小二\beita" --report_start --report

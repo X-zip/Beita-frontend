@@ -1,0 +1,106 @@
+/* components/radial-menu/index.wxss */
+
+.radial-menu-plus-style {
+  z-index: 95277;
+  position: fixed;
+}
+ 
+.radial-menu-view {
+  width: 110rpx;
+  height: auto;
+  position: fixed;
+  justify-content: center;
+  align-items: center;
+  /* background-color: #b0e0e6; */
+  bottom: 100rpx;
+  right: 0rpx;
+}
+
+.click-icon{
+  opacity: 0.85;
+}
+
+.pushColor {
+  opacity: 0.95;
+  border-radius: 30rpx;
+  background-color: #f2f2f2;
+  height: 720rpx;
+  z-index: 9888;
+}
+.popWidth {
+  opacity: 0.85;
+}
+.radial-menu-item-view {
+  position: fixed;
+  opacity: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  bottom: 100rpx;
+  right: 0rpx;
+}
+
+
+/* hover-class 点击 透明度变化、缩放*/
+.radial-menu-item-hover{
+   opacity: 1;
+   transform: scale(1.1,1.1);
+ }
+ 
+.radial-menu-icon {
+  width: 48rpx;
+  height: 48rpx;
+  opacity: 1;
+}
+
+
+
+.rotate-view {
+  animation-name: rotateAnimation; /*动画的名称 */
+  animation-timing-function: linear; /*动画执行快慢的参数*/
+  animation-iteration-count: infinite; /*动画执行多少次的参数*//*以下是兼容ios所需，参数意义与上相同*/
+  -webkit-animation-name: rotateAnimation;
+  -webkit-animation-timing-function: linear;
+  -webkit-animation-iteration-count: infinite;
+}
+
+.item-text{
+  opacity: 1;
+  font-size: 22rpx;
+  z-index: 9888;
+}
+
+
+@keyframes rotateAnimation {
+  /*开始转的角度*/
+  from {
+    transform: rotate(0deg);
+  }/*结束的角度*/
+  to {
+    transform: rotate(0deg);
+  }
+}
+/*兼容ios*/
+@-webkit-keyframes rotateAnimation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .item-text{
+    color: white;
+  }
+  .pushColor {
+
+    opacity: 0.95;
+    border-radius: 30rpx;
+    background-color: #393939;
+    height: 720rpx;
+    z-index: 9888;
+  }
+}

@@ -1,0 +1,123 @@
+<!--pages/hotList/hotList.wxml-->
+<wxs module='tools' src='../../WXS/tools.wxs'></wxs>
+<wxs src="../../WXS/subutil_content.wxs" module="content_tools" />
+<wxs src="../../WXS/subutil_title.wxs" module="title_tools" />
+<wxs src="../../WXS/subutil_title_long.wxs" module="title_tools_long" />
+<wxs src="../../WXS/subutil_name.wxs" module="name_tools" />
+<wxs module = "getDate" src="../../WXS/sub_date.wxs"></wxs>
+<swiper>
+    <swiper-item>
+        <image src="https://imgbf.yqtech.ltd/banner/beitahotbanner.png" mode="widthFix" style="width: 100%;"/>
+    </swiper-item>
+</swiper>
+<view class="main-box">
+    <view id="stories-list" >
+        <block wx:for="{{ tasks }}"wx:key="index" wx:for-item="task" >
+            <view class="task-list-item" data-id="{{ task.id }}" bindtap="goToStoryDetail">
+            <view class="box-left" data-id="{{ task.id }}">
+                <view class="head" data-id="{{ task.id }}">
+                <image class="img" src='../../images/{{index+1}}.png' mode="aspectFit" data-id="{{ task.id }}"></image>
+                <view class="box" data-id="{{ task.id }}">
+                    <view class="shead_clear" data-id="{{ task.id }}">
+                    <view class="names_fl" data-id="{{ task.id }}">{{ name_tools.sub(task.userName)}}</view>
+                    </view>
+                    <view wx:if="{{task.campusGroup == '1'}}" class="campus" data-id="{{ task.id }}">良乡校区</view>
+                    <view wx:elif="{{task.campusGroup == '0'}}" class="campus" data-id="{{ task.id }}">中关村校区</view>
+                    <view wx:else class="campus" data-id="{{ task.id }}"></view>
+                    <view wx:if="{{task.radioGroup == 'radio2'}}" class="type" data-id="{{ task.id }}">失物招领</view>
+                    <view wx:elif="{{task.radioGroup == 'radio1'}}" class="type" data-id="{{ task.id }}">租房信息</view>
+                    <view wx:elif="{{task.radioGroup == 'rent'}}" class="type" data-id="{{ task.id }}">求租</view>
+                    <view wx:elif="{{task.radioGroup == 'owner'}}" class="type" data-id="{{ task.id }}">招租</view>
+                    <view wx:elif="{{task.radioGroup == 'radio3'}}" class="type" data-id="{{ task.id }}">寻物启事</view>
+                    <view wx:elif="{{task.radioGroup == 'radio4'}}" class="type" data-id="{{ task.id }}">匿名 | 吐槽</view>
+                    <view wx:elif="{{task.radioGroup == 'radio5'}}" class="type" data-id="{{ task.id }}">兼职发布</view>
+                    <view wx:elif="{{task.radioGroup == 'radio6'}}" class="type" data-id="{{ task.id }}">告白倾诉</view>
+                    <view wx:elif="{{task.radioGroup == 'radio7'}}" class="type" data-id="{{ task.id }}">打听求助</view>
+                    <view wx:elif="{{task.radioGroup == 'radio10'}}" class="type" data-id="{{ task.id }}">电脑电子</view>
+                    <view wx:elif="{{task.radioGroup == 'radio11'}}" class="type" data-id="{{ task.id }}">家居家电</view>
+                    <view wx:elif="{{task.radioGroup == 'radio12'}}" class="type" data-id="{{ task.id }}">游戏影视</view>
+                    <view wx:elif="{{task.radioGroup == 'radio13'}}" class="type" data-id="{{ task.id }}">衣包饰品</view>
+                    <view wx:elif="{{task.radioGroup == 'radio14'}}" class="type" data-id="{{ task.id }}">美容护肤</view>
+                    <view wx:elif="{{task.radioGroup == 'radio15'}}" class="type" data-id="{{ task.id }}">体育休闲</view>
+                    <view wx:elif="{{task.radioGroup == 'radio16'}}" class="type" data-id="{{ task.id }}">学习办公</view>
+                    <view wx:elif="{{task.radioGroup == 'radio17'}}" class="type" data-id="{{ task.id }}">母婴用品</view>
+                    <view wx:elif="{{task.radioGroup == 'radio18'}}" class="type" data-id="{{ task.id }}">宠物植物</view>                 
+                    <view wx:elif="{{task.radioGroup == 'radio19'}}" class="type" data-id="{{ task.id }}">求购</view>
+                    <view wx:elif="{{task.radioGroup == 'radio20'}}" class="type" data-id="{{ task.id }}">食品饮品</view>
+                    <view wx:elif="{{task.radioGroup == 'radio21'}}" class="type" data-id="{{ task.id }}">其他</view>
+                    <view wx:elif="{{task.radioGroup == 'radio40'}}" class="type" data-id="{{ task.id }}">匿名 | 吐槽</view>                 
+                    <view wx:elif="{{task.radioGroup == 'radio41'}}" class="type" data-id="{{ task.id }}">匿名 | 表白</view>
+                    <view wx:elif="{{task.radioGroup == 'radio42'}}" class="type" data-id="{{ task.id }}">匿名 | 心愿</view>
+                    <view wx:elif="{{task.radioGroup == 'radio43'}}" class="type" data-id="{{ task.id }}">匿名 | 知乎</view>          
+                </view>
+                </view>
+
+                <view class="title_box" data-id="{{ task.id }}">
+                <view class="task_title" data-id="{{ task.id }}"  style="width: {{ task.img[0] ? '100%' : '160%' }};">
+                    <text class="title" data-id="{{ task.id }}" wx:if="{{task.img[0]}}">{{ title_tools.sub(task.title)}}</text>
+                    <text class="title" data-id="{{ task.id }}" wx:else>{{ title_tools_long.sub(task.title)}}</text>
+                </view>
+                <view class="button" data-id="{{ task.id }}">
+                    <view wx:if="{{task.watchNum == '0' }}" class="hot-box">
+                    <image class="like_img" src='../../images/hot_light.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+                    <image class="like_img" src='../../images/hot_light.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+                    <image class="like_img" src='../../images/hot_light.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+                    </view>
+                    <view wx:elif="{{ task.watchNum > '0' && task.watchNum < '6' }}" class="hot-box">
+                    <image class="like_img" src='../../images/hot_half.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+                    <image class="like_img" src='../../images/hot_light.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+                    <image class="like_img" src='../../images/hot_light.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+                    </view>
+                    <view wx:elif="{{ task.watchNum > '5' && task.watchNum < '11' }}" class="hot-box">
+                    <image class="like_img" src='../../images/hot.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+                    <image class="like_img" src='../../images/hot_light.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+                    <image class="like_img" src='../../images/hot_light.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+                    </view>
+                    <view wx:elif="{{ task.watchNum > '10' && task.watchNum < '21' }}" class="hot-box">
+                    <image class="like_img" src='../../images/hot.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+                    <image class="like_img" src='../../images/hot_half.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+                    <image class="like_img" src='../../images/hot_light.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+                    </view>
+                    <view wx:elif="{{ task.watchNum > '20' && task.watchNum < '31' }}" class="hot-box">
+                    <image class="like_img" src='../../images/hot.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+                    <image class="like_img" src='../../images/hot.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+                    <image class="like_img" src='../../images/hot_light.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+                    </view>
+                    <view wx:elif="{{ task.watchNum > '30' && task.watchNum < '51' }}" class="hot-box">
+                    <image class="like_img" src='../../images/hot.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+                    <image class="like_img" src='../../images/hot.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+                    <image class="like_img" src='../../images/hot_half.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+                    </view>
+                    <view wx:else class="hot-box">
+                    <image class="like_img" src='../../images/hot.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+                    <image class="like_img" src='../../images/hot.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+                    <image class="like_img" src='../../images/hot.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+                    </view>
+                    
+                    <!-- <text class="comment_num" data-id="{{ task.id }}">{{ task.watchNum }}</text> -->
+                    <image class="comment_img" src='../../images/love.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+                    <text class="comment_num" data-id="{{ task.id }}">{{ task.likeNum }}</text>
+                    <image class="comment_img" src='../../images/comment.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+                    <text class="comment_num" data-id="{{ task.id }}">{{ task.commentNum }}</text>
+                    <text class="price" data-id="{{ task.id }}" wx:if="{{ task.price}}">￥{{task.price}}</text>
+                </view>
+                </view>
+
+            </view>
+            <view class="box-right" data-id="{{ task.id }}">
+                <view class="time_box" data-id="{{ task.id }}">
+                <view class="c_time" data-id="{{ task.id }}">
+                    <text decode="true" data-id="{{ task.id }}" wx:if="{{getDate.getGap(task.c_time)=='置顶'}}" style="color:red;border: solid 1rpx black;background-color: white;padding-left: 2rpx;padding-right: 2rpx;">{{getDate.getGap(task.c_time)}}</text>
+                    <text decode="true" data-id="{{ task.id }}" wx:else>{{getDate.getGap(task.c_time)}}</text>
+                </view>
+                </view>
+
+                <view class="img_box" wx:if="{{ task.img[0] }}" data-id="{{ task.id }}">
+                <image class="task_img" src='{{ task.img[0]+"?imageView2/2/w/500" }}' mode='aspectFill' data-id="{{ task.id }}"></image>
+                </view>
+
+            </view> 
+            </view>
+        </block>
+        </view> 
+</view>

@@ -1,0 +1,12 @@
+var sub = function (val) {
+  if (val.length == 0 || val == undefined) {
+    return;
+  }
+  if (val.length > 25) {
+    // console.log(val.replace(getRegExp('\s+','gim'), '0'))
+    return val.replace(getRegExp('\s+','gim'), '').substring(0, 25) + "...";
+  } else {
+    return val;
+  }
+}
+module.exports.sub = sub;

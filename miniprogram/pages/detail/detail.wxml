@@ -1,0 +1,648 @@
+<!--pages/detail/detail.wxml-->
+<wxs src="../../WXS/subutil_title.wxs" module="title_tools" />
+<wxs module="indexofStr">
+	module.exports.includes = function (str, str_) {
+		return str.indexOf(str_);
+	}
+</wxs>
+<wxs module = "getDate" src="../../WXS/sub_date.wxs"></wxs>
+<view class="container treehole-style"  wx:if="{{ task[0].radioGroup == 'radio40' || task[0].radioGroup == 'radio41' || task[0].radioGroup == 'radio42' || task[0].radioGroup == 'radio43'}}">
+<view class="detail" style="width: 100%;">
+  <block wx:for="{{ task }}" wx:key="index" wx:for-item="task">
+    <view class="task-list-title">
+      <!-- <image wx:if="{{ is_self }}" class="up_img" src='../../images/up.png' bindtap='updatetime' mode='aspectFill'></image> -->     
+      <text class="task_title" wx:if="{{task.radioGroup == 'radio4'}}">树洞 | 吐槽</text>
+      <text class="task_title" wx:elif="{{task.radioGroup == 'radio40'}}">树洞 | 吐槽</text>
+      <text class="task_title" wx:elif="{{task.radioGroup == 'radio41'}}">树洞 | 表白</text>
+      <text class="task_title" wx:elif="{{task.radioGroup == 'radio42'}}">树洞 | 心愿</text>
+      <text class="task_title" wx:elif="{{task.radioGroup == 'radio43'}}">树洞 | 知乎</text>
+      <text class="task_title" wx:elif="{{task.radioGroup == 'radio6'}}">告白</text>
+      <text class="task_title" wx:elif="{{task.radioGroup == 'radio1'}}">租房信息</text>
+      <text user-select class="task_title" wx:else>{{task.title}}</text>
+    </view>
+    <view class="task-list-time">
+      <view wx:if="{{task.watchNum == '0' }}" class="hot-box">
+        <image class="like_img" src='../../images/hot_light.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+        <image class="like_img" src='../../images/hot_light.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+        <image class="like_img" src='../../images/hot_light.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+      </view>
+      <view wx:elif="{{ task.watchNum > '0' && task.watchNum < '6' }}" class="hot-box">
+        <image class="like_img" src='../../images/hot_half.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+        <image class="like_img" src='../../images/hot_light.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+        <image class="like_img" src='../../images/hot_light.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+      </view>
+      <view wx:elif="{{ task.watchNum > '5' && task.watchNum < '11' }}" class="hot-box">
+        <image class="like_img" src='../../images/hot.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+        <image class="like_img" src='../../images/hot_light.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+        <image class="like_img" src='../../images/hot_light.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+      </view>
+      <view wx:elif="{{ task.watchNum > '10' && task.watchNum < '21' }}" class="hot-box">
+        <image class="like_img" src='../../images/hot.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+        <image class="like_img" src='../../images/hot_half.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+        <image class="like_img" src='../../images/hot_light.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+      </view>
+      <view wx:elif="{{ task.watchNum > '20' && task.watchNum < '31' }}" class="hot-box">
+        <image class="like_img" src='../../images/hot.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+        <image class="like_img" src='../../images/hot.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+        <image class="like_img" src='../../images/hot_light.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+      </view>
+      <view wx:elif="{{ task.watchNum > '30' && task.watchNum < '51' }}" class="hot-box">
+        <image class="like_img" src='../../images/hot.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+        <image class="like_img" src='../../images/hot.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+        <image class="like_img" src='../../images/hot_half.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+      </view>
+      <view wx:else class="hot-box">
+        <image class="like_img" src='../../images/hot.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+        <image class="like_img" src='../../images/hot.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+        <image class="like_img" src='../../images/hot.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+      </view>
+      <view class="time-box">
+        <text class="task_title">{{ getDate.getGap(task.c_time) }}</text>
+      </view>
+      <view wx:if="{{task.campusGroup == '1'}}" class="campus-box" data-id="{{ task.id }}">良乡校区</view>
+      <view wx:elif="{{task.campusGroup == '0'}}" class="campus-box" data-id="{{ task.id }}">中关村校区</view>
+       <view wx:else class="campus-box" data-id="{{ task.id }}"></view> 
+      <view class="delete-box"> 
+        <text wx:if="{{ is_self || isdel}}" bindtap='delete_detail' class="delete-button" data-id="{{ task.id }}">删除</text>
+      </view>
+           
+            <!-- <text class="comment_num" data-id="{{ task.id }}">{{ task.watchNum }}</text> -->
+    </view>
+
+    <view class="task-list-content">
+      <view class="task_content">
+        <text user-select class="text-content">{{ task.content }}</text>
+      </view>
+      <view class='task-list-img' wx:if="{{ img != '' }}">
+        <image class="image" wx:for-items="{{ img }}" src="{{ item + '?imageView2/2/w/700'}}" mode="widthFix" data-src="{{item}}" bindtap="imgYu"></image>
+      </view>
+
+      <view class="like" bindtap='thumbsup' wx:if="{{ hasUserInfo }}">
+        <view wx:if="{{ state }}">
+          <text wx:if="{{ task.price!= '' }}" class="task_price">￥{{ task.price }}</text>
+          <image class="like_img" src='../../images/love2.png' mode='aspectFill'></image>
+          <text class="like_title">已喜欢</text>
+        </view>
+        <view wx:else>
+          <text wx:if="{{ task.price!= '' }}" class="task_price">￥{{ task.price }}</text>
+          <image class="like_img" src='../../images/love.png' mode='aspectFill'></image>
+          <text class="like_title">喜欢</text>
+        </view>
+      </view>
+
+      <view class="like" bindtap='nologin' wx:else>
+        <view wx:if="{{ state }}">
+          <text wx:if="{{ task.price!= '' }}" class="task_price">¥{{ task.price }}</text>
+          <image class="like_img" src='../../images/love2.png' mode='aspectFill'></image>
+          <text class="like_title">已喜欢</text>
+        </view>
+        <view wx:else>
+          <text wx:if="{{ task.price!= '' }}" class="task_price">¥{{ task.price }}</text>
+          <image class="like_img" src='../../images/love.png' mode='aspectFill'></image>
+          <text class="like_title">喜欢</text>
+        </view>
+      </view>
+    </view>
+    <view class="botton-list" >
+      <!-- <button class="wx-button-1" bindtap='get_info' wx:if="{{ task.wechat && task.radioGroup != 'rent'}}"> 联系对方 </button> -->
+      <button class="wx-button-1" bindtap='get_info' wx:if="{{ task.wechat}}"> 联系对方 </button>
+      <button class="wx-button-1" bindtap='return_index' wx:if="{{ task.radioGroup != 'radio40' && task.radioGroup != 'radio41' && task.radioGroup != 'radio42' && task.radioGroup != 'radio43'}}"> 返回主页 </button>
+      <button class="wx-button-1" bindtap='toTreeHole' wx:else> 返回树洞 </button>
+      <button class="wx-button-1" bindtap='toSuggestion'> 举报 </button>
+    </view>
+    <!-- <view class="botton-list" wx:else>
+      <button class="wx-button-1" bindtap='return_index'> 返回主页 </button>
+      <button class="wx-button-1" bindtap='toTreeHole'> 返回树洞 </button>
+    </view> -->
+  </block>
+</view>
+<!-- xx -->
+<view class="comment_zone" style="width: 100%; min-height: 900rpx;">
+
+  <view style="width:100%" wx:if="{{ list.length > 0 }}">
+    <!-- <view class="scrollView-text"><text>树洞列表</text></view> -->
+    <view class="scrollView-small" >
+      <view class="menu-list-small" wx:for="{{sub_menu.descs}}" wx:key="index">
+        <view class="menu-item-small" data-id="{{ sub_menu.name[index] }}" bindtap='bottomNavChange'  data-current="{{index}}">
+          <view class="menu-desc-small {{currentSmallTab==index ? 'on-small' : ''}}" data-id="{{ sub_menu.name[index] }}">{{sub_menu.descs[index]}}</view>
+        </view>
+      </view>
+    </view>  
+  </view>
+
+  <view class="pro-con">
+    <block wx:for="{{ list }}" wx:key="index" >
+    <view class="inline-block">
+      <view class="avatar-box">
+        <image class="img" src="{{ item.avatar }}" mode="aspectFit"></image>
+      </view>
+      <view class="pro-box" style="background:rgba(169, 36, 144, 0.85)" wx:if="{{ item.id % 4 == 1 && (task[0].radioGroup == 'radio4' || task[0].radioGroup == 'radio40' || task[0].radioGroup == 'radio41' || task[0].radioGroup == 'radio42' || task[0].radioGroup == 'radio43')}}"> 
+        <view class="head">
+          <view class="box">
+            <view class="shead_clear">
+              <view class="names_fl">{{item.userName}}
+              </view>
+            </view>
+          </view>
+          <view class="delete-comment-box"> 
+            <text wx:if="{{current_openid == item.openid || isdel}}" bindtap='delete_comment' class="delete-comment" data-id="{{ item.id }}">删除</text>
+          </view>
+        </view>
+        <view class="addr-info">
+          <view class="addr-text">
+          <text user-select>{{item.comment}}</text>
+            <image class="image-comment" wx:if="{{item.img}}" src="{{ item.img + '?imageView2/2/w/200'}}" mode="widthFix" data-src="{{item.img}}" bindtap="commentYu"></image>
+          </view>
+        </view>
+        
+        <view class="info">
+          <view class="text">
+            <text decode="true">{{getDate.getGap(item.c_time)}}</text>
+          </view>
+          <view class="reply" bindtap="reply" data-id="{{item.openid}}" data-user="{{item.userName}}" data-pid="{{item.id}}" data-second="{{index}}" >回复</view>
+          <view>
+            <image src="../../images/click_on.png" class="click-img"   bindtap="unClickComment" data-id="{{item.id}}" wx:if="{{indexofStr.includes(clickList,item.id)>-1}}"></image>
+            <image src="../../images/click.png" class="click-img"  bindtap="clickComment" data-id="{{item.id}}" wx:else></image>
+            <text class="click-text" wx:if="{{item.like_num == 0}}"> 赞</text>
+            <text class="click-text" wx:else> {{item.like_num}}</text>
+          </view>
+        </view>
+
+        <view wx:for="{{item.commentList}}" wx:for-index="childindex"  wx:for-item="secondLevel" class="second-level">
+          <view class="head">
+            <view class="box">
+              <view class="shead_clear" style="margin-top: 20rpx;">
+                <view class="avatar-box-small"><image class="img" src="{{ secondLevel.avatar }}" mode="aspectFit"></image> </view>
+                <view class="names_fl">{{secondLevel.userName}}</view>
+                <text wx:if="{{current_openid == secondLevel.openid || isdel}}" bindtap='delete_comment' class="delete-comment" data-id="{{ secondLevel.id }}" style="margin-left: 20rpx;">删除</text>
+              </view>
+              <view class="addr-info">
+                <view class="addr-text">
+                  <text user-select>{{secondLevel.comment}}</text>
+                  <image class="image-comment" wx:if="{{secondLevel.img}}"  src="{{ secondLevel.img + '?imageView2/2/w/200'}}" mode="widthFix" data-src="{{secondLevel.img}}" bindtap="commentYu"></image>
+                </view>
+              </view>            
+              <view class="info">
+                <view class="text">
+                  <text decode="true">{{getDate.getGap(secondLevel.c_time)}}</text>
+                </view>
+                <view class="reply" bindtap="reply" data-id="{{secondLevel.openid}}" data-user="{{secondLevel.userName}}" data-pid="{{item.id}}" data-second="{{index}}" >回复</view>
+                <view>
+                  <image src="../../images/click_on.png" class="click-img"   bindtap="unClickComment" data-id="{{secondLevel.id}}" wx:if="{{indexofStr.includes(clickList,secondLevel.id)>-1}}"></image>
+                  <image src="../../images/click.png" class="click-img"  bindtap="clickComment" data-id="{{secondLevel.id}}" wx:else></image>
+                  <text class="click-text" wx:if="{{secondLevel.like_num == 0}}"> 赞</text>
+                  <text class="click-text" wx:else> {{secondLevel.like_num}}</text>
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+
+      </view>
+      <view class="pro-box" style="background:rgba(228, 113, 17, 0.85)" wx:elif="{{ item.id % 4 == 0 && (task[0].radioGroup == 'radio4' || task[0].radioGroup == 'radio40' || task[0].radioGroup == 'radio41' || task[0].radioGroup == 'radio42' || task[0].radioGroup == 'radio43')}}"> 
+        <view class="head">
+          <view class="box">
+            <view class="shead_clear">
+              <view class="names_fl">{{item.userName}}
+              </view>
+            </view>
+          </view>
+          <view class="delete-comment-box"> 
+            <text wx:if="{{current_openid == item.openid || isdel}}" bindtap='delete_comment' class="delete-comment" data-id="{{ item.id }}">删除</text>
+          </view>
+        </view>
+        <view class="addr-info">
+          <view class="addr-text">
+          <text user-select>{{item.comment}}</text>
+            <image class="image-comment" wx:if="{{item.img}}" src="{{ item.img + '?imageView2/2/w/200'}}" mode="widthFix" data-src="{{item.img}}" bindtap="commentYu"></image>
+          </view>
+        </view>
+        
+        <view class="info">
+          <view class="text">
+            <text decode="true">{{getDate.getGap(item.c_time)}}</text>
+          </view>
+          <view class="reply" bindtap="reply" data-id="{{item.openid}}" data-user="{{item.userName}}" data-pid="{{ item.id }}" data-second="{{index}}" >回复</view>
+          <view>
+            <image src="../../images/click_on.png" class="click-img"   bindtap="unClickComment" data-id="{{item.id}}" wx:if="{{indexofStr.includes(clickList,item.id)>-1}}"></image>
+            <image src="../../images/click.png" class="click-img"  bindtap="clickComment" data-id="{{item.id}}" wx:else></image>
+            <text class="click-text" wx:if="{{item.like_num == 0}}"> 赞</text>
+            <text class="click-text" wx:else> {{item.like_num}}</text>
+          </view>
+        </view>
+
+        <view wx:for="{{item.commentList}}" wx:for-index="childindex"  wx:for-item="secondLevel" class="second-level">
+          <view class="head">
+            <view class="box">
+              <view class="shead_clear" style="margin-top: 20rpx;">
+                <view class="avatar-box-small"><image class="img" src="{{ secondLevel.avatar }}" mode="aspectFit"></image> </view>
+                <view class="names_fl">{{secondLevel.userName}}</view>
+                <text wx:if="{{current_openid == secondLevel.openid || isdel}}" bindtap='delete_comment' class="delete-comment" data-id="{{ secondLevel.id }}" style="margin-left: 20rpx;">删除</text>
+              </view>
+              <view class="addr-info">
+                <view class="addr-text">
+                  <text user-select>{{secondLevel.comment}}</text>
+                  <image class="image-comment" wx:if="{{secondLevel.img}}"  src="{{ secondLevel.img + '?imageView2/2/w/200'}}" mode="widthFix" data-src="{{secondLevel.img}}" bindtap="commentYu"></image>
+                </view>
+              </view>            
+              <view class="info">
+                <view class="text">
+                  <text decode="true">{{getDate.getGap(secondLevel.c_time)}}</text>
+                </view>
+                <view class="reply" bindtap="reply" data-id="{{secondLevel.openid}}" data-user="{{secondLevel.userName}}" data-pid="{{item.id}}" data-second="{{index}}" >回复</view>
+                <view>
+                  <image src="../../images/click_on.png" class="click-img"   bindtap="unClickComment" data-id="{{secondLevel.id}}" wx:if="{{indexofStr.includes(clickList,secondLevel.id)>-1}}"></image>
+                  <image src="../../images/click.png" class="click-img"  bindtap="clickComment" data-id="{{secondLevel.id}}" wx:else></image>
+                  <text class="click-text" wx:if="{{secondLevel.like_num == 0}}"> 赞</text>
+                  <text class="click-text" wx:else> {{secondLevel.like_num}}</text>
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+
+      </view>
+      <view class="pro-box" style="background:rgba(53, 208, 242, 0.85)" wx:elif="{{ item.id % 4 == 3 && (task[0].radioGroup == 'radio4' || task[0].radioGroup == 'radio40' || task[0].radioGroup == 'radio41' || task[0].radioGroup == 'radio42' || task[0].radioGroup == 'radio43')}}"> 
+        <view class="head">
+          <view class="box">
+            <view class="shead_clear">
+              <view class="names_fl">{{item.userName}}
+              </view>
+            </view>
+          </view>
+          <view class="delete-comment-box"> 
+            <text wx:if="{{current_openid == item.openid || isdel}}" bindtap='delete_comment' class="delete-comment" data-id="{{ item.id }}">删除</text>
+          </view>
+        </view>
+        <view class="addr-info">
+          <view class="addr-text">
+          <text user-select>{{item.comment}}</text>
+            <image class="image-comment" wx:if="{{item.img}}" src="{{ item.img + '?imageView2/2/w/200'}}" mode="widthFix" data-src="{{item.img}}" bindtap="commentYu"></image>
+          </view>
+        </view>
+        
+        <view class="info">
+          <view class="text">
+            <text decode="true">{{getDate.getGap(item.c_time)}}</text>
+          </view>
+          <view class="reply" bindtap="reply" data-id="{{item.openid}}" data-user="{{item.userName}}" data-pid="{{ item.id }}" data-second="{{index}}" >回复</view>
+          <view>
+            <image src="../../images/click_on.png" class="click-img"   bindtap="unClickComment" data-id="{{item.id}}" wx:if="{{indexofStr.includes(clickList,item.id)>-1}}"></image>
+            <image src="../../images/click.png" class="click-img"  bindtap="clickComment" data-id="{{item.id}}" wx:else></image>
+            <text class="click-text" wx:if="{{item.like_num == 0}}"> 赞</text>
+            <text class="click-text" wx:else> {{item.like_num}}</text>
+          </view>
+        </view>
+
+        <view wx:for="{{item.commentList}}" wx:for-index="childindex"  wx:for-item="secondLevel" class="second-level">
+          <view class="head">
+            <view class="box">
+              <view class="shead_clear" style="margin-top: 20rpx;">
+                <view class="avatar-box-small"><image class="img" src="{{ secondLevel.avatar }}" mode="aspectFit"></image> </view>
+                <view class="names_fl">{{secondLevel.userName}}</view>
+                <text wx:if="{{current_openid == secondLevel.openid || isdel}}" bindtap='delete_comment' class="delete-comment" data-id="{{ secondLevel.id }}" style="margin-left: 20rpx;">删除</text>
+              </view>
+              <view class="addr-info">
+                <view class="addr-text">
+                  <text user-select>{{secondLevel.comment}}</text>
+                  <image class="image-comment" wx:if="{{secondLevel.img}}"  src="{{ secondLevel.img + '?imageView2/2/w/200'}}" mode="widthFix" data-src="{{secondLevel.img}}" bindtap="commentYu"></image>
+                </view>
+              </view>            
+              <view class="info">
+                <view class="text">
+                  <text decode="true">{{getDate.getGap(secondLevel.c_time)}}</text>
+                </view>
+                <view class="reply" bindtap="reply" data-id="{{secondLevel.openid}}" data-user="{{secondLevel.userName}}" data-pid="{{item.id}}" data-second="{{index}}" >回复</view>
+                <view>
+                  <image src="../../images/click_on.png" class="click-img"   bindtap="unClickComment" data-id="{{secondLevel.id}}" wx:if="{{indexofStr.includes(clickList,secondLevel.id)>-1}}"></image>
+                  <image src="../../images/click.png" class="click-img"  bindtap="clickComment" data-id="{{secondLevel.id}}" wx:else></image>
+                  <text class="click-text" wx:if="{{secondLevel.like_num == 0}}"> 赞</text>
+                  <text class="click-text" wx:else> {{secondLevel.like_num}}</text>
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+
+      </view>
+      <view class="pro-box" style="background:rgba(228, 169, 138, 0.9)" wx:else> 
+        <view class="head">
+          <view class="box">
+            <view class="shead_clear">
+              <view class="names_fl">{{item.userName}}
+              </view>
+            </view>
+          </view>
+          <view class="delete-comment-box"> 
+            <text wx:if="{{current_openid == item.openid || isdel}}" bindtap='delete_comment' class="delete-comment" data-id="{{ item.id }}">删除</text>
+          </view>
+        </view>
+        <view class="addr-info">
+          <view class="addr-text">
+          <text user-select>{{item.comment}}</text>
+            <image class="image-comment" wx:if="{{item.img}}" src="{{ item.img + '?imageView2/2/w/200'}}" mode="widthFix" data-src="{{item.img}}" bindtap="commentYu"></image>
+          </view>
+        </view>
+        
+        <view class="info">
+          <view class="text">
+            <text decode="true">{{getDate.getGap(item.c_time)}}</text>
+          </view>
+          <view class="reply" bindtap="reply" data-id="{{item.openid}}" data-user="{{item.userName}}" data-pid="{{ item.id }}" data-second="{{index}}" >回复</view>
+          <view>
+            <image src="../../images/click_on.png" class="click-img"   bindtap="unClickComment" data-id="{{item.id}}" wx:if="{{indexofStr.includes(clickList,item.id)>-1}}"></image>
+            <image src="../../images/click.png" class="click-img"  bindtap="clickComment" data-id="{{item.id}}" wx:else></image>
+            <text class="click-text" wx:if="{{item.like_num == 0}}"> 赞</text>
+            <text class="click-text" wx:else> {{item.like_num}}</text>
+          </view>
+        </view>
+
+        <view wx:for="{{item.commentList}}" wx:for-index="childindex"  wx:for-item="secondLevel" class="second-level">
+          <view class="head">
+            <view class="box">
+              <view class="shead_clear" style="margin-top: 20rpx;">
+                <view class="avatar-box-small"><image class="img" src="{{ secondLevel.avatar }}" mode="aspectFit"></image> </view>
+                <view class="names_fl">{{secondLevel.userName}}</view>
+                <text wx:if="{{current_openid == secondLevel.openid || isdel}}" bindtap='delete_comment' class="delete-comment" data-id="{{ secondLevel.id }}" style="margin-left: 20rpx;">删除</text>
+              </view>
+              <view class="addr-info">
+                <view class="addr-text">
+                  <text user-select>{{secondLevel.comment}}</text>
+                  <image class="image-comment" wx:if="{{secondLevel.img}}"  src="{{ secondLevel.img + '?imageView2/2/w/200'}}" mode="widthFix" data-src="{{secondLevel.img}}" bindtap="commentYu"></image>
+                </view>
+              </view>            
+              <view class="info">
+                <view class="text">
+                  <text decode="true">{{getDate.getGap(secondLevel.c_time)}}</text>
+                </view>
+                <view class="reply" bindtap="reply" data-id="{{secondLevel.openid}}" data-user="{{secondLevel.userName}}" data-pid="{{item.id}}" data-second="{{index}}" >回复</view>
+                <view>
+                  <image src="../../images/click_on.png" class="click-img"   bindtap="unClickComment" data-id="{{secondLevel.id}}" wx:if="{{indexofStr.includes(clickList,secondLevel.id)>-1}}"></image>
+                  <image src="../../images/click.png" class="click-img"  bindtap="clickComment" data-id="{{secondLevel.id}}" wx:else></image>
+                  <text class="click-text" wx:if="{{secondLevel.like_num == 0}}"> 赞</text>
+                  <text class="click-text" wx:else> {{secondLevel.like_num}}</text>
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+
+      </view>
+    </view>
+    </block>
+  </view>
+</view>
+
+
+<form bindsubmit="submitForm" report-submit="true">
+  <view class="release">
+    <view wx:if="{{task[0].radioGroup == 'radio4' || task[0].radioGroup == 'radio40' || task[0].radioGroup == 'radio41' || task[0].radioGroup == 'radio42' || task[0].radioGroup == 'radio43'}}" class="nickNameinfo">  
+      <input class="name__bar" wx:if="{{ !is_self }}" placeholder-class="input_null" value="{{nickNameOld}}" name="nickNameinfo" placeholder="请输入昵称" minlength="0" maxlength="50" />
+    </view>
+    <view wx:if="{{reply}}" class="replyinfo">
+      <textarea placeholder-class="input_null" fixed="true" maxlength="-1" show-confirm-bar="false" cursor-spacing="15" auto-height="true" placeholder="请输入回复" name="comment" value='回复{{replyName}}:{{form_info}}'></textarea>
+      <image src="../../images/pic.png"  bindtap="takePhoto" mode="aspectFit" wx:if="{{imgOriList.length == 0}}"></image> 
+      <image src="{{imgOriList[0] + '?imageView2/2/w/50'}}"  bindtap="takePhoto" mode="aspectFit"wx:else></image>  
+      <button form-type="submit" class="submit" wx:if="{{ hasUserInfo }}">发送</button>
+      <button bindtap="nologin" class="submit" wx:else>发送</button>
+    </view>
+    <view class="replyinfo" wx:else>
+      <textarea placeholder-class="input_null" fixed="true" maxlength="-1" show-confirm-bar="false" cursor-spacing="15" auto-height="true" placeholder="请输入回复" name="comment" value='{{form_info}}'></textarea>
+      <image src="../../images/pic.png"  bindtap="takePhoto" mode="aspectFit" wx:if="{{imgOriList.length == 0}}"></image>
+      <image src="{{imgOriList[0] + '?imageView2/2/w/50'}}"  bindtap="takePhoto" mode="aspectFit"wx:else></image>      
+      <button form-type="submit" class="submit" wx:if="{{ hasUserInfo }}">发送</button>
+      <button bindtap="nologin" class="submit" wx:else>发送</button>
+    </view>
+  </view>
+</form>
+</view>
+
+<view class="container" style="width: 100%;height:100%;" wx:else>
+<view class="detail" style="width: 100%;">
+  <block wx:for="{{ task }}" wx:key="index" wx:for-item="task">
+    <view class="task-list-title">
+      <!-- <image wx:if="{{ is_self }}" class="up_img" src='../../images/up.png' bindtap='updatetime' mode='aspectFill'></image> -->     
+      <text class="task_title" wx:if="{{task.radioGroup == 'radio4'}}">树洞 | 吐槽</text>
+      <text class="task_title" wx:elif="{{task.radioGroup == 'radio40'}}">树洞 | 吐槽</text>
+      <text class="task_title" wx:elif="{{task.radioGroup == 'radio41'}}">树洞 | 表白</text>
+      <text class="task_title" wx:elif="{{task.radioGroup == 'radio42'}}">树洞 | 心愿</text>
+      <text class="task_title" wx:elif="{{task.radioGroup == 'radio43'}}">树洞 | 知乎</text>
+      <text class="task_title" wx:elif="{{task.radioGroup == 'radio6'}}">告白</text>
+      <text class="task_title" wx:elif="{{task.radioGroup == 'radio1'}}">租房信息</text>
+      <text user-select class="task_title" wx:else>{{task.title}}</text>
+    </view>
+    <view class="task-list-time">
+      <view wx:if="{{task.watchNum == '0' }}" class="hot-box">
+        <image class="like_img" src='../../images/hot_light.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+        <image class="like_img" src='../../images/hot_light.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+        <image class="like_img" src='../../images/hot_light.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+      </view>
+      <view wx:elif="{{ task.watchNum > '0' && task.watchNum < '6' }}" class="hot-box">
+        <image class="like_img" src='../../images/hot_half.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+        <image class="like_img" src='../../images/hot_light.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+        <image class="like_img" src='../../images/hot_light.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+      </view>
+      <view wx:elif="{{ task.watchNum > '5' && task.watchNum < '11' }}" class="hot-box">
+        <image class="like_img" src='../../images/hot.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+        <image class="like_img" src='../../images/hot_light.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+        <image class="like_img" src='../../images/hot_light.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+      </view>
+      <view wx:elif="{{ task.watchNum > '10' && task.watchNum < '21' }}" class="hot-box">
+        <image class="like_img" src='../../images/hot.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+        <image class="like_img" src='../../images/hot_half.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+        <image class="like_img" src='../../images/hot_light.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+      </view>
+      <view wx:elif="{{ task.watchNum > '20' && task.watchNum < '31' }}" class="hot-box">
+        <image class="like_img" src='../../images/hot.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+        <image class="like_img" src='../../images/hot.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+        <image class="like_img" src='../../images/hot_light.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+      </view>
+      <view wx:elif="{{ task.watchNum > '30' && task.watchNum < '51' }}" class="hot-box">
+        <image class="like_img" src='../../images/hot.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+        <image class="like_img" src='../../images/hot.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+        <image class="like_img" src='../../images/hot_half.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+      </view>
+      <view wx:else class="hot-box">
+        <image class="like_img" src='../../images/hot.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+        <image class="like_img" src='../../images/hot.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+        <image class="like_img" src='../../images/hot.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+      </view>
+      <view class="time-box">
+        <text class="task_title">{{ getDate.getGap(task.c_time) }}</text>
+      </view>
+      <view wx:if="{{task.campusGroup == '1'}}" class="campus-box" data-id="{{ task.id }}">良乡校区</view>
+      <view wx:elif="{{task.campusGroup == '0'}}" class="campus-box" data-id="{{ task.id }}">中关村校区</view>
+       <view wx:else class="campus-box" data-id="{{ task.id }}"></view> 
+      <view class="delete-box"> 
+        <text wx:if="{{ is_self || isdel}}" bindtap='delete_detail' class="delete-button" data-id="{{ task.id }}">删除</text>
+      </view>
+           
+            <!-- <text class="comment_num" data-id="{{ task.id }}">{{ task.watchNum }}</text> -->
+    </view>
+
+    <view class="task-list-content">
+      <view class="task_content">
+        <text user-select class="text-content">{{ task.content }}</text>
+      </view>
+      <view class='task-list-img' wx:if="{{ img != '' }}">
+        <image class="image" wx:for-items="{{ img }}" src="{{ item + '?imageView2/2/w/700'}}" mode="widthFix" data-src="{{item}}" bindtap="imgYu"></image>
+      </view>
+
+      <view class="like" bindtap='thumbsup' wx:if="{{ hasUserInfo }}">
+        <view wx:if="{{ state }}">
+          <text wx:if="{{ task.price!= '' }}" class="task_price">￥{{ task.price }}</text>
+          <image class="like_img" src='../../images/love2.png' mode='aspectFill'></image>
+          <text class="like_title">已喜欢</text>
+        </view>
+        <view wx:else>
+          <text wx:if="{{ task.price!= '' }}" class="task_price">￥{{ task.price }}</text>
+          <image class="like_img" src='../../images/love.png' mode='aspectFill'></image>
+          <text class="like_title">喜欢</text>
+        </view>
+      </view>
+
+      <view class="like" bindtap='nologin' wx:else>
+        <view wx:if="{{ state }}">
+          <text wx:if="{{ task.price!= '' }}" class="task_price">¥{{ task.price }}</text>
+          <image class="like_img" src='../../images/love2.png' mode='aspectFill'></image>
+          <text class="like_title">已喜欢</text>
+        </view>
+        <view wx:else>
+          <text wx:if="{{ task.price!= '' }}" class="task_price">¥{{ task.price }}</text>
+          <image class="like_img" src='../../images/love.png' mode='aspectFill'></image>
+          <text class="like_title">喜欢</text>
+        </view>
+      </view>
+    </view>
+    <view class="botton-list" >
+      <!-- <button class="wx-button-1" bindtap='get_info' wx:if="{{ task.wechat  && task.radioGroup != 'rent'}}"> 联系对方 </button> -->
+      <button class="wx-button-1" bindtap='get_info' wx:if="{{ task.wechat}}"> 联系对方 </button>
+      <button class="wx-button-1" bindtap='return_index' wx:if="{{ task.radioGroup != 'radio40' && task.radioGroup != 'radio41' && task.radioGroup != 'radio42' && task.radioGroup != 'radio43'}}"> 返回主页 </button>
+      <button class="wx-button-1" bindtap='toTreeHole' wx:else> 返回树洞 </button>
+      <button class="wx-button-1" bindtap='toSuggestion'> 举报 </button>
+    </view>
+    <!-- <view class="botton-list" wx:else>
+      <button class="wx-button-1" bindtap='return_index'> 返回主页 </button>
+      <button class="wx-button-1" bindtap='toTreeHole'> 返回树洞 </button>
+    </view> -->
+  </block>
+</view>
+<!-- xx -->
+<view class="comment_zone" style="width: 100%;">
+
+  <view style="width:100%" wx:if="{{ list.length > 0 }}">
+    <!-- <view class="scrollView-text"><text>树洞列表</text></view> -->
+    <view class="scrollView-small" >
+      <view class="menu-list-small" wx:for="{{sub_menu.descs}}" wx:key="index">
+        <view class="menu-item-small" data-id="{{ sub_menu.name[index] }}" bindtap='bottomNavChange'  data-current="{{index}}">
+          <view class="menu-desc-small {{currentSmallTab==index ? 'on-small' : ''}}" data-id="{{ sub_menu.name[index] }}">{{sub_menu.descs[index]}}</view>
+        </view>
+      </view>
+    </view>  
+  </view>
+
+  <view class="pro-con">
+    <block wx:for="{{ list }}" wx:key="index" >
+    <view class="inline-block">
+      <view class="avatar-box">
+        <image class="img" src="{{ item.avatar }}" mode="aspectFit"></image>
+      </view>
+      <view class="pro-box normal-color"> 
+        <view class="head">
+          <view class="box">
+            <view class="shead_clear">
+              <view class="names_fl">{{item.userName}}
+              </view>
+            </view>
+          </view>
+          <view class="delete-comment-box"> 
+            <text wx:if="{{current_openid == item.openid || isdel}}" bindtap='delete_comment' class="delete-comment" data-id="{{ item.id }}">删除</text>
+          </view>
+        </view>
+        <view class="addr-info">
+          <view class="addr-text black-text">
+          <text user-select>{{item.comment}}</text>
+            <image class="image-comment" wx:if="{{item.img}}" src="{{ item.img + '?imageView2/2/w/200'}}" mode="widthFix" data-src="{{item.img}}" bindtap="commentYu"></image>
+          </view>
+        </view>
+        
+        <view class="info">
+          <view class="text">
+            <text decode="true">{{getDate.getGap(item.c_time)}}</text>
+          </view>
+          <view class="reply" bindtap="reply" data-id="{{item.openid}}" data-user="{{item.userName}}" style="color:blue;" data-pid="{{ item.id }}" data-second="{{index}}" >回复</view>
+          <view>
+            <image src="../../images/click_on.png" class="click-img"   bindtap="unClickComment" data-id="{{item.id}}" wx:if="{{indexofStr.includes(clickList,item.id)>-1}}"></image>
+            <image src="../../images/click.png" class="click-img"  bindtap="clickComment" data-id="{{item.id}}" wx:else></image>
+            <text class="click-text" wx:if="{{item.like_num == 0}}"> 赞</text>
+            <text class="click-text" wx:else> {{item.like_num}}</text>
+          </view>
+        </view>
+
+        <view wx:for="{{item.commentList}}" wx:for-index="childindex"  wx:for-item="secondLevel" class="second-level">
+          <view class="head">
+            <view class="box">
+              <view class="shead_clear" style="margin-top: 20rpx;">
+                <view class="avatar-box-small"><image class="img" src="{{ secondLevel.avatar }}" mode="aspectFit"></image> </view>
+                <view class="names_fl">{{secondLevel.userName}}</view>
+                <text wx:if="{{current_openid == secondLevel.openid || isdel}}" bindtap='delete_comment' class="delete-comment" data-id="{{ secondLevel.id }}" style="margin-left: 20rpx;">删除</text>
+              </view>
+              <view class="addr-info">
+                <view class="addr-text black-text">
+                  <text user-select >{{secondLevel.comment}}</text>
+                  <image class="image-comment" wx:if="{{secondLevel.img}}"  src="{{ secondLevel.img + '?imageView2/2/w/200'}}" mode="widthFix" data-src="{{secondLevel.img}}" bindtap="commentYu"></image>
+                </view>
+              </view>            
+              <view class="info">
+                <view class="text">
+                  <text decode="true">{{getDate.getGap(secondLevel.c_time)}}</text>
+                </view>
+                <view class="reply" bindtap="reply" data-id="{{secondLevel.openid}}" data-user="{{secondLevel.userName}}" style="color:blue;" data-pid="{{item.id}}" data-second="{{index}}" >回复</view>
+                <view>
+                  <image src="../../images/click_on.png" class="click-img"   bindtap="unClickComment" data-id="{{secondLevel.id}}" wx:if="{{indexofStr.includes(clickList,secondLevel.id)>-1}}"></image>
+                  <image src="../../images/click.png" class="click-img"  bindtap="clickComment" data-id="{{secondLevel.id}}" wx:else></image>
+                  <text class="click-text" wx:if="{{secondLevel.like_num == 0}}"> 赞</text>
+                  <text class="click-text" wx:else> {{secondLevel.like_num}}</text>
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+    </block>
+  </view>
+</view>
+
+
+<form bindsubmit="submitForm" report-submit="true">
+  <view class="release">
+    <view wx:if="{{task[0].radioGroup == 'radio4' || task[0].radioGroup == 'radio40' || task[0].radioGroup == 'radio41' || task[0].radioGroup == 'radio42' || task[0].radioGroup == 'radio43'}}" class="nickNameinfo">  
+      <input class="name__bar" wx:if="{{ !is_self }}" placeholder-class="input_null" value="{{nickNameOld}}" name="nickNameinfo" placeholder="请输入昵称" minlength="0" maxlength="50" />
+    </view>
+    <view wx:if="{{reply}}" class="replyinfo">
+      <textarea placeholder-class="input_null" fixed="true" maxlength="-1" show-confirm-bar="false" cursor-spacing="15" auto-height="true" placeholder="请输入回复" name="comment" value='回复{{replyName}}:{{form_info}}'></textarea>
+      <image src="../../images/pic.png"  bindtap="takePhoto" mode="aspectFit" wx:if="{{imgOriList.length == 0}}"></image> 
+      <image src="{{imgOriList[0] + '?imageView2/2/w/50'}}"  bindtap="takePhoto" mode="aspectFit"wx:else></image>   
+      <button form-type="submit" class="submit" wx:if="{{ hasUserInfo }}">发送</button>
+      <button bindtap="nologin" class="submit" wx:else>发送</button>
+    </view>
+    <view class="replyinfo" wx:else>
+      <textarea placeholder-class="input_null" fixed="true" maxlength="-1" show-confirm-bar="false" cursor-spacing="15" auto-height="true" placeholder="请输入回复" name="comment" value='{{form_info}}'></textarea>
+      <image src="../../images/pic.png"  bindtap="takePhoto" mode="aspectFit" wx:if="{{imgOriList.length == 0}}"></image> 
+      <image src="{{imgOriList[0] + '?imageView2/2/w/50'}}"  bindtap="takePhoto" mode="aspectFit"wx:else></image> 
+      <button form-type="submit" class="submit" wx:if="{{ hasUserInfo }}">发送</button>
+      <button bindtap="nologin" class="submit" wx:else>发送</button>
+    </view>
+  </view>
+</form>
+</view>
+<!-- <view wx:if="{{hidden}}">
+    <modal hidden="{{hidden}}" title="封禁提醒" confirm-text="确定" bindconfirm="confirm" no-cancel="{{nocancel}}">
+       <view>
+        <image class="image" src="http://yqtech.ltd/beita/contact/bitqr.jpg" mode='aspectFill' bindtap="previewQr" data-id="http://yqtech.ltd/beita/contact/bitqr.jpg"></image>
+      </view>
+      <view class="fontSize">根据社区相关规定，您已被禁言{{banDate}}。若想恢复使用，请添加贝塔微信说明情况进行手动解封！</view>
+</modal>
+</view> -->
+

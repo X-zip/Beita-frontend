@@ -1,0 +1,11 @@
+<!--pages/contact/contact.wxml-->
+<!-- <text class="title">贝塔驿站</text> -->
+<text class="title">扫码进群</text>
+<view class="qr-list" wx:for="{{qrList}}">
+  <view class="item" data-id="{{item.imageUrl}}">
+    <image class='image' src="{{item.imageUrl}}" mode="widthFix" bindtap="imgYu" data-id="{{item.imageUrl}}"></image>
+  </view>
+</view>
+
+
+

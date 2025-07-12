@@ -1,0 +1,64 @@
+{
+    "pages": [
+        "pages/index/index",
+        "pages/search/search",
+        "pages/detail/detail",
+        "pages/usercenter/usercenter",
+        "pages/uitem/myComment/myComment",
+        "pages/uitem/my_like/my_like",
+        "pages/uitem/my_task/my_task",
+        "pages/uitem/myReply/myReply",
+        "pages/uitem/contact/contact",
+        "pages/uitem/suggestion/suggestion",
+        "pages/uitem/game/2048",
+        "pages/treehole/treehole",
+        "pages/webView/webView",
+        "pages/uitem/login/login",
+        "pages/qr/qr",
+        "pages/application/application",
+        "pages/hotList/hotList",
+        "pages/addPost/addPost",
+        "pages/agreement/agreement"
+    ],
+    "window": {
+        "backgroundColor": "@navBackgroundColor",
+        "backgroundTextStyle": "@bgTxtStyle",
+        "navigationBarBackgroundColor": "@navBackgroundColor",
+        "navigationBarTitleText": "贝塔驿站",
+        "navigationBarTextStyle": "@navTextStyle"
+    },
+    "tabBar": {
+        "color": "@tabFontColor",
+        "selectedColor": "@tabSelectedColor",
+        "backgroundColor": "@tabBgColor",
+        "borderStyle": "@tabBorderStyle",
+        "list": [
+            {
+                "pagePath": "pages/index/index",
+                "text": "集市",
+                "iconPath": "@iconPath1",
+                "selectedIconPath": "@selectedIconPath1"
+            },
+            {
+                "pagePath": "pages/treehole/treehole",
+                "text": "树洞",
+                "iconPath": "@iconPath2",
+                "selectedIconPath": "@selectedIconPath2"
+            },
+            {
+                "pagePath": "pages/usercenter/usercenter",
+                "text": "个人中心",
+                "iconPath": "@iconPath4",
+                "selectedIconPath": "@selectedIconPath4"
+            }
+        ]
+    },
+    "lazyCodeLoading": "requiredComponents",
+    "darkmode": true,
+    "themeLocation": "theme.json",
+    "sitemapLocation": "sitemap.json",
+    "style": "v2",
+    "useExtendedLib": {
+        "weui": true
+    }
+}

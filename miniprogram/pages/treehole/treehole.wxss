@@ -1,0 +1,352 @@
+.container{
+  width: 100%;
+  background:linear-gradient(to right ,powderblue,blanchedalmond );
+}
+
+.slide-image {
+  width: 100%;
+}
+
+.top-box {
+  background:linear-gradient(to right ,powderblue,blanchedalmond );
+}
+
+.scrollView {
+  width: 90%;
+  margin-top:20rpx;
+  margin-left: 5%;
+  background-color: #f6f6f6;
+  border-radius: 20rpx;
+  height: auto;
+}
+
+.index-swiper {
+    width: 100%;
+    height: 320rpx;
+  }
+  
+  
+.slide-image {
+width: 90%;
+margin-top: 20rpx;
+margin-left: 5%;
+height: 250rpx;
+border-radius: 20rpx;
+}
+
+.scrollView-text {
+  width: 25%;
+  float: left;
+  margin-left: 5%;
+  height: 50rpx;
+  margin-top: 10rpx;
+  text-align: center;
+}
+
+.menu-wrp {
+  white-space: nowrap;
+}
+
+
+.menu-wrp .on{ 
+  color: #D98F14;
+}
+
+
+.menu-list {
+  width: 20%;
+  box-sizing: border-box;
+  padding: 20rpx;
+  display: inline-block;
+}
+
+
+.menu-img {
+  width: 80rpx;
+  height: 80rpx;
+  display: block;
+  margin: 0 auto;
+  margin-bottom: 5px;
+}
+
+.menu-desc {
+  color: black;
+  width: 100%;
+  text-align: center;
+  display: block;
+  font-size: 28rpx;
+  font-weight: 800;
+}
+
+
+.task-list-item {
+  width: 90%;
+  margin: 5%;
+  margin-top: 20rpx;
+  background: #f6f6f6;
+  border-radius: 20rpx;
+  height: 240rpx;
+}
+.box-left {
+  width: 60%;
+  height: 100%;
+  float: left;
+}
+.box-right {
+  position: relative;
+  margin-left: 60%;
+  width: 40%;
+  height: 100%;
+}
+
+.img {
+  width: 48rpx;
+  height: 48rpx;
+  border-radius: 50%;
+  margin: 20rpx;
+  float: left;
+}
+
+
+.names_fl {
+  font-size: 24rpx;
+  color: black;
+  margin-left: 20rpx;
+  line-height: 34px;
+  font-weight: 800;
+}
+
+.head {
+  height: 30%;
+  line-height: 30%;
+
+}
+.title_box {  
+  height: 70%;
+}
+.task_title {
+  height: 50%;
+  padding:20rpx;
+  font-size: 28rpx;
+  color: white;
+}
+
+.comment_num {
+  color: white;
+  font-size: 12px;
+  margin-left: 2px;
+  margin-left: 10rpx;
+}
+
+.like_img {
+  width: 12px;
+  height: 12px;
+  margin-left: 5rpx;
+}
+
+.comment_img {
+  width: 12px;
+  height: 12px;
+  margin-left: 20rpx;
+}
+
+.price {
+  color: red;
+  font-size: 12px;
+  margin-left: 20rpx;
+}
+
+
+
+
+.c_time {
+  font-size: 20rpx;
+  color: black;
+  line-height: 32px;
+  text-align: center;
+  float: right;
+  margin-right: 15px;
+}
+
+.task_img {
+    width: 96px;
+    height: 72px;
+    position: absolute; /* 使用绝对定位 */
+    top: 50%;           /* 垂直方向居中 */
+    right: 15px;        /* 距离右边 15px */
+    transform: translateY(-50%); /* 修正垂直方向偏移 */
+}
+
+
+.campusBox {
+  float: right;
+  margin-right: 15px;
+}
+
+.campusTitle {
+
+  font-size: 20rpx;
+  color: black;
+}
+
+.campus {
+  font-size: 20rpx;
+  color: black;
+  float:left;
+}
+
+.type {
+  font-size: 20rpx;
+  color: black;
+  float: left;
+  margin-left: 10rpx;
+}
+
+
+.topnav {
+  position:fixed;
+  z-index:99; 
+  top:var(--keyboard_height--);
+  background-color: white;
+  padding-bottom: 20rpx;
+  opacity: 0.85;
+}
+
+.navColor {
+  opacity: 1;
+  z-index: 99;
+}
+
+.textNav {
+  height: 50rpx;
+  line-height: 50rpx;
+  font-size: 24rpx;
+  padding: 5rpx;
+}
+
+.moreimg {
+  width: 50rpx;
+  height: 50rpx;
+  margin-top: 20rpx;
+}
+
+.hot-box {
+
+  height: 12px;
+  margin-left: 5rpx;
+  float: left;
+}
+
+.circle[plain] {
+  display: flex;
+  margin-right: 40rpx;
+  right: 0;
+  position: fixed;
+  bottom: 15%;
+  padding: 0;
+  border: none;
+  width: 80rpx;
+  height: 180rpx;
+  border-radius: 40rpx;
+  background: white;
+  flex-direction: column; 
+}
+
+.image {
+  width: 64rpx;
+  height: 64rpx;
+  margin-left: 8rpx;
+  margin-top: 10rpx;
+}
+
+.send {
+  height: 80rpx;
+  width: 64rpx;
+  font-size: 30rpx;
+  margin-top: 30rpx;
+  margin-left: 8rpx;
+  text-align: center;
+}
+
+
+.scrollView-small {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding-top: 20rpx;
+  font-size: 24rpx;
+  font-weight: 600;
+}
+
+.scrollView-small .on-small{ 
+  border-bottom: 4rpx #D98F14 solid;
+}
+
+.menu-list-small {
+  box-sizing: border-box;
+  display: inline-block;
+}
+
+.menu-desc-small {
+  color: black;
+  text-align: center;
+  font-size: 28rpx;
+  line-height: 28rpx;
+  display: block;
+  padding-bottom: 20rpx;
+}
+
+.hotBanner {
+    background-color: white;
+  }
+
+
+@media (prefers-color-scheme: dark) {
+  /* DarkMode 下的样式 start */
+  page {
+    background: #191919;
+  }
+  .scrollView {
+    background: #191919;
+  }
+  .top-box {
+    background:#191919;
+  }
+  .scrollView-small .on-small{ 
+    border-bottom: 4rpx #cdcdcd solid;
+  }
+  .menu-desc-small {
+    color: #cdcdcd;
+  }
+  .menu-desc {
+    color: #cdcdcd; 
+  }
+  .task-list-item {
+    background: #292929;
+  }
+  .task_title {
+    color: white;
+  }
+  .names_fl {
+    color: white;
+  }
+  .comment_num {
+    color: white;
+  }
+  .scrollView {
+    background-color: #292929;
+  }
+  .container{
+    background:linear-gradient(to bottom ,black,rgb(19,70,149),black );
+  }
+  .topnav {
+    background-color: #292929;
+  }
+
+  .van-row {
+    background-color: #292929 !important;
+  }
+  .hotBanner {
+    background-color: #292929 !important;
+  }
+}

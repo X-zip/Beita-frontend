@@ -1,0 +1,31 @@
+/**
+    * 处理日期显示
+*/
+function getGapTime (date) {
+  var re = "00"  
+  var time = getDate()
+  var year = time.getFullYear();
+  var month = time.getMonth() + 1;
+  var day = time.getDate();
+  month = month < 10 ? "0" + month : month;
+	day = day < 10 ? "0" + day : day;
+  var y = date.split('/')[0];
+  var m = date.split('/')[1];
+  var d = date.split('/')[2].split(' ')[0];
+  if (year == y && month == m && day == d) {
+    re="今天 "+date.substring(11,16)
+  } else if (year == y && month == m && parseInt(day) - parseInt(d) == 1){
+    re= "昨天 "+date.substring(11,16)
+  } else if (y > 2100){
+    re= "置顶"
+  } else {
+    re=date.substring(0,16).replace('/','-').replace('/','-')
+  }
+  return re
+}
+  
+  //将自定义函数暴露出来
+  //形式为    对外使用的函数名：wxs中定义的函数名
+module.exports = {
+  getGap:getGapTime
+}

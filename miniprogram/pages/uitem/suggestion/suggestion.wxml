@@ -1,0 +1,14 @@
+<!--pages/suggestion/suggestion.wxml-->
+<view class="task">
+  <form bindsubmit="formSubmit" bindreset="formReset">
+
+    <view class="section">
+      <textarea class="text__bar__content" name="Content" placeholder="感谢您的信息，谢谢." minlength="0" maxlength="500" bindinput="inputs" />
+    </view>
+
+    <view class="btn-area">
+      <button class="submit" form-type="submit">提交</button>
+      <button class="reset" form-type="reset">重置</button>
+    </view>
+  </form>
+</view>

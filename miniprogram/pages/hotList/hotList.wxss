@@ -1,0 +1,330 @@
+
+.top-box {
+    background-image:url(http://img.yqtech.ltd/caicai/banner/bk.png);
+  }
+  
+  .main-box {
+      padding-bottom: 100rpx;
+      background-image:url(http://img.yqtech.ltd/caicai/banner/bk.png);
+  }
+  .index-swiper {
+      width: 100%;
+      height: 320rpx;
+    }
+    
+    
+  .slide-image {
+  width: 90%;
+  margin-top: 20rpx;
+  margin-left: 5%;
+  height: 250rpx;
+  border-radius: 20rpx;
+  }
+  
+  .scrollView {
+    width: 90%;
+    margin-left: 5%;
+    background-color: white;
+    border-radius: 20rpx;
+    height: auto;
+  }
+  .menu-wrp {
+    white-space: nowrap;
+  }
+  
+  .menu-wrp .on{ 
+    color: #D98F14;
+    width: 100%;
+  }
+  
+  .menu-list {
+    width: 18%;
+    box-sizing: border-box;
+    padding-top: 20rpx;
+    padding-bottom: 20rpx;
+    display: inline-block;
+  }
+  
+  .swiper-box{ 
+    display: block; 
+    width: 100%; 
+    overflow: hidden;
+  }
+  
+  .section {
+    margin-left: 5%;
+    display: block;
+    list-style: none;
+    float: left;
+    height: 30px;
+    margin-bottom: 20px;
+    
+  }
+  
+  .picker {
+    font-size: 28rpx;
+    line-height: 50px;
+    margin-left: 5px;
+    color: black;
+  }
+  
+  .down {
+    margin-top: 5rpx;
+    height: 28rpx;
+    width: 28rpx;
+  }
+  
+  .menu-img {
+    width: 48rpx;
+    height: 48rpx;
+    display: block;
+    margin: 0 auto;
+    margin-bottom: 5px;
+  }
+  
+  .menu-desc {
+    color: black;
+    width: 100%;
+    text-align: center;
+    display: block;
+    font-size: 24rpx;
+    font-weight: 600;
+  }
+  
+  .topnav {
+    width: 100%;
+    position:fixed;
+    z-index:98; 
+    top:var(--keyboard_height--);
+    background-color: whitesmoke;
+    opacity: 0.85;
+  }
+  .navColor {
+    opacity: 1;
+    z-index: 99;
+  }
+  
+  .nav-main {
+    background-color: powderblue;
+  }
+  
+  .normalnav {
+    margin-top: 20rpx;
+  }
+  
+  .textNav {
+    height: 50rpx;
+    line-height: 50rpx;
+    font-size: 24rpx;
+    padding-top: 5rpx;
+    padding-bottom: 5rpx;
+  }
+  .scrollColor {
+    background-color:whitesmoke;
+  }
+  
+  .task-list-item {
+    width: 90%;
+    margin-left: 5%;
+    margin-top: 50rpx;
+    background: #f6f6f6;
+    border-radius: 20rpx;
+    height: 240rpx;
+  }
+  .box-left {
+    width: 60%;
+    height: 100%;
+    float: left;
+  }
+  .box-right {
+    margin-left: 60%;
+    width: 40%;
+    height: 100%;
+  }
+  
+  .img {
+    width: 48rpx;
+    height: 48rpx;
+    border-radius: 50%;
+    margin: 20rpx;
+    float: left;
+  }
+  
+  
+  .names_fl {
+    font-size: 24rpx;
+    color: black;
+    margin-left: 20rpx;
+    line-height: 34px;
+    font-weight: 600;
+  }
+  
+  .head {
+    height: 30%;
+    line-height: 30%;
+  
+  }
+  .title_box {  
+    height: 70%;
+  }
+  .task_title {
+    height: 50%;
+    padding:20rpx;
+    font-size: 28rpx;
+    color: black;
+  }
+  
+  .comment_num {
+    color: #999;
+    font-size: 12px;
+    margin-left: 2px;
+    margin-left: 10rpx;
+  }
+  
+  .like_img {
+    width: 12px;
+    height: 12px;
+    margin-left: 5rpx;
+  }
+  
+  .comment_img {
+    width: 12px;
+    height: 12px;
+    margin-left: 20rpx;
+  }
+  
+  .price {
+    color: red;
+    font-size: 12px;
+    margin-left: 20rpx;
+  }
+  
+  
+  
+  
+  .c_time {
+    font-size: 20rpx;
+    color: #999;
+    line-height: 32px;
+    text-align: center;
+    float: right;
+    margin-right: 15px;
+  }
+  
+  .task_img {
+    width: 96px;
+    height: 72px;
+    float: right;
+    margin-right: 15px;
+  }
+  
+  
+  .campusBox {
+    float: right;
+    margin-right: 15px;
+  }
+  
+  .campusTitle {
+  
+    font-size: 20rpx;
+    color: #999;
+  }
+  
+  .campus {
+    font-size: 20rpx;
+    color: #999;
+    float:left;
+  }
+  
+  .moreimg {
+    width: 50rpx;
+    height: 50rpx;
+    margin-top: 20rpx;
+  }
+  
+  .type {
+    font-size: 20rpx;
+    color: #999;
+    float: left;
+    margin-left: 10rpx;
+  }
+  
+  .hot-box {
+  
+    height: 12px;
+    margin-left: 5rpx;
+    float: left;
+  }
+  
+  .scrollView-small {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding-top: 20rpx;
+    font-size: 24rpx;
+    font-weight: 600;
+  }
+  
+  .scrollView-small .on-small{ 
+    border-bottom: 4rpx #D98F14 solid;
+  }
+  
+  .menu-list-small {
+    box-sizing: border-box;
+    display: inline-block;
+  }
+  
+  .menu-desc-small {
+    color: black;
+    text-align: center;
+    font-size: 28rpx;
+    line-height: 28rpx;
+    display: block;
+    padding-bottom: 20rpx;
+  }
+  
+  @media (prefers-color-scheme: dark) {
+    /* DarkMode 下的样式 start */
+    page {
+      background: #191919;
+    }
+    .scrollView {
+      background: #191919;
+    }
+    .top-box {
+      background:#191919;
+    }
+    .scrollView-small .on-small{ 
+      border-bottom: 4rpx #cdcdcd solid;
+    }
+    .menu-desc-small {
+      color: #cdcdcd;
+    }
+    .menu-desc {
+      color: #cdcdcd; 
+    }
+    .task-list-item {
+      background: #292929;
+    }
+    .task_title {
+      color: white;
+    }
+    .names_fl {
+      color: white;
+    }
+    .comment_num {
+      color: white;
+    }
+    .scrollView {
+      background-color: #292929;
+    }
+    .topnav {
+      background-color: #292929;
+    }
+    .price {
+      color: white;
+    }
+    /* DarkMode 下的样式 end */
+  }
+  
+  

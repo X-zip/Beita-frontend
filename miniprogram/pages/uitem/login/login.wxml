@@ -1,0 +1,24 @@
+<!--pages/uitem/login/login.wxml-->
+<form class="login-form" bindsubmit="getUserProfile" bindreset="formReset">
+    <view class="input-group">
+        <text class="input-label">头像上传</text>
+        <button class="avatar-wrapper" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
+            <image src='{{avatarUrl+"?imageView2/2/w/50"}}' mode="widthFix" class="unlogin"></image>
+        </button>
+    </view>
+    <view wx:if="{{showSelect}}" class="img-group">
+        <block wx:for="{{avatarList}}" wx:key="index">
+            <view>
+                <image class="avatar {{ selectId == index  ? 'selectAvatar' : ''}}" src='{{item+"?imageView2/2/w/100"}}' bindtap="selectAvatar" data-id='{{index}}'></image>
+            </view>
+        </block>
+    </view>
+    <view class="input-group">
+        <text class="input-label">设置昵称</text>
+        <input type="nickname" class="username-input " name="nickname" placeholder="请输入昵称" placeholder-style="color:#A6A6A6;" maxlength="16" minlength="2" />
+    </view>
+    <button form-type="submit" class="wx-button-1">确定</button> 
+</form>
+
+
+

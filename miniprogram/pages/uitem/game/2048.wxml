@@ -1,0 +1,86 @@
+<view class="container">
+<!--ranklist.wxml-->
+<view class="rank {{ showRank ? 'show' : ''}}">
+  <view class="header">
+    <text class='text'>积分榜</text>
+		<image bindtap="hideRank" class='close-img' src='../../../images/close.png'></image>
+  </view>
+	<scroll-view class="list" scroll-y bindscrolltolower="scrollToLower">
+		<view wx:for-items="{{rankList}}" wx:key="item" wx:for-index="index">
+			<view class="item">
+				<text class="index">{{index+1}}</text>
+				<image class="avatar" src="{{item.avatar}}"></image>
+				<view class="left">
+						<text class="nickname">{{item.nickName}}</text>
+				</view>
+				<view class="right">
+					<text class="solve">分数：{{item.score}}</text>
+				</view>
+			</view>
+		</view>
+	</scroll-view>
+</view>
+ 
+ 
+
+  <view class="game-body">
+    <loading hidden="{{hidden}}">
+        加载中...
+    </loading>
+    <view class="heading">
+      	<text class="title">合成北理工</text>
+      	<view class="scores-container">
+        	<view class="score-container">{{score}}</view>
+      		<view class="best-container">{{highscore}}</view>
+      	</view>
+    </view>
+		<view class="ranking">
+      	<text class="restart-button" bindtap="showRank">排行榜</text>
+    </view>
+    <view class="above-game">
+      	<text class="restart-button" bindtap="restart">新游戏</text>
+    </view>
+
+    <view class="game-container">
+        <!--游戏结束显示  -->
+        <view class="game-message game-{{over ? (win ? 'won' : 'over') : ''}}">
+          	<text class="over-msg">{{overMsg}}</text>
+          	<view class="lower">
+	        	<!-- <text class="keep-playing-button">继续</text> -->
+          		<text class="retry-button" bindtap="restart">再试一次</text>
+							<text class="retry-button" bindtap="uploadRank">上传成绩</text>
+        	</view>
+        </view>
+
+	    <view class="grid-container" bindtouchstart="touchStart" bindtouchmove="touchMove" bindtouchend="touchEnd">
+			<view wx:for="{{grids}}" wx:for-index="rowIdx" wx:key="rowIdx" wx:for-item="row" class="grid-row">
+			  	<view wx:for="{{row}}" wx:for-index="colIdx" wx:key="colIdx" wx:for-item="cell" class="grid-cell">
+			  		<view class="tile tile-{{cell.value}}">
+			  			<view wx:if="{{cell}}" class="tile-inner">
+									<view wx:if="{{cell.value == 2}}">民大</view>
+									<view wx:elif="{{cell.value == 4}}">北林</view>
+									<view wx:elif="{{cell.value == 8}}">农大</view>
+									<view wx:elif="{{cell.value == 16}}">央财</view>
+									<view wx:elif="{{cell.value == 32}}">北交</view>
+									<view wx:elif="{{cell.value == 64}}">北邮</view>
+									<view wx:elif="{{cell.value == 128}}">北师</view>
+									<view wx:elif="{{cell.value == 256}}">北航</view>
+									<view wx:elif="{{cell.value == 512}}">北大</view>
+									<view wx:elif="{{cell.value == 1024}}">清华</view>
+									<view wx:elif="{{cell.value == 2048}}">北理</view>
+									<view wx:elif="{{cell.value == 4096}}">良理</view>
+									<view wx:elif="{{cell.value == 8192}}">学神</view>
+									<view wx:else>魔鬼</view>
+			      	</view>
+			  		</view>
+			  	</view>
+			</view>
+	    </view>
+
+  	</view>
+  	<view class="game-explanation">
+      <view class="important">如何开始：</view> 手指上下左右滑动
+    </view>
+
+</view>
+</view>

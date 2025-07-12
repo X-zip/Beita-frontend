@@ -1,0 +1,5 @@
+{
+    "usingComponents": {
+      "mp-form": "weui-miniprogram/form/form"
+    }
+  }

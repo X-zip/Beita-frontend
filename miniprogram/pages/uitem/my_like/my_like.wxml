@@ -1,0 +1,94 @@
+<!--pages/my_task/my_task.wxml-->
+<wxs module='tools' src='../../../WXS/tools.wxs'></wxs>
+<wxs src="../../../WXS/subutil_content.wxs" module="content_tools" />
+<wxs src="../../../WXS/subutil_title.wxs" module="title_tools" />
+<wxs src="../../../WXS/subutil_name.wxs" module="name_tools" />
+
+<view class="userinfo" wx:if="{{hasUserInfo}}">
+    <image  class="userinfo-avatar" src="{{avatarUrl}}" mode="cover"></image>
+  </view>
+
+
+
+<view id="stories-list" bindtap="goToStoryDetail" >
+  <block wx:for="{{ tasks }}" wx:key="{{ index }}" wx:for-item="task" >
+    <view class="task-list-item" data-id="{{ task.id }}">
+      <view class="box-left" data-id="{{ task.id }}">
+        <view class="head" data-id="{{ task.id }}">
+          <image class="img" src="{{ task.avatar }}" mode="aspectFit" data-id="{{ task.id }}"></image>
+          <view class="box" data-id="{{ task.id }}">
+            <view class="shead_clear" data-id="{{ task.id }}">
+              <view class="names_fl" data-id="{{ task.id }}">{{ name_tools.sub(task.userName)}}</view>
+            </view>
+            <view wx:if="{{task.campusGroup == '1'}}" class="campus" data-id="{{ task.id }}">良乡校区</view>
+            <view wx:elif="{{task.campusGroup == '0'}}" class="campus" data-id="{{ task.id }}">中关村校区</view>
+            <view wx:else class="campus" data-id="{{ task.id }}"></view>
+          </view>
+        </view>
+
+        <view class="title_box" data-id="{{ task.id }}">
+          <view class="task_title" data-id="{{ task.id }}">
+            <text class="title" data-id="{{ task.id }}">{{ title_tools.sub(task.title)}}</text>
+          </view>
+          <view class="button" data-id="{{ task.id }}">
+            <view wx:if="{{task.watchNum == '0' }}" class="hot-box" data-id="{{ task.id }}">
+              <image class="like_img" src='../../../images/hot_light.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+              <image class="like_img" src='../../../images/hot_light.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+              <image class="like_img" src='../../../images/hot_light.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+            </view>
+            <view wx:elif="{{ task.watchNum > '0' && task.watchNum < '6' }}" class="hot-box" data-id="{{ task.id }}">
+              <image class="like_img" src='../../../images/hot_half.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+              <image class="like_img" src='../../../images/hot_light.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+              <image class="like_img" src='../../../images/hot_light.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+            </view>
+            <view wx:elif="{{ task.watchNum > '5' && task.watchNum < '11' }}" class="hot-box" data-id="{{ task.id }}">
+              <image class="like_img" src='../../../images/hot.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+              <image class="like_img" src='../../../images/hot_light.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+              <image class="like_img" src='../../../images/hot_light.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+            </view>
+            <view wx:elif="{{ task.watchNum > '10' && task.watchNum < '21' }}" class="hot-box" data-id="{{ task.id }}">
+              <image class="like_img" src='../../../images/hot.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+              <image class="like_img" src='../../../images/hot_half.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+              <image class="like_img" src='../../../images/hot_light.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+            </view>
+            <view wx:elif="{{ task.watchNum > '20' && task.watchNum < '31' }}" class="hot-box" data-id="{{ task.id }}">
+              <image class="like_img" src='../../../images/hot.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+              <image class="like_img" src='../../../images/hot.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+              <image class="like_img" src='../../../images/hot_light.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+            </view>
+            <view wx:elif="{{ task.watchNum > '30' && task.watchNum < '51' }}" class="hot-box" data-id="{{ task.id }}">
+              <image class="like_img" src='../../../images/hot.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+              <image class="like_img" src='../../../images/hot.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+              <image class="like_img" src='../../../images/hot_half.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+            </view>
+            <view wx:else class="hot-box" data-id="{{ task.id }}">
+              <image class="like_img" src='../../../images/hot.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+              <image class="like_img" src='../../../images/hot.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+              <image class="like_img" src='../../../images/hot.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+            </view>
+            
+            <!-- <text class="comment_num" data-id="{{ task.id }}">{{ task.watchNum }}</text> -->
+            <image class="comment_img" src='../../../images/love.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+            <text class="comment_num" data-id="{{ task.id }}">{{ task.likeNum }}</text>
+            <image class="comment_img" src='../../../images/comment.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+            <text class="comment_num" data-id="{{ task.id }}">{{ task.commentNum }}</text>
+            <text class="price" wx:if="{{ task.price}}" data-id="{{ task.id }}">￥{{task.price}}</text>
+          </view>
+        </view>
+
+      </view>
+      <view class="box-right" data-id="{{ task.id }}">
+        <view class="time_box" data-id="{{ task.id }}">
+          <view class="c_time" data-id="{{ task.id }}">
+            <text decode="true" data-id="{{ task.id }}">{{task.c_time}}</text>
+          </view>
+        </view>
+
+        <view class="img_box" wx:if="{{ task.img != '' }}" data-id="{{ task.id }}">
+          <!-- <image class="task_img" src='{{ task.img[0] }}' mode='aspectFill' data-id="{{ task.id }}"></image> -->
+        </view>
+
+      </view> 
+    </view>
+  </block>
+</view>

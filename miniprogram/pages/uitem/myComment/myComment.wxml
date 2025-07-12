@@ -1,0 +1,32 @@
+<!--pages/my_task/my_task.wxml-->
+<wxs module='tools' src='../../../WXS/tools.wxs'></wxs>
+<wxs src="../../../WXS/subutil_content.wxs" module="content_tools" />
+<wxs src="../../../WXS/subutil_title_comment.wxs" module="title_tools" />
+
+
+<view class="userinfo" wx:if="{{hasUserInfo}}">
+    <image  class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
+  </view>
+
+
+<view wx:if="{{tasks==''}}">
+  <image class="empty" src="../../../images/empty.png" mode="aspectFit"></image>
+  <view style="text-align:center;color:#999;font-size:28rpx;">暂无数据</view>
+</view>
+
+<view id="stories-list" bindtouchstart="bindTouchStart" bindtouchend="bindTouchEnd" bindtap="goToStoryDetail" bindlongtap='delete_detail'>
+  <block wx:for="{{ tasks }}" wx:key="{{ index }}" wx:for-item="task">
+    <view class="task-list-item" data-id="{{ task.id }}" data-detail="{{ task.pk }}">
+      <view class="box-left" data-id="{{ task.id }}" data-detail="{{ task.pk }}">
+        <text class="task_title" data-id="{{ task.id }}" data-detail="{{ task.pk }}">{{ title_tools.sub(task.comment)}}</text>
+      </view>
+      <view class="box-right" data-id="{{ task.id }}" data-detail="{{ task.pk }}">
+        <view class="time_box" data-id="{{ task.id }}" data-detail="{{ task.pk }}">
+          <view class="c_time" data-id="{{ task.id }}" data-detail="{{ task.pk }}">
+            <text decode="true" data-id="{{ task.id }}" data-detail="{{ task.pk }}">{{task.c_time}}</text>
+          </view>
+        </view>
+      </view> 
+    </view>
+  </block>
+</view>

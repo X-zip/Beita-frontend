@@ -1,0 +1,142 @@
+/* 图片上传组件 */
+.img-list, .section__radio {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  
+  .img-item {
+    width: 30%;
+    margin-right: 20rpx;
+    margin-bottom: 10rpx;
+  }
+  
+  .img-item image {
+    width: 180rpx;
+    height: 180rpx;
+  }
+  
+  .chooseimg {
+    background-color: #fff;
+  }
+  
+  .weui-uploader__input-box {
+    width: 180rpx;
+    height: 180rpx;
+    border: 1px solid #f2f2f2;
+    position: relative;
+    margin-right: 9px;
+    margin-bottom: 9px;
+  }
+  
+  /* 加号符号 */
+  .weui-uploader__input-box:before,
+  .weui-uploader__input-box:after {
+    content: " ";
+    position: absolute;
+    background-color: #f2f2f2;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .weui-uploader__input-box:before {
+    width: 2px;
+    height: 39.5px;
+  }
+  .weui-uploader__input-box:after {
+    width: 39.5px;
+    height: 2px;
+  }
+  
+  /* 区块样式 */
+  .section {
+    width: 90%;
+    margin: 10rpx auto 0;
+    background-color: #f2f2f2;
+    border-radius: 20rpx;
+    min-height: 120rpx;
+  }
+  
+  .section__title {
+    margin: 20rpx;
+    font-weight: 800;
+    color: #2c2c2c;
+    line-height: 100rpx;
+  }
+  
+  /* 表单输入栏样式 */
+  .form__bar, .name__bar {
+    margin-left: 20rpx;
+    height: 100rpx;
+    border-radius: 20rpx;
+    width: 90%;
+    font-size: 28rpx;
+  }
+  
+  /* 单选按钮区域 */
+  .radio_item, .campus_item {
+    width: 30%;
+    padding: 10rpx;
+    font-size: 28rpx;
+    color: #2c2c2c;
+  }
+  
+  /* 图片容器 */
+  .content {
+    width: 100%;
+    background-color: #fff;
+  }
+  
+  .img-box {
+    width: 92%;
+    margin: auto;
+    padding-top: 20rpx;
+  }
+  
+  .tips {
+    color: #666;
+    font-size: 24rpx;
+    padding-bottom: 20rpx;
+  }
+  
+  /* 按钮 */
+  .submit, .reset {
+    background-color: #D98F14;
+    color: #FFFFFF;
+    width: 80%;
+    border-radius: 20rpx;
+    margin: 20rpx auto;
+  }
+  
+  /* 勾选框样式 */
+  .van-checkbox-box {
+    display: flex;
+    font-size: 20rpx;
+    margin-left: 5%;
+  }
+  
+  /* 暗色模式 */
+  @media (prefers-color-scheme: dark) {
+    page {
+      background: #191919;
+    }
+  
+    .section,
+    .chooseimg,
+    .content {
+      background-color: #292929;
+    }
+  
+    .section__title,
+    .campus_item,
+    .radio_item {
+      color: #ffffff;
+    }
+  
+    .weui-uploader__input-box {
+      border-color: #191919;
+    }
+  }
+  

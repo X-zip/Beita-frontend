@@ -1,0 +1,440 @@
+<!-- 引入wxs脚本 -->
+<wxs src="../../WXS/subutil_content.wxs" module="content_tools" />
+<wxs src="../../WXS/subutil_title.wxs" module="title_tools" />
+<wxs src="../../WXS/subutil_title_long.wxs" module="title_tools_long" />
+<wxs src="../../WXS/subutil_name.wxs" module="name_tools" />
+<wxs module = "getDate" src="../../WXS/sub_date.wxs"></wxs>
+<wxs module='tools' src='../../WXS/tools.wxs'></wxs>
+
+<radial-menu 
+  run="{{ false }}" 
+  speed="{{ 100000 }}"
+  items="{{ items }}" 
+  midIcon="../../images/add.png" 
+  bindclick="click"
+  id="radial-menu"
+/>
+
+<view class="top-box">
+  <navigation class="{{ top>0 ? 'navColor' : ''}}">
+    <view class="search" >
+      <SearchBar id="SearchBar" addflag="{{addflag}}" addimg="{{addimg}}" closeimg="{{closeimg}}" bind:addhandle="addhandle" searchstr="{{searchstr}}" bind:searchList="searchList" bind:endsearchList="endsearchList" bind:cancelsearch="cancelsearch" bind:activity_clear="activity_clear">
+      </SearchBar>
+    </view>
+  </navigation>
+
+  <view style="margin-top:{{navBarHeight}}px;padding-top:20rpx;" class="hotBanner" bindtap="goHotList">
+        <van-row style="height: 80rpx !important;">
+            <van-col span="4" offset="1"><image src="../../images/hotlist2.png" mode="heightFix" style="height: 100rpx"/></van-col>
+            <van-col span="19">
+                <view class="hot-list">
+                    <swiper style="height: 100rpx;" autoplay="true" interval="5000" duration="3000" vertical="true" circular="true">
+                        <block wx:for="{{ hotList }}" wx:key="index" wx:for-item="task" class="rowup">
+                            <swiper-item style="align-items: center;display: flex;">
+                                <view style="width:100%;display: flex;">
+                                    <view style="width:80%">
+                                        <view class="item" style="width: 100%;" >
+                                            <image src="../../images/{{index+1}}.png" mode="widthFix" style="width: 28rpx;"/>
+                                            <text>{{title_tools.sub(task.content)}}</text>
+                                        </view>
+                                    </view>
+                                    <view style="width:20%">
+                                        <image src="{{task.img}}" mode="heightFix" style="height: 60rpx" wx:if="{{task.img.length > 0}}"/>
+                                        <image src="../../images/hot.png" mode="heightFix" style="height: 60rpx" wx:else/>
+                                    </view>
+                                </view> 
+                            </swiper-item>
+                        </block>
+                    </swiper>
+                </view>
+            </van-col>
+        </van-row>
+  </view>
+
+  <!-- <swiper class="index-swiper" indicator-dots="{{indicatorDots}}" catchtap="onSwiperTap" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" wx:if="{{showBanner}}" style="margin-top:{{navBarHeight}}px">
+    <block wx:for="{{bannerList}}" class="slide-block">
+      <swiper-item>
+        <image src="{{item.imageUrl}}" class="slide-image" mode="widthFix" data-id="{{item.navUrl}}" />
+      </swiper-item>
+    </block>
+  </swiper> -->
+  <!-- <van-notice-bar scrollable  text="自11月12日起，仅校园认证用户可在贝塔驿站小程序内发表帖子和评论,请大家前往个人中心进行认证。如对个人信息比较敏感，请使用加密邮箱认证" /> -->
+
+  <view style="width:100%;--keyboard_height--:{{bottomEdge}}px;" class="{{ top>60 ? 'topnav' : ''}}" >
+    <scroll-view class="scrollView {{ top>150 ? 'scrollColor' : ''}}" scroll-x='true' scroll-left="{{scrollLeft}}">
+      <view class="menu-wrp" >
+        <!--设定一个item项后，遍历输出-->
+        <view class="menu-list" wx:for="{{menu.descs}}" wx:key="{{index}}">
+          <view class="menu-item" data-id="{{ menu.name[index] }}" bindtap='topNavChange'  data-current="{{index}}">
+            <view class="menu-desc {{currentTab==index ? 'on' : ''}} {{ top>60 ? 'textNav' : ''}}" data-id="{{ menu.name[index] }}">{{menu.descs[index]}}</view>
+          </view>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+
+  <view style="width:100%" >
+      <!-- <view class="scrollView-text"><text>树洞列表</text></view> -->
+      <view class="scrollView-small" >
+        <view class="menu-list-small" wx:for="{{sub_menu.descs}}" wx:key="{{index}}">
+          <view class="menu-item-small" data-id="{{ sub_menu.name[index] }}" bindtap='bottomNavChange'  data-current="{{index}}">
+            <view class="menu-desc-small {{currentSmallTab==index ? 'on-small' : ''}}" data-id="{{ sub_menu.name[index] }}">{{sub_menu.descs[index]}}</view>
+          </view>
+        </view>
+      </view>  
+  </view>
+
+</view>
+
+
+<view class="container" >
+<view id="stories-list" style="width:100%;">
+  <block wx:for="{{ tasks }}" wx:key="{{ index }}" wx:for-item="task" >
+    <view class="task-list-item" bindtap="goToStoryDetail" data-id="{{ task.id }}" wx:if="{{task.radioGroup == 'radio40' || task.radioGroup == 'radio4'}}" style="background-color: rgba(53, 208, 242, 0.85);">
+      <view class="box-left" data-id="{{ task.id }}">
+        <view class="head" data-id="{{ task.id }}">
+          <image class="img" src='{{ task.avatar+"?imageView2/2/w/50" }}' mode="aspectFit" data-id="{{ task.id }}"></image>
+          <view class="box" data-id="{{ task.id }}">
+            <view class="shead_clear" data-id="{{ task.id }}">
+              <view class="names_fl" data-id="{{ task.id }}">{{ name_tools.sub(task.userName)}}</view>
+            </view>
+            <view wx:if="{{task.campusGroup == '1'}}" class="campus" data-id="{{ task.id }}">良乡校区</view>
+            <view wx:elif="{{task.campusGroup == '0'}}" class="campus" data-id="{{ task.id }}">中关村校区</view>
+            <view wx:else class="campus" data-id="{{ task.id }}"></view>
+            <view wx:if="{{task.radioGroup == 'radio4'}}" class="type" data-id="{{ task.id }}">树洞 | 吐槽</view>
+            <view wx:elif="{{task.radioGroup == 'radio40'}}" class="type" data-id="{{ task.id }}">树洞 | 吐槽</view>                 
+            <view wx:elif="{{task.radioGroup == 'radio41'}}" class="type" data-id="{{ task.id }}">树洞 | 表白</view>
+            <view wx:elif="{{task.radioGroup == 'radio42'}}" class="type" data-id="{{ task.id }}">树洞 | 心愿</view>
+            <view wx:elif="{{task.radioGroup == 'radio43'}}" class="type" data-id="{{ task.id }}">树洞 | 知乎</view>       
+          </view>
+        </view>
+
+        <view class="title_box" data-id="{{ task.id }}">
+          <view class="task_title" data-id="{{ task.id }}"  style="width: {{ task.img[0] ? '100%' : '160%' }};">
+            <text class="title" data-id="{{ task.id }}" wx:if="{{task.img[0]}}">{{ title_tools.sub(task.title)}}</text>
+            <text class="title" data-id="{{ task.id }}" wx:else>{{ title_tools_long.sub(task.title)}}</text>
+          </view>
+          <view class="button" data-id="{{ task.id }}">
+            <view wx:if="{{task.watchNum == '0' }}" class="hot-box">
+              <image class="like_img" src='../../images/hot_light.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+              <image class="like_img" src='../../images/hot_light.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+              <image class="like_img" src='../../images/hot_light.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+            </view>
+            <view wx:elif="{{ task.watchNum > '0' && task.watchNum < '6' }}" class="hot-box">
+              <image class="like_img" src='../../images/hot_half.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+              <image class="like_img" src='../../images/hot_light.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+              <image class="like_img" src='../../images/hot_light.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+            </view>
+            <view wx:elif="{{ task.watchNum > '5' && task.watchNum < '11' }}" class="hot-box">
+              <image class="like_img" src='../../images/hot.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+              <image class="like_img" src='../../images/hot_light.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+              <image class="like_img" src='../../images/hot_light.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+            </view>
+            <view wx:elif="{{ task.watchNum > '10' && task.watchNum < '21' }}" class="hot-box">
+              <image class="like_img" src='../../images/hot.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+              <image class="like_img" src='../../images/hot_half.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+              <image class="like_img" src='../../images/hot_light.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+            </view>
+            <view wx:elif="{{ task.watchNum > '20' && task.watchNum < '31' }}" class="hot-box">
+              <image class="like_img" src='../../images/hot.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+              <image class="like_img" src='../../images/hot.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+              <image class="like_img" src='../../images/hot_light.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+            </view>
+            <view wx:elif="{{ task.watchNum > '30' && task.watchNum < '51' }}" class="hot-box">
+              <image class="like_img" src='../../images/hot.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+              <image class="like_img" src='../../images/hot.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+              <image class="like_img" src='../../images/hot_half.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+            </view>
+            <view wx:else class="hot-box">
+              <image class="like_img" src='../../images/hot.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+              <image class="like_img" src='../../images/hot.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+              <image class="like_img" src='../../images/hot.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+            </view>
+            
+            <!-- <text class="comment_num" data-id="{{ task.id }}">{{ task.watchNum }}</text> -->
+            <image class="comment_img" src='../../images/love_white.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+            <text class="comment_num" data-id="{{ task.id }}">{{ task.likeNum }}</text>
+            <image class="comment_img" src='../../images/comment_white.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+            <text class="comment_num" data-id="{{ task.id }}">{{ task.commentNum }}</text>
+            <text class="price" data-id="{{ task.id }}" wx:if="{{ task.price}}">￥{{task.price}}</text>
+          </view>
+        </view>
+
+      </view>
+      <view class="box-right" data-id="{{ task.id }}">
+        <view class="time_box" data-id="{{ task.id }}">
+          <view class="c_time" data-id="{{ task.id }}">
+            <text decode="true" data-id="{{ task.id }}" wx:if="{{getDate.getGap(task.c_time)=='置顶'}}" style="color:red;border: solid 1rpx black;background-color: white;padding-left: 2rpx;padding-right: 2rpx;">{{getDate.getGap(task.c_time)}}</text>
+            <text decode="true" data-id="{{ task.id }}" wx:else>{{getDate.getGap(task.c_time)}}</text>
+          </view>
+        </view>
+
+        <view class="img_box" wx:if="{{ task.img[0] }}" data-id="{{ task.id }}">
+          <image class="task_img" src='{{ task.img[0]+"?imageView2/2/w/500" }}' mode='aspectFill' data-id="{{ task.id }}"></image>
+        </view>
+
+      </view> 
+    </view>
+
+    <view class="task-list-item" bindtap="goToStoryDetail" data-id="{{ task.id }}" wx:if="{{task.radioGroup == 'radio41'}}" style="background-color: rgba(228, 169, 138, 0.9);">
+      <view class="box-left" data-id="{{ task.id }}">
+        <view class="head" data-id="{{ task.id }}">
+          <image class="img" src='{{ task.avatar+"?imageView2/2/w/50" }}' mode="aspectFit" data-id="{{ task.id }}"></image>
+          <view class="box" data-id="{{ task.id }}">
+            <view class="shead_clear" data-id="{{ task.id }}">
+              <view class="names_fl" data-id="{{ task.id }}">{{ name_tools.sub(task.userName)}}</view>
+            </view>
+            <view wx:if="{{task.campusGroup == '1'}}" class="campus" data-id="{{ task.id }}">良乡校区</view>
+            <view wx:elif="{{task.campusGroup == '0'}}" class="campus" data-id="{{ task.id }}">中关村校区</view>
+            <view wx:else class="campus" data-id="{{ task.id }}"></view>
+            <view wx:if="{{task.radioGroup == 'radio4'}}" class="type" data-id="{{ task.id }}">树洞 | 吐槽</view>
+            <view wx:elif="{{task.radioGroup == 'radio40'}}" class="type" data-id="{{ task.id }}">树洞 | 吐槽</view>                 
+            <view wx:elif="{{task.radioGroup == 'radio41'}}" class="type" data-id="{{ task.id }}">树洞 | 表白</view>
+            <view wx:elif="{{task.radioGroup == 'radio42'}}" class="type" data-id="{{ task.id }}">树洞 | 心愿</view>
+            <view wx:elif="{{task.radioGroup == 'radio43'}}" class="type" data-id="{{ task.id }}">树洞 | 知乎</view>       
+          </view>
+        </view>
+
+        <view class="title_box" data-id="{{ task.id }}">
+          <view class="task_title" data-id="{{ task.id }}"  style="width: {{ task.img[0] ? '100%' : '160%' }};">
+            <text class="title" data-id="{{ task.id }}" wx:if="{{task.img[0]}}">{{ title_tools.sub(task.title)}}</text>
+            <text class="title" data-id="{{ task.id }}" wx:else>{{ title_tools_long.sub(task.title)}}</text>
+          </view>
+          <view class="button" data-id="{{ task.id }}">
+            <view wx:if="{{task.watchNum == '0' }}" class="hot-box">
+              <image class="like_img" src='../../images/hot_light.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+              <image class="like_img" src='../../images/hot_light.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+              <image class="like_img" src='../../images/hot_light.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+            </view>
+            <view wx:elif="{{ task.watchNum > '0' && task.watchNum < '6' }}" class="hot-box">
+              <image class="like_img" src='../../images/hot_half.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+              <image class="like_img" src='../../images/hot_light.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+              <image class="like_img" src='../../images/hot_light.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+            </view>
+            <view wx:elif="{{ task.watchNum > '5' && task.watchNum < '11' }}" class="hot-box">
+              <image class="like_img" src='../../images/hot.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+              <image class="like_img" src='../../images/hot_light.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+              <image class="like_img" src='../../images/hot_light.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+            </view>
+            <view wx:elif="{{ task.watchNum > '10' && task.watchNum < '21' }}" class="hot-box">
+              <image class="like_img" src='../../images/hot.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+              <image class="like_img" src='../../images/hot_half.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+              <image class="like_img" src='../../images/hot_light.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+            </view>
+            <view wx:elif="{{ task.watchNum > '20' && task.watchNum < '31' }}" class="hot-box">
+              <image class="like_img" src='../../images/hot.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+              <image class="like_img" src='../../images/hot.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+              <image class="like_img" src='../../images/hot_light.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+            </view>
+            <view wx:elif="{{ task.watchNum > '30' && task.watchNum < '51' }}" class="hot-box">
+              <image class="like_img" src='../../images/hot.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+              <image class="like_img" src='../../images/hot.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+              <image class="like_img" src='../../images/hot_half.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+            </view>
+            <view wx:else class="hot-box">
+              <image class="like_img" src='../../images/hot.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+              <image class="like_img" src='../../images/hot.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+              <image class="like_img" src='../../images/hot.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+            </view>
+            
+            <!-- <text class="comment_num" data-id="{{ task.id }}">{{ task.watchNum }}</text> -->
+            <image class="comment_img" src='../../images/love_white.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+            <text class="comment_num" data-id="{{ task.id }}">{{ task.likeNum }}</text>
+            <image class="comment_img" src='../../images/comment_white.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+            <text class="comment_num" data-id="{{ task.id }}">{{ task.commentNum }}</text>
+            <text class="price" data-id="{{ task.id }}" wx:if="{{ task.price}}">￥{{task.price}}</text>
+          </view>
+        </view>
+
+      </view>
+      <view class="box-right" data-id="{{ task.id }}">
+        <view class="time_box" data-id="{{ task.id }}">
+          <view class="c_time" data-id="{{ task.id }}">
+            <text decode="true" data-id="{{ task.id }}" wx:if="{{getDate.getGap(task.c_time)=='置顶'}}" style="color:red;border: solid 1rpx black;background-color: white;padding-left: 2rpx;padding-right: 2rpx;">{{getDate.getGap(task.c_time)}}</text>
+            <text decode="true" data-id="{{ task.id }}" wx:else>{{getDate.getGap(task.c_time)}}</text>
+          </view>
+        </view>
+
+        <view class="img_box" wx:if="{{ task.img[0] }}" data-id="{{ task.id }}">
+          <image class="task_img" src='{{ task.img[0]+"?imageView2/2/w/500" }}' mode='aspectFill' data-id="{{ task.id }}"></image>
+        </view>
+
+      </view> 
+    </view>
+
+
+    <view class="task-list-item" bindtap="goToStoryDetail" data-id="{{ task.id }}" wx:if="{{task.radioGroup == 'radio42'}}" style="background-color: rgba(228, 113, 17, 0.85);">
+      <view class="box-left" data-id="{{ task.id }}">
+        <view class="head" data-id="{{ task.id }}">
+          <image class="img" src='{{ task.avatar+"?imageView2/2/w/50" }}' mode="aspectFit" data-id="{{ task.id }}"></image>
+          <view class="box" data-id="{{ task.id }}">
+            <view class="shead_clear" data-id="{{ task.id }}">
+              <view class="names_fl" data-id="{{ task.id }}">{{ name_tools.sub(task.userName)}}</view>
+            </view>
+            <view wx:if="{{task.campusGroup == '1'}}" class="campus" data-id="{{ task.id }}">良乡校区</view>
+            <view wx:elif="{{task.campusGroup == '0'}}" class="campus" data-id="{{ task.id }}">中关村校区</view>
+            <view wx:else class="campus" data-id="{{ task.id }}"></view>
+            <view wx:if="{{task.radioGroup == 'radio4'}}" class="type" data-id="{{ task.id }}">树洞 | 吐槽</view>
+            <view wx:elif="{{task.radioGroup == 'radio40'}}" class="type" data-id="{{ task.id }}">树洞 | 吐槽</view>                 
+            <view wx:elif="{{task.radioGroup == 'radio41'}}" class="type" data-id="{{ task.id }}">树洞 | 表白</view>
+            <view wx:elif="{{task.radioGroup == 'radio42'}}" class="type" data-id="{{ task.id }}">树洞 | 心愿</view>
+            <view wx:elif="{{task.radioGroup == 'radio43'}}" class="type" data-id="{{ task.id }}">树洞 | 知乎</view>       
+          </view>
+        </view>
+
+        <view class="title_box" data-id="{{ task.id }}">
+          <view class="task_title" data-id="{{ task.id }}"  style="width: {{ task.img[0] ? '100%' : '160%' }};">
+            <text class="title" data-id="{{ task.id }}" wx:if="{{task.img[0]}}">{{ title_tools.sub(task.title)}}</text>
+            <text class="title" data-id="{{ task.id }}" wx:else>{{ title_tools_long.sub(task.title)}}</text>
+          </view>
+          <view class="button" data-id="{{ task.id }}">
+            <view wx:if="{{task.watchNum == '0' }}" class="hot-box">
+              <image class="like_img" src='../../images/hot_light.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+              <image class="like_img" src='../../images/hot_light.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+              <image class="like_img" src='../../images/hot_light.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+            </view>
+            <view wx:elif="{{ task.watchNum > '0' && task.watchNum < '6' }}" class="hot-box">
+              <image class="like_img" src='../../images/hot_half.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+              <image class="like_img" src='../../images/hot_light.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+              <image class="like_img" src='../../images/hot_light.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+            </view>
+            <view wx:elif="{{ task.watchNum > '5' && task.watchNum < '11' }}" class="hot-box">
+              <image class="like_img" src='../../images/hot.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+              <image class="like_img" src='../../images/hot_light.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+              <image class="like_img" src='../../images/hot_light.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+            </view>
+            <view wx:elif="{{ task.watchNum > '10' && task.watchNum < '21' }}" class="hot-box">
+              <image class="like_img" src='../../images/hot.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+              <image class="like_img" src='../../images/hot_half.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+              <image class="like_img" src='../../images/hot_light.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+            </view>
+            <view wx:elif="{{ task.watchNum > '20' && task.watchNum < '31' }}" class="hot-box">
+              <image class="like_img" src='../../images/hot.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+              <image class="like_img" src='../../images/hot.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+              <image class="like_img" src='../../images/hot_light.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+            </view>
+            <view wx:elif="{{ task.watchNum > '30' && task.watchNum < '51' }}" class="hot-box">
+              <image class="like_img" src='../../images/hot.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+              <image class="like_img" src='../../images/hot.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+              <image class="like_img" src='../../images/hot_half.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+            </view>
+            <view wx:else class="hot-box">
+              <image class="like_img" src='../../images/hot.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+              <image class="like_img" src='../../images/hot.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+              <image class="like_img" src='../../images/hot.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+            </view>
+            
+            <!-- <text class="comment_num" data-id="{{ task.id }}">{{ task.watchNum }}</text> -->
+            <image class="comment_img" src='../../images/love_white.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+            <text class="comment_num" data-id="{{ task.id }}">{{ task.likeNum }}</text>
+            <image class="comment_img" src='../../images/comment_white.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+            <text class="comment_num" data-id="{{ task.id }}">{{ task.commentNum }}</text>
+            <text class="price" data-id="{{ task.id }}" wx:if="{{ task.price}}">￥{{task.price}}</text>
+          </view>
+        </view>
+
+      </view>
+      <view class="box-right" data-id="{{ task.id }}">
+        <view class="time_box" data-id="{{ task.id }}">
+          <view class="c_time" data-id="{{ task.id }}">
+            <text decode="true" data-id="{{ task.id }}" wx:if="{{getDate.getGap(task.c_time)=='置顶'}}" style="color:red;border: solid 1rpx black;background-color: white;padding-left: 2rpx;padding-right: 2rpx;">{{getDate.getGap(task.c_time)}}</text>
+            <text decode="true" data-id="{{ task.id }}" wx:else>{{getDate.getGap(task.c_time)}}</text>
+          </view>
+        </view>
+
+        <view class="img_box" wx:if="{{ task.img[0] }}" data-id="{{ task.id }}">
+          <image class="task_img" src='{{ task.img[0]+"?imageView2/2/w/500" }}' mode='aspectFill' data-id="{{ task.id }}"></image>
+        </view>
+
+      </view> 
+    </view>
+
+
+    <view class="task-list-item" bindtap="goToStoryDetail" data-id="{{ task.id }}" wx:if="{{task.radioGroup == 'radio43'}}" style="background-color: rgba(169, 36, 144, 0.85);">
+      <view class="box-left" data-id="{{ task.id }}">
+        <view class="head" data-id="{{ task.id }}">
+          <image class="img" src='{{ task.avatar+"?imageView2/2/w/50" }}' mode="aspectFit" data-id="{{ task.id }}"></image>
+          <view class="box" data-id="{{ task.id }}">
+            <view class="shead_clear" data-id="{{ task.id }}">
+              <view class="names_fl" data-id="{{ task.id }}">{{ name_tools.sub(task.userName)}}</view>
+            </view>
+            <view wx:if="{{task.campusGroup == '1'}}" class="campus" data-id="{{ task.id }}">良乡校区</view>
+            <view wx:elif="{{task.campusGroup == '0'}}" class="campus" data-id="{{ task.id }}">中关村校区</view>
+            <view wx:else class="campus" data-id="{{ task.id }}"></view>
+            <view wx:if="{{task.radioGroup == 'radio4'}}" class="type" data-id="{{ task.id }}">树洞 | 吐槽</view>
+            <view wx:elif="{{task.radioGroup == 'radio40'}}" class="type" data-id="{{ task.id }}">树洞 | 吐槽</view>                 
+            <view wx:elif="{{task.radioGroup == 'radio41'}}" class="type" data-id="{{ task.id }}">树洞 | 表白</view>
+            <view wx:elif="{{task.radioGroup == 'radio42'}}" class="type" data-id="{{ task.id }}">树洞 | 心愿</view>
+            <view wx:elif="{{task.radioGroup == 'radio43'}}" class="type" data-id="{{ task.id }}">树洞 | 知乎</view>       
+          </view>
+        </view>
+
+        <view class="title_box" data-id="{{ task.id }}">
+          <view class="task_title" data-id="{{ task.id }}" style="width: {{ task.img[0] ? '100%' : '160%' }};">
+            <text class="title" data-id="{{ task.id }}" wx:if="{{task.img[0]}}">{{ title_tools.sub(task.title)}}</text>
+            <text class="title" data-id="{{ task.id }}" wx:else>{{ title_tools_long.sub(task.title)}}</text>
+          </view>
+          <view class="button" data-id="{{ task.id }}">
+            <view wx:if="{{task.watchNum == '0' }}" class="hot-box">
+              <image class="like_img" src='../../images/hot_light.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+              <image class="like_img" src='../../images/hot_light.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+              <image class="like_img" src='../../images/hot_light.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+            </view>
+            <view wx:elif="{{ task.watchNum > '0' && task.watchNum < '6' }}" class="hot-box">
+              <image class="like_img" src='../../images/hot_half.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+              <image class="like_img" src='../../images/hot_light.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+              <image class="like_img" src='../../images/hot_light.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+            </view>
+            <view wx:elif="{{ task.watchNum > '5' && task.watchNum < '11' }}" class="hot-box">
+              <image class="like_img" src='../../images/hot.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+              <image class="like_img" src='../../images/hot_light.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+              <image class="like_img" src='../../images/hot_light.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+            </view>
+            <view wx:elif="{{ task.watchNum > '10' && task.watchNum < '21' }}" class="hot-box">
+              <image class="like_img" src='../../images/hot.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+              <image class="like_img" src='../../images/hot_half.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+              <image class="like_img" src='../../images/hot_light.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+            </view>
+            <view wx:elif="{{ task.watchNum > '20' && task.watchNum < '31' }}" class="hot-box">
+              <image class="like_img" src='../../images/hot.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+              <image class="like_img" src='../../images/hot.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+              <image class="like_img" src='../../images/hot_light.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+            </view>
+            <view wx:elif="{{ task.watchNum > '30' && task.watchNum < '51' }}" class="hot-box">
+              <image class="like_img" src='../../images/hot.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+              <image class="like_img" src='../../images/hot.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+              <image class="like_img" src='../../images/hot_half.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+            </view>
+            <view wx:else class="hot-box">
+              <image class="like_img" src='../../images/hot.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+              <image class="like_img" src='../../images/hot.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+              <image class="like_img" src='../../images/hot.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+            </view>
+            
+            <!-- <text class="comment_num" data-id="{{ task.id }}">{{ task.watchNum }}</text> -->
+            <image class="comment_img" src='../../images/love_white.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+            <text class="comment_num" data-id="{{ task.id }}">{{ task.likeNum }}</text>
+            <image class="comment_img" src='../../images/comment_white.png' mode='aspectFill' data-id="{{ task.id }}"></image>
+            <text class="comment_num" data-id="{{ task.id }}">{{ task.commentNum }}</text>
+            <text class="price" data-id="{{ task.id }}" wx:if="{{ task.price}}">￥{{task.price}}</text>
+          </view>
+        </view>
+
+      </view>
+      <view class="box-right" data-id="{{ task.id }}">
+        <view class="time_box" data-id="{{ task.id }}">
+          <view class="c_time" data-id="{{ task.id }}">
+            <text decode="true" data-id="{{ task.id }}" wx:if="{{getDate.getGap(task.c_time)=='置顶'}}" style="color:red;border: solid 1rpx black;background-color: white;padding-left: 2rpx;padding-right: 2rpx;">{{getDate.getGap(task.c_time)}}</text>
+            <text decode="true" data-id="{{ task.id }}" wx:else>{{getDate.getGap(task.c_time)}}</text>
+          </view>
+        </view>
+
+        <view class="img_box" wx:if="{{ task.img[0] }}" data-id="{{ task.id }}">
+          <image class="task_img" src='{{ task.img[0]+"?imageView2/2/w/500" }}' mode='aspectFill' data-id="{{ task.id }}"></image>
+        </view>
+
+      </view> 
+    </view>
+  </block>
+</view> 
+</view>

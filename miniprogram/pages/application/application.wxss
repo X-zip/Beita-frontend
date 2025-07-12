@@ -1,0 +1,94 @@
+/* pages/application/application.wxss */
+page {
+    background-color: white;
+  }
+  
+  .detail-box {
+    background-color: white;
+  }
+  
+  .form-box {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .van-cell-box {
+    font-weight: 600;
+  }
+  
+  .van-uploader-box {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .btn-area {
+    align-items: center;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    height: 180rpx;
+    width: 100%;
+    background-color: white;
+  }
+  
+  .submit {
+    margin-top: 20rpx;
+    border-radius: 20rpx;
+    background-color: mediumpurple;
+    color: white;
+  }
+  
+  .btn-box {
+    margin-top: 20rpx;
+    width: 150rpx;
+  }
+  
+  .qr-list {
+    width: 90%;
+    margin-left: 5%;
+    margin-top: 40rpx;
+    background-color: #f6f6f6;
+    display: flex;
+    justify-content: space-between;
+    border-radius: 20rpx;
+  }
+  
+  .qr-box {
+    width: 80%;
+    text-align: center;
+    margin-left: 10%;
+  }
+  
+  .qr-text {
+    font-size: 32rpx;
+    font-weight: 600;
+    color: black;
+    text-align: center;
+    flex-basis: 100%;
+    padding: 20rpx;
+  }
+  
+  .qr-item {
+    margin-top: 40rpx;
+    margin-bottom: 40rpx;
+    align-items: center;
+    flex-basis: 100%;
+    padding: 20rpx;
+  }
+  
+  .qr-image {
+    width: 90%;
+  }
+  
+  .qr-title {
+    display: flex;
+    justify-content: center;
+    font-size: 64rpx;
+    margin-top: 50rpx;
+    font-weight: 600;
+    color: black;
+    text-align: center;
+    /* margin-left: 5%; */
+  }
+  

@@ -1,0 +1,209 @@
+page {
+  background: #f6f6f6;
+  height: 100%;
+}
+
+.container {
+  background: #f6f6f6;
+}
+
+.userinfo {
+  position: relative;
+  width: 750rpx;
+  color: #2c2c2c;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-weight: 800;
+  background:linear-gradient(beige,#f6f6f6);
+}
+
+.userinfo-avatar {
+  overflow: hidden;
+  display: block;
+  width: 160rpx;
+  height: 160rpx;
+  margin: 20rpx;
+  margin-top: 50rpx;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+.unlogin {
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: 50%;
+}
+
+.username-input {
+  text-align: center;
+}
+
+.button-list {
+  background-color: white;
+  width: 90%;
+  margin-left: 5%;
+  margin-top: 20rpx;
+  border-radius: 20rpx;
+}
+
+.list-item {
+  width: 90%;
+
+  padding: 40rpx;
+  display: flex;
+  align-items: center;
+}
+
+.item-image {
+  height: 48rpx;
+  line-height: 48rpx;
+
+}
+
+.item-text{
+  margin-left: 40rpx;
+  font-size: 32rpx;
+  line-height: 32rpx;
+  font-weight: 400;
+  color: #2c2c2c;
+  letter-spacing:8rpx;
+  font-weight: 500;
+}
+
+.copy-logo {
+  width: 24rpx;
+}
+
+.copy-right {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 40rpx;
+}
+
+.copy-text {
+  font-size: 24rpx;
+  color: #999;
+  font-weight: 400;
+}
+
+.info-box {
+  width: 90%;
+  margin-left: 5%;
+  background-color: white;
+  border-radius: 20rpx;
+  margin-top:20rpx;
+}
+
+.menu-wrp {
+  white-space: nowrap;
+  width: 100%;
+  margin-left: 0;
+  border-radius: 20rpx;
+}
+
+.menu-list {
+  width: 25%;
+  box-sizing: border-box;
+  padding-top: 20rpx;
+  padding-bottom: 20rpx;
+  display: inline-block; 
+}
+
+.menu-img {
+  width: 48rpx;
+  height: 48rpx;
+  display: block;
+  margin: 0 auto;
+  margin-bottom: 5px;
+}
+
+.menu-desc {
+  color: black;
+  width: 100%;
+  text-align: center;
+  display: block;
+  font-size: 26rpx;
+  font-weight: 500;
+}
+
+
+.group-box {
+    margin-top: 20rpx;
+    width: 90%;
+    margin-left: 5%;
+    border-radius: 20rpx;
+  }
+  
+  .van-cell__title {
+    font-size: 32rpx;
+  }
+  
+  .van-icon {
+    width: 64rpx;
+  }
+  
+  .row-0 {
+    height: 300rpx;
+  }
+  
+  .row-1 {
+    margin-top: 50rpx;
+    line-height: 100rpx;
+    height: 100rpx;
+    font-size: large;
+  }
+  
+  .row-2 {
+    line-height: 20rpx;
+    height: 20rpx;
+  }
+  
+  .userinfo-avatar {
+    overflow: hidden;
+    display: block;
+    width: 160rpx;
+    height: 160rpx;
+    margin: 20rpx;
+    margin-top: 50rpx;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  .userinfo-nickname {
+    font-weight: 600;
+    color: black;
+  }
+
+@media (prefers-color-scheme: dark) {
+  /* DarkMode 下的样式 start */
+  page {
+    background: #191919;
+  }
+  .userinfo {
+    color: white;
+    background: #191919;
+  }
+  .button-list {
+    background-color: #292929;
+  }
+  .item-text {
+    color: white;
+  }
+  .container {
+    background-color: #191919;
+  }
+  .menu-wrp {
+    background-color: #292929;
+  }
+  .menu-desc {
+    color: white;
+  }
+  .userinfo-nickname {
+    font-weight: 600;
+    color: white;
+  }
+}

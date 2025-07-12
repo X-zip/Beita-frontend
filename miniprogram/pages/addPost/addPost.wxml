@@ -1,0 +1,137 @@
+<!-- 🚫 封禁提醒弹窗 -->
+<modal hidden="{{hidden}}" title="封禁提醒" confirm-text="确定" bindconfirm="confirm" no-cancel="{{nocancel}}">
+  <view class="ban-modal">
+    <image class="ban-modal__image" src="http://yqtech.ltd/beita/contact/bitqr.jpg" mode="aspectFill" bindtap="previewQr" data-id="http://yqtech.ltd/beita/contact/bitqr.jpg"></image>
+    <view class="ban-modal__text">
+      根据社区相关规定，您已被禁言{{banDate}}。若想恢复使用，请添加贝塔微信说明情况进行手动解封！
+    </view>
+  </view>
+</modal>
+
+<!-- 📝 表单区域 -->
+<view class="task">
+  <form bindsubmit="formSubmit" bindreset="formReset">
+  
+    <!-- ✨ 校区选择 -->
+    <view class="section" wx:if="{{option == 'Find' || option == 'Help' || option == 'Parttime' || option == 'rent' || option == 'second'}}">
+      <view class="section__title">校区</view>
+      <radio-group name="campusGroup" class="section__radio">
+        <block wx:for="{{['中关村校区','良乡校区','珠海校区','不限']}}" wx:for-index="idx" wx:for-item="item" wx:key="idx">
+          <view class="campus_item">
+            <label><radio value="{{idx}}" name="campus" />{{item}}</label>
+          </view>
+        </block>
+      </radio-group>
+    </view>
+
+    <!-- 🎭 昵称输入 -->
+    <view class="section" wx:if="{{option=='treehole'}}">
+      <view class="section__title">昵称</view>
+      <input class="name__bar" name="nickName" value="{{nickNameOld}}" placeholder="请输入你想要显示的昵称否则将使用默认昵称" bindinput="inputs" />
+    </view>
+
+    <!-- 🎯 类型选择 -->
+    <block wx:if="{{option=='second'}}">
+      <view class="section__title">类型</view>
+      <radio-group name="radiogroup" class="section__radio">
+        <block wx:for="{{['电脑电子','家居家电','游戏影视','衣包饰品','美容护肤','体育休闲','学习办公','母婴用品','宠物植物','食品饮品','求购','其他']}}" wx:for-index="idx" wx:for-item="item" wx:key="idx">
+          <view class="radio_item">
+            <label><radio value="radio{{idx+10}}" name="radio" />{{item}}</label>
+          </view>
+        </block>
+      </radio-group>
+    </block>
+
+    <block wx:if="{{option=='treehole'}}">
+      <view class="section__title">类型</view>
+      <radio-group name="radiogroup" class="section__radio">
+        <block wx:for="{{['吐槽','表白','心愿','知乎']}}" wx:for-index="idx" wx:for-item="item" wx:key="idx">
+          <view class="radio_item">
+            <label><radio value="radio4{{idx}}" name="radio" />{{item}}</label>
+          </view>
+        </block>
+      </radio-group>
+    </block>
+
+    <block wx:if="{{option=='rent'}}">
+      <view class="section__title">类型</view>
+      <radio-group name="radiogroup" class="section__radio">
+        <view class="radio_item"><label><radio value="rent" name="radio" />求租</label></view>
+        <view class="radio_item"><label><radio value="owner" name="radio" />招租</label></view>
+      </radio-group>
+    </block>
+
+    <block wx:if="{{option=='Find'}}">
+      <view class="section__title">类型</view>
+      <radio-group name="radiogroup" class="section__radio">
+        <view class="radio_item"><label><radio value="radio2" name="radio" />失物招领</label></view>
+        <view class="radio_item"><label><radio value="radio3" name="radio" />寻物启事</label></view>
+      </radio-group>
+    </block>
+
+    <!-- 🏷️ 标题输入 -->
+    <block wx:for="{{['second','Find','Parttime','Help']}}" wx:key="item">
+      <view class="section" wx:if="{{option==item}}">
+        <view class="section__title">
+          {{item=='Help' ? '帮助/求助事宜' : item=='Parttime' ? '兼职名称' : '标题'}}
+        </view>
+        <input class="form__bar" name="Title" placeholder="请输入标题" minlength="{{min_title}}" maxlength="{{max_title}}" bindinput="inputs" />
+      </view>
+    </block>
+
+    <!-- ✍ 内容输入 -->
+    <view class="section">
+      <view class="section__title">*内容</view>
+      <textarea class="form__bar" name="Content" placeholder="请输入内容" maxlength="-1" auto-focus="true" />
+    </view>
+
+    <!-- 💰 价格输入 -->
+    <view class="section" wx:if="{{option == 'Parttime' || option == 'second' || option == 'rent'}}">
+      <view class="section__title">价格</view>
+      <input class="form__bar" name="Price" type="digit" maxlength="6" placeholder="请输入价格" />
+    </view>
+
+    <!-- 📞 联系方式 -->
+    <view class="section" wx:if="{{option == 'Parttime' || option == 'second' || option == 'rent' || option == 'Help' || option == 'Find'}}">
+      <view class="section__title">联系方式</view>
+      <input class="form__bar" name="Wechat" placeholder="请输入您的联系方式" maxlength="20" />
+    </view>
+
+    <!-- 📷 图片上传 -->
+    <view class="imgsection">
+      <view class="section__title">上传图片</view>
+      <canvas canvas-id="attendCanvasId" class="myCanvas" style="width:{{cWidth}}px;height:{{cHeight}}px;position: absolute;left:-1000px;top:-1000px;"></canvas>
+      <view class="content">
+        <view class="img-box">
+          <view class="img-list">
+            <block wx:for="{{imgViewList}}" wx:for-index="index" wx:for-item="item" wx:key="index">
+              <view class="img-item">
+                <image src="{{item+'?imageView2/2/w/100'}}" bindlongpress="deleteImg" data-id="{{index}}" />
+              </view>
+            </block>
+            <view class="chooseimg" bindtap="takePhoto">
+              <view class="weui-uploader__input-box"></view>
+            </view>
+          </view>
+          <view class="tips">长按对应的图片即可删除</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- ✅ 协议 -->
+    <view class="item">
+      <van-checkbox class="van-checkbox-box" value="{{ checked }}" bind:change="onChangeCheck" icon-size="20rpx">
+        阅读并同意《<text style="color: blue;" bindtap="showAgreement">服务协议</text>》
+      </van-checkbox>
+    </view>
+
+    <!-- 📤 提交按钮 -->
+    <view class="btn-area">
+      <button class="submit" form-type="submit" wx:if="{{hasUserInfo}}">提交</button>
+      <button class="submit" bindtap="nologin" wx:else>提交</button>
+      <button class="reset" form-type="reset">重置</button>
+    </view>
+  </form>
+
+  <view class="blank" style="height: 200px;"></view>
+</view>

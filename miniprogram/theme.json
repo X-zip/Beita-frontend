@@ -1,0 +1,36 @@
+{
+  "light": {
+    "navBackgroundColor":"#f6f6f6",
+    "navTextStyle": "black",
+    "bgTxtStyle": "light",
+    "tabFontColor": "#000000",
+    "tabSelectedColor": "#D98F14",
+    "tabBgColor": "#ffffff",
+    "tabBorderStyle": "black",
+    "iconPath1": "images/market.png",
+    "selectedIconPath1": "images/market_hl.png",
+    "iconPath2": "images/tree.png",
+    "selectedIconPath2": "images/tree_hl.png",
+    "iconPath3": "images/edit.png",
+    "selectedIconPath3": "images/edit_hl.png",
+    "iconPath4": "images/user.png",
+    "selectedIconPath4": "images/user_hl.png"
+  },
+  "dark": {
+    "navBackgroundColor":"#191919",
+    "navTextStyle": "white",
+    "bgTxtStyle": "dark",
+    "tabFontColor": "#cdcdcd",
+    "tabSelectedColor": "#ffffff",
+    "tabBgColor": "#191919",
+    "tabBorderStyle": "white",
+    "iconPath1": "images/market_dark.png",
+    "selectedIconPath1": "images/market_dark_hl.png",
+    "iconPath2": "images/tree_dark.png",
+    "selectedIconPath2": "images/tree_dark_hl.png",
+    "iconPath3": "images/edit_dark.png",
+    "selectedIconPath3": "images/edit_dark_hl.png",
+    "iconPath4": "images/user_dark.png",
+    "selectedIconPath4": "images/user_dark_hl.png"
+  }
+}

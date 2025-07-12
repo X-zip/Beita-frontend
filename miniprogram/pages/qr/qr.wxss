@@ -1,0 +1,91 @@
+.qr-list {
+    width: 90%;
+    margin-left: 5%;
+    margin-top: 40rpx;
+    background-color: #f6f6f6;
+    display: flex;
+    justify-content: space-between;
+    border-radius: 20rpx;
+  }
+  
+  .text-list {
+    width: 90%;
+    margin-left: 5%;
+    margin-top: -60rpx;
+    background-color: #f6f6f6;
+    display: flex;
+    justify-content: space-between;
+    border-radius: 20rpx;
+  }
+  
+  .text {
+    font-size: 32rpx;
+    font-weight: 600;
+    color: black;
+    text-align: center;
+    flex-basis: 100%;
+    padding: 20rpx;
+  }
+  
+  
+  .item {
+    margin-top: 40rpx;
+    margin-bottom: 40rpx;
+    align-items: center;
+    flex-basis: 100%;
+    padding: 20rpx;
+  }
+  
+  .image {
+    width: 90%;
+    margin-left: 5%;
+  }
+  .title {
+    font-weight: 64rpx;
+    /* margin-left: 5%; */
+    margin-top: 50rpx;
+    font-weight: 600;
+    color: black;
+    text-align: center;
+  }
+  
+  
+  
+  
+  .copy-logo {
+    width: 24rpx;
+  }
+  
+  .copy-right {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 40rpx;
+  }
+  
+  .copy-text {
+    font-size: 24rpx;
+    color: #999;
+    font-weight: 400;
+  }
+  
+  @media (prefers-color-scheme: dark) {
+    /* DarkMode 下的样式 start */
+    page {
+      background: #191919;
+    }
+    .qr-list {
+      background-color: #292929;
+    }
+    .text-list {
+      background-color: #292929;
+    }
+    .text {
+      color: white;
+    }
+   .title{
+     color: white;
+   }
+    /* DarkMode 下的样式 end */
+  }
+  

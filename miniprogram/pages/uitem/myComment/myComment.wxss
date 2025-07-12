@@ -1,0 +1,110 @@
+/* pages/my_task/my_task.wxss */
+.empty{
+  margin-top: 20px;
+  width: 33%;
+  margin-left: 33%;
+}
+.userinfo {  
+  position: relative;  
+  width: 750rpx;  
+  height: 320rpx;  
+  color: #999999;  
+  display: flex;  
+  flex-direction: column;  
+  align-items: center;  
+}  
+
+.userinfo-avatar {  
+  overflow:hidden;  
+  display: block;  
+  width: 160rpx;  
+  height: 160rpx;  
+  margin: 20rpx;  
+  margin-top: 50rpx;  
+  border-radius: 50%;  
+  border: 2px solid #fff;  
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);  
+}
+
+
+
+.task-list-item {
+  width: 90%;
+  margin: 5%;
+  margin-top: 20rpx;
+  background: #f6f6f6;
+  border-radius: 20rpx;
+  height: 100rpx;
+}
+
+
+.task_title{
+  margin-left: 20rpx;
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  color: #999;
+  width: 90%;
+}
+
+.delete_icon {
+  left:10px;
+  top:10px;
+  height: 20px;
+  width: 20px;
+  vertical-align: center;
+}
+.delete{
+  float: left;
+  width: 10%;
+}
+
+.note{
+  margin-top: 20px;
+  margin-bottom: 15px;
+  margin-left: 10%;
+  font-size: 20px;
+  color:#999;
+}
+
+.box-right {
+  margin-left: 60%;
+  width: 40%;
+  height: 100%;
+}
+
+.c_time {
+  font-size: 20rpx;
+  color: #999;
+  text-align: center;
+  float: right;
+  margin-right: 15px;
+  line-height: 100rpx;
+}
+
+.box-left {
+  width: 60%;
+  height: 100%;
+  float: left;
+  line-height: 100rpx;
+}
+
+
+@media (prefers-color-scheme: dark) {
+  /* DarkMode 下的样式 start */
+  page {
+    background: #191919;
+  }
+  .task-list-item {
+    background: #292929;
+  }
+  .task_title {
+    color: white;
+  }
+  .names_fl {
+    color: white;
+  }
+  .comment_num {
+    color: white;
+  }
+  /* DarkMode 下的样式 end */
+}

@@ -1,0 +1,17 @@
+{
+  "usingComponents": {
+    "SearchBar": "../../components/SearchBar/index",
+    "navigation": "/components/navi/navi",
+    "radial-menu": "/components/radial-menu/index",
+    "van-dialog": "@vant/weapp/dialog/index",
+    "van-notice-bar": "@vant/weapp/notice-bar/index",
+    "van-row": "@vant/weapp/row/index",
+    "van-col": "@vant/weapp/col/index",
+    "van-popup": "@vant/weapp/popup/index"
+  },
+  "backgroundColor": "#ffffff",
+  "backgroundTextStyle": "dark",
+  "disableScroll": false,
+  "enablePullDownRefresh": true,
+  "navigationStyle": "custom"
+}

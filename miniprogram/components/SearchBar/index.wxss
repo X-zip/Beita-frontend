@@ -1,0 +1,58 @@
+/*搜索 开始*/
+.tit_seabox{
+  /* width: calc( 100% - 64rpx ); */
+  /* background: #fff; */
+  /* height: 60rpx; */
+  /* padding:20rpx 32rpx; */
+  display: flex;
+  /* align-items: center; */
+  overflow: hidden;
+}
+.tit_seabox_bar{
+    /* width: calc( 100% - 32rpx ); */
+    /* height: 60rpx; */
+    display: flex;
+    align-items: center;
+    border-radius: 30rpx;
+    background: #fff;
+    /* padding-left: 32rpx; */
+}
+.tit_seabox_bar icon{
+  /* margin-right: 20rpx; */
+}
+.tit_seabox input{
+  font-size:28rpx;
+  width:100%;
+  padding-left: 20rpx;
+  /* margin-right:32rpx; */
+
+}
+.activity_add{
+  /* width:60rpx; */
+  text-align:right;
+  /* margin-left:20rpx; */
+
+}
+.activity_add image{
+  width: 20px;
+  height: 20px;
+  padding-left: 10rpx;
+  padding-right: 10rpx;
+}
+
+.app-title {
+  padding-right: 20rpx;
+  color: black; 
+  font-weight: 600;
+}
+
+@media (prefers-color-scheme: dark) {
+  /* DarkMode 下的样式 start */
+  .app-title {
+    color: white; 
+  }
+  .tit_seabox input {
+    color:black;
+}
+  /* DarkMode 下的样式 end */
+}
