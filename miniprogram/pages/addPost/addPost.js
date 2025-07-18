@@ -10,8 +10,8 @@ const CryptoJS = require('../../utils/aes.js')
 // 常量定义
 const MAX_IMAGE_COUNT = 3
 const COMPRESS_WIDTH = 400
-const AES_KEY = CryptoJS.enc.Utf8.parse('1234512345123456')
-const AES_IV = CryptoJS.enc.Utf8.parse('1234512345123456')
+const AES_KEY = CryptoJS.enc.Utf8.parse('[password]')
+const AES_IV = CryptoJS.enc.Utf8.parse('[password]')
 
 // 工具函数
 function showToast(title, icon = 'none') {

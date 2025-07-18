@@ -2,7 +2,7 @@
 async function checkString(content,openid) {
     return new Promise((resolve, reject) => {
       wx.request({
-        url: "https://www.yqtech.ltd:8802/msgCheck",
+        url: "https://[domain]/msgCheck",
         method:'GET',
         data: {
           openid,openid,

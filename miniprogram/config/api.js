@@ -1,5 +1,5 @@
 // const ApiRootUrl = 'https://localhost:8802/';
-const ApiRootUrl = 'https://www.yqtech.ltd:8802/';
+const ApiRootUrl = 'https://[domain]/';
 // const ApiRootUrl = 'https://192.168.1.94:8802/';
 
 module.exports = {

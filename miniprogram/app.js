@@ -27,7 +27,7 @@ App({
             }
         })
         wx.request({
-            url: 'https://www.yqtech.ltd:8802/getMember',
+            url: 'https://[domain]/getMember',
             method:'GET',
             data: {
               openid: wx.getStorageSync('openid'),
@@ -86,7 +86,7 @@ App({
                         }
                     })
                     wx.request({
-                        url: 'https://www.yqtech.ltd:8802/getMember',
+                        url: 'https://[domain]/getMember',
                         method:'GET',
                         data: {
                           openid: res.data.result.openid,

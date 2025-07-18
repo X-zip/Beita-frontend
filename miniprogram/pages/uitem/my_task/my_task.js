@@ -59,8 +59,8 @@ Page({
           // 用户点击了确定 可以调用删除方法了  
           console.log(e.target)
           var pk = e.target.dataset.id
-          var key = '1234512345123456';
-          var iv = '1234512345123456';
+          var key = '[password]';
+          var iv = '[password]';
           key = CryptoJS.enc.Utf8.parse(key);
           iv = CryptoJS.enc.Utf8.parse(iv);
           var param = '{"id":"'+pk+'"}'
