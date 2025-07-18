@@ -1,7 +1,7 @@
 <!-- 🚫 封禁提醒弹窗 -->
 <modal hidden="{{hidden}}" title="封禁提醒" confirm-text="确定" bindconfirm="confirm" no-cancel="{{nocancel}}">
   <view class="ban-modal">
-    <image class="ban-modal__image" src="http://yqtech.ltd/beita/contact/bitqr.jpg" mode="aspectFill" bindtap="previewQr" data-id="http://yqtech.ltd/beita/contact/bitqr.jpg"></image>
+    <image class="ban-modal__image" src="http://yqtech.ltd/beita/contact/bitqr.jpg" mode="aspectFill" bindtap="previewQr" data-id="http://yqtech.ltd/beita/contact/bitqr.jpg" />
     <view class="ban-modal__text">
       根据社区相关规定，您已被禁言{{banDate}}。若想恢复使用，请添加贝塔微信说明情况进行手动解封！
     </view>
@@ -11,14 +11,14 @@
 <!-- 📝 表单区域 -->
 <view class="task">
   <form bindsubmit="formSubmit" bindreset="formReset">
-  
+
     <!-- ✨ 校区选择 -->
     <view class="section" wx:if="{{option == 'Find' || option == 'Help' || option == 'Parttime' || option == 'rent' || option == 'second'}}">
       <view class="section__title">校区</view>
       <radio-group name="campusGroup" class="section__radio">
         <block wx:for="{{['中关村校区','良乡校区','珠海校区','不限']}}" wx:for-index="idx" wx:for-item="item" wx:key="idx">
           <view class="campus_item">
-            <label><radio value="{{idx}}" name="campus" />{{item}}</label>
+            <label><radio value="{{idx}}" name="campus" /><text>{{item}}</text></label>
           </view>
         </block>
       </radio-group>
@@ -30,43 +30,57 @@
       <input class="name__bar" name="nickName" value="{{nickNameOld}}" placeholder="请输入你想要显示的昵称否则将使用默认昵称" bindinput="inputs" />
     </view>
 
-    <!-- 🎯 类型选择 -->
-    <block wx:if="{{option=='second'}}">
-      <view class="section__title">类型</view>
-      <radio-group name="radiogroup" class="section__radio">
-        <block wx:for="{{['电脑电子','家居家电','游戏影视','衣包饰品','美容护肤','体育休闲','学习办公','母婴用品','宠物植物','食品饮品','求购','其他']}}" wx:for-index="idx" wx:for-item="item" wx:key="idx">
-          <view class="radio_item">
-            <label><radio value="radio{{idx+10}}" name="radio" />{{item}}</label>
-          </view>
-        </block>
-      </radio-group>
+    <!-- 🎯 类型选择模块 -->
+    <block wx:if="{{option == 'second'}}">
+      <view class="section">
+        <view class="section__title">类型</view>
+        <radio-group name="radiogroup" class="section__radio">
+          <block wx:for="{{['电脑电子','家居家电','游戏影视','衣包饰品','美容护肤','体育休闲','学习办公','母婴用品','宠物植物','食品饮品','求购','其他']}}" wx:for-index="idx" wx:for-item="item" wx:key="idx">
+            <view class="radio_item">
+              <label><radio value="second_{{idx}}" name="radio" /><text>{{item}}</text></label>
+            </view>
+          </block>
+        </radio-group>
+      </view>
     </block>
 
-    <block wx:if="{{option=='treehole'}}">
-      <view class="section__title">类型</view>
-      <radio-group name="radiogroup" class="section__radio">
-        <block wx:for="{{['吐槽','表白','心愿','知乎']}}" wx:for-index="idx" wx:for-item="item" wx:key="idx">
-          <view class="radio_item">
-            <label><radio value="radio4{{idx}}" name="radio" />{{item}}</label>
-          </view>
-        </block>
-      </radio-group>
+    <block wx:if="{{option == 'treehole'}}">
+      <view class="section">
+        <view class="section__title">类型</view>
+        <radio-group name="radiogroup" class="section__radio">
+          <block wx:for="{{['吐槽','表白','心愿','知乎']}}" wx:for-index="idx" wx:for-item="item" wx:key="idx">
+            <view class="radio_item">
+              <label><radio value="treehole_{{idx}}" name="radio" /><text>{{item}}</text></label>
+            </view>
+          </block>
+        </radio-group>
+      </view>
     </block>
 
-    <block wx:if="{{option=='rent'}}">
-      <view class="section__title">类型</view>
-      <radio-group name="radiogroup" class="section__radio">
-        <view class="radio_item"><label><radio value="rent" name="radio" />求租</label></view>
-        <view class="radio_item"><label><radio value="owner" name="radio" />招租</label></view>
-      </radio-group>
+    <block wx:if="{{option == 'rent'}}">
+      <view class="section">
+        <view class="section__title">类型</view>
+        <radio-group name="radiogroup" class="section__radio">
+          <block wx:for="{{['求租','招租']}}" wx:for-index="idx" wx:for-item="item" wx:key="idx">
+            <view class="radio_item">
+              <label><radio value="rent_{{idx}}" name="radio" /><text>{{item}}</text></label>
+            </view>
+          </block>
+        </radio-group>
+      </view>
     </block>
 
-    <block wx:if="{{option=='Find'}}">
-      <view class="section__title">类型</view>
-      <radio-group name="radiogroup" class="section__radio">
-        <view class="radio_item"><label><radio value="radio2" name="radio" />失物招领</label></view>
-        <view class="radio_item"><label><radio value="radio3" name="radio" />寻物启事</label></view>
-      </radio-group>
+    <block wx:if="{{option == 'Find'}}">
+      <view class="section">
+        <view class="section__title">类型</view>
+        <radio-group name="radiogroup" class="section__radio">
+          <block wx:for="{{['失物招领','寻物启事']}}" wx:for-index="idx" wx:for-item="item" wx:key="idx">
+            <view class="radio_item">
+              <label><radio value="find_{{idx}}" name="radio" /><text>{{item}}</text></label>
+            </view>
+          </block>
+        </radio-group>
+      </view>
     </block>
 
     <!-- 🏷️ 标题输入 -->

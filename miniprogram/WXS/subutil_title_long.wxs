@@ -1,11 +1,24 @@
 var sub = function (val) {
-  if (val.length == 0 || val == undefined) {
-    return;
+    if (!val || val.length == 0) {
+      return;
+    }
+  
+    var cleaned = '';
+    for (var i = 0; i < val.length; i++) {
+      var ch = val.charAt(i);
+      if (ch != ' ' && ch != '\n' && ch != '\r' && ch != '\t') {
+        cleaned += ch;
+      }
+    }
+  
+    if (cleaned.length > 25) {
+      return cleaned.substring(0, 25) + "...";
+    } else {
+      return cleaned;
+    }
   }
-  if (val.length > 45) {
-    return val.substring(0, 45) + "...";
-  } else {
-    return val;
+  
+  module.exports = {
+    sub: sub
   }
-}
-module.exports.sub = sub;
+  

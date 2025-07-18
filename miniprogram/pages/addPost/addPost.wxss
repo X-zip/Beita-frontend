@@ -1,57 +1,5 @@
-/* 图片上传组件 */
-.img-list, .section__radio {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: flex-start;
-  }
-  
-  .img-item {
-    width: 30%;
-    margin-right: 20rpx;
-    margin-bottom: 10rpx;
-  }
-  
-  .img-item image {
-    width: 180rpx;
-    height: 180rpx;
-  }
-  
-  .chooseimg {
-    background-color: #fff;
-  }
-  
-  .weui-uploader__input-box {
-    width: 180rpx;
-    height: 180rpx;
-    border: 1px solid #f2f2f2;
-    position: relative;
-    margin-right: 9px;
-    margin-bottom: 9px;
-  }
-  
-  /* 加号符号 */
-  .weui-uploader__input-box:before,
-  .weui-uploader__input-box:after {
-    content: " ";
-    position: absolute;
-    background-color: #f2f2f2;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-  .weui-uploader__input-box:before {
-    width: 2px;
-    height: 39.5px;
-  }
-  .weui-uploader__input-box:after {
-    width: 39.5px;
-    height: 2px;
-  }
-  
-  /* 区块样式 */
-  .section {
+/* 表单分区通用样式 */
+.section {
     width: 90%;
     margin: 10rpx auto 0;
     background-color: #f2f2f2;
@@ -66,7 +14,7 @@
     line-height: 100rpx;
   }
   
-  /* 表单输入栏样式 */
+  /* 表单输入栏 */
   .form__bar, .name__bar {
     margin-left: 20rpx;
     height: 100rpx;
@@ -75,15 +23,35 @@
     font-size: 28rpx;
   }
   
-  /* 单选按钮区域 */
+  /* 类型/校区单选区 */
+  .section__radio {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+  
   .radio_item, .campus_item {
-    width: 30%;
+    width: 48%;
     padding: 10rpx;
     font-size: 28rpx;
     color: #2c2c2c;
+    box-sizing: border-box;
   }
   
-  /* 图片容器 */
+  /* 选中高亮样式 */
+  radio:checked + text {
+    font-weight: bold;
+    color: #D98F14;
+  }
+  
+  /* 图片上传区域布局 */
+  .imgsection {
+    width: 90%;
+    margin: 20rpx auto 0;
+    background-color: #f2f2f2;
+    border-radius: 20rpx;
+  }
+  
   .content {
     width: 100%;
     background-color: #fff;
@@ -95,13 +63,62 @@
     padding-top: 20rpx;
   }
   
+  .img-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20rpx;
+  }
+  
+  .img-item,
+  .chooseimg {
+    width: 31%;
+    aspect-ratio: 1;
+    position: relative;
+  }
+  
+  .img-item image {
+    width: 100%;
+    height: 100%;
+    border-radius: 10rpx;
+    object-fit: cover;
+  }
+  
+  .weui-uploader__input-box {
+    width: 100%;
+    height: 100%;
+    border: 1px solid #f2f2f2;
+    position: relative;
+    background-color: #fff;
+    border-radius: 10rpx;
+    box-sizing: border-box;
+  }
+  
+  /* 加号符号 */
+  .weui-uploader__input-box:before,
+  .weui-uploader__input-box:after {
+    content: " ";
+    position: absolute;
+    background-color: #ccc;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .weui-uploader__input-box:before {
+    width: 2px;
+    height: 40%;
+  }
+  .weui-uploader__input-box:after {
+    width: 40%;
+    height: 2px;
+  }
+  
   .tips {
     color: #666;
     font-size: 24rpx;
     padding-bottom: 20rpx;
   }
   
-  /* 按钮 */
+  /* 提交/重置按钮样式 */
   .submit, .reset {
     background-color: #D98F14;
     color: #FFFFFF;
@@ -110,14 +127,14 @@
     margin: 20rpx auto;
   }
   
-  /* 勾选框样式 */
+  /* 协议勾选框样式 */
   .van-checkbox-box {
     display: flex;
     font-size: 20rpx;
     margin-left: 5%;
   }
   
-  /* 暗色模式 */
+  /* 暗黑模式适配 */
   @media (prefers-color-scheme: dark) {
     page {
       background: #191919;
@@ -125,18 +142,32 @@
   
     .section,
     .chooseimg,
-    .content {
+    .content,
+    .imgsection {
       background-color: #292929;
     }
   
     .section__title,
-    .campus_item,
-    .radio_item {
+    .radio_item,
+    .campus_item {
       color: #ffffff;
     }
   
     .weui-uploader__input-box {
-      border-color: #191919;
+      border-color: #444;
+    }
+  
+    radio:checked + text {
+      color: #FFD657;
+    }
+  
+    .tips {
+      color: #aaa;
+    }
+  
+    .submit, .reset {
+      background-color: #D98F14;
+      color: #fff;
     }
   }
   
