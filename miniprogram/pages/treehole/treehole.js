@@ -20,7 +20,7 @@ Page({
       descs: [
         '全部',
         '吐槽',
-        '表白',
+        '倾诉',
         '心愿',
         '知乎',
       ],
@@ -61,7 +61,7 @@ Page({
       { "icon": "../../images/treehole.png", "name": "北理树洞","type":"treehole" },
       { "icon": "../../images/internship.png", "name": "兼职发布","type":"Parttime" },
       { "icon": "../../images/rent.png", "name": "租房信息","type":"rent" },
-      { "icon": "../../images/saylove.png", "name": "告白倾诉","type":"talk" },
+      { "icon": "../../images/saylove.png", "name": "情感倾诉","type":"talk" },
     ],
     hasUserInfo:false
   },

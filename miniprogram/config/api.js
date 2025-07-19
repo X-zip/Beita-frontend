@@ -1,5 +1,8 @@
 // const ApiRootUrl = 'https://localhost:8802/';
-const ApiRootUrl = 'https://[domain]/';
+const {
+    API_ROOT_URL,
+} = require('../utils/constants_private.js');
+const ApiRootUrl = API_ROOT_URL
 // const ApiRootUrl = 'https://192.168.1.94:8802/';
 
 module.exports = {

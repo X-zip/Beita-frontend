@@ -11,8 +11,8 @@ var sub = function (val) {
       }
     }
   
-    if (cleaned.length > 25) {
-      return cleaned.substring(0, 25) + "...";
+    if (cleaned.length > 40) {
+      return cleaned.substring(0, 40) + "...";
     } else {
       return cleaned;
     }

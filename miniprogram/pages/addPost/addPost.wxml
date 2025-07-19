@@ -37,7 +37,7 @@
         <radio-group name="radiogroup" class="section__radio">
           <block wx:for="{{['电脑电子','家居家电','游戏影视','衣包饰品','美容护肤','体育休闲','学习办公','母婴用品','宠物植物','食品饮品','求购','其他']}}" wx:for-index="idx" wx:for-item="item" wx:key="idx">
             <view class="radio_item">
-              <label><radio value="second_{{idx}}" name="radio" /><text>{{item}}</text></label>
+              <label><radio value="radio{{idx+10}}" name="radio" /><text>{{item}}</text></label>
             </view>
           </block>
         </radio-group>
@@ -48,9 +48,9 @@
       <view class="section">
         <view class="section__title">类型</view>
         <radio-group name="radiogroup" class="section__radio">
-          <block wx:for="{{['吐槽','表白','心愿','知乎']}}" wx:for-index="idx" wx:for-item="item" wx:key="idx">
+          <block wx:for="{{['吐槽','倾诉','心愿','知乎']}}" wx:for-index="idx" wx:for-item="item" wx:key="idx">
             <view class="radio_item">
-              <label><radio value="treehole_{{idx}}" name="radio" /><text>{{item}}</text></label>
+              <label><radio value="radio4{{idx}}" name="radio" /><text>{{item}}</text></label>
             </view>
           </block>
         </radio-group>
@@ -61,24 +61,19 @@
       <view class="section">
         <view class="section__title">类型</view>
         <radio-group name="radiogroup" class="section__radio">
-          <block wx:for="{{['求租','招租']}}" wx:for-index="idx" wx:for-item="item" wx:key="idx">
-            <view class="radio_item">
-              <label><radio value="rent_{{idx}}" name="radio" /><text>{{item}}</text></label>
-            </view>
-          </block>
+            <view class="radio_item"><label><radio value="rent" name="radio" />求租</label></view>
+            <view class="radio_item"><label><radio value="owner" name="radio" />招租</label></view>
         </radio-group>
       </view>
     </block>
+
 
     <block wx:if="{{option == 'Find'}}">
       <view class="section">
         <view class="section__title">类型</view>
         <radio-group name="radiogroup" class="section__radio">
-          <block wx:for="{{['失物招领','寻物启事']}}" wx:for-index="idx" wx:for-item="item" wx:key="idx">
-            <view class="radio_item">
-              <label><radio value="find_{{idx}}" name="radio" /><text>{{item}}</text></label>
-            </view>
-          </block>
+            <view class="radio_item"><label><radio value="radio2" name="radio" />失物招领</label></view>
+            <view class="radio_item"><label><radio value="radio3" name="radio" />寻物启事</label></view>
         </radio-group>
       </view>
     </block>

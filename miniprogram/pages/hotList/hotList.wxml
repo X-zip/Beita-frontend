@@ -31,7 +31,7 @@
                     <view wx:elif="{{task.radioGroup == 'radio3'}}" class="type" data-id="{{ task.id }}">寻物启事</view>
                     <view wx:elif="{{task.radioGroup == 'radio4'}}" class="type" data-id="{{ task.id }}">匿名 | 吐槽</view>
                     <view wx:elif="{{task.radioGroup == 'radio5'}}" class="type" data-id="{{ task.id }}">兼职发布</view>
-                    <view wx:elif="{{task.radioGroup == 'radio6'}}" class="type" data-id="{{ task.id }}">告白倾诉</view>
+                    <view wx:elif="{{task.radioGroup == 'radio6'}}" class="type" data-id="{{ task.id }}">情感倾诉</view>
                     <view wx:elif="{{task.radioGroup == 'radio7'}}" class="type" data-id="{{ task.id }}">打听求助</view>
                     <view wx:elif="{{task.radioGroup == 'radio10'}}" class="type" data-id="{{ task.id }}">电脑电子</view>
                     <view wx:elif="{{task.radioGroup == 'radio11'}}" class="type" data-id="{{ task.id }}">家居家电</view>
@@ -46,7 +46,7 @@
                     <view wx:elif="{{task.radioGroup == 'radio20'}}" class="type" data-id="{{ task.id }}">食品饮品</view>
                     <view wx:elif="{{task.radioGroup == 'radio21'}}" class="type" data-id="{{ task.id }}">其他</view>
                     <view wx:elif="{{task.radioGroup == 'radio40'}}" class="type" data-id="{{ task.id }}">匿名 | 吐槽</view>                 
-                    <view wx:elif="{{task.radioGroup == 'radio41'}}" class="type" data-id="{{ task.id }}">匿名 | 表白</view>
+                    <view wx:elif="{{task.radioGroup == 'radio41'}}" class="type" data-id="{{ task.id }}">匿名 | 倾诉</view>
                     <view wx:elif="{{task.radioGroup == 'radio42'}}" class="type" data-id="{{ task.id }}">匿名 | 心愿</view>
                     <view wx:elif="{{task.radioGroup == 'radio43'}}" class="type" data-id="{{ task.id }}">匿名 | 知乎</view>          
                 </view>

@@ -6,12 +6,14 @@ const token = require('../../utils/qntoken.js')
 const qiniuUploader = require("../../utils/qiniuUploader_shudong.js")
 const api = require('../../config/api.js')
 const CryptoJS = require('../../utils/aes.js')
-
-// 常量定义
-const MAX_IMAGE_COUNT = 3
-const COMPRESS_WIDTH = 400
-const AES_KEY = CryptoJS.enc.Utf8.parse('[password]')
-const AES_IV = CryptoJS.enc.Utf8.parse('[password]')
+const {
+    AES_KEY,
+    AES_IV,
+    QINIU_CONFIG,
+    SUBSCRIBE_TEMPLATE_IDS,
+    MAX_IMAGE_COUNT,
+} = require('../../utils/constants_private.js');
+  
 
 // 工具函数
 function showToast(title, icon = 'none') {
@@ -86,8 +88,8 @@ Page({
 
   formSubmit(e) {
     wx.requestSubscribeMessage({
-      tmplIds: ['w5kbqlvMy5KVxqCDtQgVsDgcV_TCS63xrLKVAbpH9aQ']
-    })
+        tmplIds: [SUBSCRIBE_TEMPLATE_IDS]
+    });
 
     const values = e.detail.value
     const option = this.data.option
@@ -186,10 +188,10 @@ Page({
   uploadImageToQiniu(filePath) {
     showLoading('上传图片中...')
     const uptoken = token.token({
-      ak: 'wnkRCtmFWg7DZhCLjT72UOAT9WCdaI-TkPi8ncHr',
-      sk: '_8ZESS4_ZA0fqCMekohRgyVbWT01C7qi12Xj2OM7',
-      bkt: 'beifanggx'
-    })
+        ak: QINIU_CONFIG.ak,
+        sk: QINIU_CONFIG.sk,
+        bkt: QINIU_CONFIG.bkt
+    });
 
     qiniuUploader.upload(filePath, res => {
       const url = 'http://' + res.imageURL

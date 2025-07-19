@@ -4,6 +4,10 @@ const api = require('../../config/api.js')
 const token = require('../../utils/qntoken.js')
 const qiniuUploader = require("../../utils/qiniuUploader_touxiang.js")
 import Toast from '@vant/weapp/toast/toast'
+const {
+    QINIU_CONFIG,
+} = require('../../utils/constants_private.js');
+
 
 Page({
   data: {
@@ -97,10 +101,10 @@ Page({
 
   gettoken() {
     const tokendata = {
-      ak: 'wnkRCtmFWg7DZhCLjT72UOAT9WCdaI-TkPi8ncHr',
-      sk: '_8ZESS4_ZA0fqCMekohRgyVbWT01C7qi12Xj2OM7',
-      bkt: 'beifanggx',
-      cdn: ''
+        ak: QINIU_CONFIG.ak,
+        sk: QINIU_CONFIG.sk,
+        bkt: QINIU_CONFIG.bkt,
+        cdn: ''
     }
     this.setData({ uptoken: token.token(tokendata) })
   },

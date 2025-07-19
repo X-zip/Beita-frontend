@@ -13,7 +13,7 @@
       <!-- <image wx:if="{{ is_self }}" class="up_img" src='../../images/up.png' bindtap='updatetime' mode='aspectFill'></image> -->     
       <text class="task_title" wx:if="{{task.radioGroup == 'radio4'}}">树洞 | 吐槽</text>
       <text class="task_title" wx:elif="{{task.radioGroup == 'radio40'}}">树洞 | 吐槽</text>
-      <text class="task_title" wx:elif="{{task.radioGroup == 'radio41'}}">树洞 | 表白</text>
+      <text class="task_title" wx:elif="{{task.radioGroup == 'radio41'}}">树洞 | 倾诉</text>
       <text class="task_title" wx:elif="{{task.radioGroup == 'radio42'}}">树洞 | 心愿</text>
       <text class="task_title" wx:elif="{{task.radioGroup == 'radio43'}}">树洞 | 知乎</text>
       <text class="task_title" wx:elif="{{task.radioGroup == 'radio6'}}">告白</text>
@@ -424,7 +424,7 @@
       <!-- <image wx:if="{{ is_self }}" class="up_img" src='../../images/up.png' bindtap='updatetime' mode='aspectFill'></image> -->     
       <text class="task_title" wx:if="{{task.radioGroup == 'radio4'}}">树洞 | 吐槽</text>
       <text class="task_title" wx:elif="{{task.radioGroup == 'radio40'}}">树洞 | 吐槽</text>
-      <text class="task_title" wx:elif="{{task.radioGroup == 'radio41'}}">树洞 | 表白</text>
+      <text class="task_title" wx:elif="{{task.radioGroup == 'radio41'}}">树洞 | 倾诉</text>
       <text class="task_title" wx:elif="{{task.radioGroup == 'radio42'}}">树洞 | 心愿</text>
       <text class="task_title" wx:elif="{{task.radioGroup == 'radio43'}}">树洞 | 知乎</text>
       <text class="task_title" wx:elif="{{task.radioGroup == 'radio6'}}">告白</text>

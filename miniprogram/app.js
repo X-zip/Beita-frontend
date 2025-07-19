@@ -1,5 +1,9 @@
 //app.js
 const api = require("./config/api")
+const {
+    SUBSCRIBE_TEMPLATE_IDS,
+    VERIFY_TEMPLATE_ID,
+} = require('./utils/constants_private.js');
 
 App({
   onLaunch: function() {
@@ -27,7 +31,7 @@ App({
             }
         })
         wx.request({
-            url: 'https://[domain]/getMember',
+            url: api.GetMember,
             method:'GET',
             data: {
               openid: wx.getStorageSync('openid'),
@@ -86,7 +90,7 @@ App({
                         }
                     })
                     wx.request({
-                        url: 'https://[domain]/getMember',
+                        url: api.GetMember,
                         method:'GET',
                         data: {
                           openid: res.data.result.openid,
@@ -159,8 +163,8 @@ App({
     bottomEdge:0,
     leftEdge:0,
     rightEdge:0,
-    template_id:"w5kbqlvMy5KVxqCDtQgVsDgcV_TCS63xrLKVAbpH9aQ",
-    verify_template:"yodvJrTB7FBCbqhOBgXhmN4AQQRFCs7w3yWUcCE06K4",
+    template_id:SUBSCRIBE_TEMPLATE_IDS,
+    verify_template:VERIFY_TEMPLATE_ID,
     avatarList: {
         img: [
           'http://yqtech.ltd/animal/1.png',

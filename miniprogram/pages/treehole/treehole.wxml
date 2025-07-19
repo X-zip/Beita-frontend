@@ -103,7 +103,7 @@
             <view wx:else class="campus" data-id="{{ task.id }}"></view>
             <view wx:if="{{task.radioGroup == 'radio4'}}" class="type" data-id="{{ task.id }}">树洞 | 吐槽</view>
             <view wx:elif="{{task.radioGroup == 'radio40'}}" class="type" data-id="{{ task.id }}">树洞 | 吐槽</view>                 
-            <view wx:elif="{{task.radioGroup == 'radio41'}}" class="type" data-id="{{ task.id }}">树洞 | 表白</view>
+            <view wx:elif="{{task.radioGroup == 'radio41'}}" class="type" data-id="{{ task.id }}">树洞 | 倾诉</view>
             <view wx:elif="{{task.radioGroup == 'radio42'}}" class="type" data-id="{{ task.id }}">树洞 | 心愿</view>
             <view wx:elif="{{task.radioGroup == 'radio43'}}" class="type" data-id="{{ task.id }}">树洞 | 知乎</view>       
           </view>
@@ -112,7 +112,7 @@
         <view class="title_box" data-id="{{ task.id }}">
           <view class="task_title" data-id="{{ task.id }}"  style="width: {{ task.img[0] ? '100%' : '160%' }};">
             <text class="title" data-id="{{ task.id }}" wx:if="{{task.img[0]}}">{{ title_tools.sub(task.title)}}</text>
-            <text class="title" data-id="{{ task.id }}" wx:else>{{ title_tools_long.sub(task.title)}}</text>
+            <text class="title" data-id="{{ task.id }}" wx:else>{{ title_tools_long.sub(task.content)}}</text>
           </view>
           <view class="button" data-id="{{ task.id }}">
             <view wx:if="{{task.watchNum == '0' }}" class="hot-box">
@@ -189,7 +189,7 @@
             <view wx:else class="campus" data-id="{{ task.id }}"></view>
             <view wx:if="{{task.radioGroup == 'radio4'}}" class="type" data-id="{{ task.id }}">树洞 | 吐槽</view>
             <view wx:elif="{{task.radioGroup == 'radio40'}}" class="type" data-id="{{ task.id }}">树洞 | 吐槽</view>                 
-            <view wx:elif="{{task.radioGroup == 'radio41'}}" class="type" data-id="{{ task.id }}">树洞 | 表白</view>
+            <view wx:elif="{{task.radioGroup == 'radio41'}}" class="type" data-id="{{ task.id }}">树洞 | 倾诉</view>
             <view wx:elif="{{task.radioGroup == 'radio42'}}" class="type" data-id="{{ task.id }}">树洞 | 心愿</view>
             <view wx:elif="{{task.radioGroup == 'radio43'}}" class="type" data-id="{{ task.id }}">树洞 | 知乎</view>       
           </view>
@@ -198,7 +198,7 @@
         <view class="title_box" data-id="{{ task.id }}">
           <view class="task_title" data-id="{{ task.id }}"  style="width: {{ task.img[0] ? '100%' : '160%' }};">
             <text class="title" data-id="{{ task.id }}" wx:if="{{task.img[0]}}">{{ title_tools.sub(task.title)}}</text>
-            <text class="title" data-id="{{ task.id }}" wx:else>{{ title_tools_long.sub(task.title)}}</text>
+            <text class="title" data-id="{{ task.id }}" wx:else>{{ title_tools_long.sub(task.content)}}</text>
           </view>
           <view class="button" data-id="{{ task.id }}">
             <view wx:if="{{task.watchNum == '0' }}" class="hot-box">
@@ -276,7 +276,7 @@
             <view wx:else class="campus" data-id="{{ task.id }}"></view>
             <view wx:if="{{task.radioGroup == 'radio4'}}" class="type" data-id="{{ task.id }}">树洞 | 吐槽</view>
             <view wx:elif="{{task.radioGroup == 'radio40'}}" class="type" data-id="{{ task.id }}">树洞 | 吐槽</view>                 
-            <view wx:elif="{{task.radioGroup == 'radio41'}}" class="type" data-id="{{ task.id }}">树洞 | 表白</view>
+            <view wx:elif="{{task.radioGroup == 'radio41'}}" class="type" data-id="{{ task.id }}">树洞 | 倾诉</view>
             <view wx:elif="{{task.radioGroup == 'radio42'}}" class="type" data-id="{{ task.id }}">树洞 | 心愿</view>
             <view wx:elif="{{task.radioGroup == 'radio43'}}" class="type" data-id="{{ task.id }}">树洞 | 知乎</view>       
           </view>
@@ -285,7 +285,7 @@
         <view class="title_box" data-id="{{ task.id }}">
           <view class="task_title" data-id="{{ task.id }}"  style="width: {{ task.img[0] ? '100%' : '160%' }};">
             <text class="title" data-id="{{ task.id }}" wx:if="{{task.img[0]}}">{{ title_tools.sub(task.title)}}</text>
-            <text class="title" data-id="{{ task.id }}" wx:else>{{ title_tools_long.sub(task.title)}}</text>
+            <text class="title" data-id="{{ task.id }}" wx:else>{{ title_tools_long.sub(task.content)}}</text>
           </view>
           <view class="button" data-id="{{ task.id }}">
             <view wx:if="{{task.watchNum == '0' }}" class="hot-box">
@@ -363,7 +363,7 @@
             <view wx:else class="campus" data-id="{{ task.id }}"></view>
             <view wx:if="{{task.radioGroup == 'radio4'}}" class="type" data-id="{{ task.id }}">树洞 | 吐槽</view>
             <view wx:elif="{{task.radioGroup == 'radio40'}}" class="type" data-id="{{ task.id }}">树洞 | 吐槽</view>                 
-            <view wx:elif="{{task.radioGroup == 'radio41'}}" class="type" data-id="{{ task.id }}">树洞 | 表白</view>
+            <view wx:elif="{{task.radioGroup == 'radio41'}}" class="type" data-id="{{ task.id }}">树洞 | 倾诉</view>
             <view wx:elif="{{task.radioGroup == 'radio42'}}" class="type" data-id="{{ task.id }}">树洞 | 心愿</view>
             <view wx:elif="{{task.radioGroup == 'radio43'}}" class="type" data-id="{{ task.id }}">树洞 | 知乎</view>       
           </view>
@@ -372,7 +372,7 @@
         <view class="title_box" data-id="{{ task.id }}">
           <view class="task_title" data-id="{{ task.id }}" style="width: {{ task.img[0] ? '100%' : '160%' }};">
             <text class="title" data-id="{{ task.id }}" wx:if="{{task.img[0]}}">{{ title_tools.sub(task.title)}}</text>
-            <text class="title" data-id="{{ task.id }}" wx:else>{{ title_tools_long.sub(task.title)}}</text>
+            <text class="title" data-id="{{ task.id }}" wx:else>{{ title_tools_long.sub(task.content)}}</text>
           </view>
           <view class="button" data-id="{{ task.id }}">
             <view wx:if="{{task.watchNum == '0' }}" class="hot-box">

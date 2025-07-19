@@ -15,12 +15,12 @@ exports.main = async (event, context) => {
         },
         "thing2": {
           "value": event.comment
-        },
+        },s
         "date3": {
           "value": event.time
         },
       },
-      "templateId": 'w5kbqlvMy5KVxqCDtQgVsDgcV_TCS63xrLKVAbpH9aQ',
+      "templateId": '1',
     })
     return result.result.errCode
   } catch (err) {

@@ -6,6 +6,13 @@ const token = require('../../utils/qntoken.js')
 const qiniuUploader = require("../../utils/qiniuUploader.js");
 var api = require('../../config/api.js');
 var CryptoJS = require('../../utils/aes.js')
+const {
+    AES_KEY,
+    AES_IV,
+    QINIU_CONFIG,
+    SUBSCRIBE_TEMPLATE_IDS,
+} = require('../../utils/constants_private.js');
+
 Page({
 
   /**
@@ -262,7 +269,7 @@ Page({
       var page = pages[0].route + '?id=' + pk
     }
     wx.requestSubscribeMessage({
-      tmplIds: ['w5kbqlvMy5KVxqCDtQgVsDgcV_TCS63xrLKVAbpH9aQ'],
+      tmplIds: [SUBSCRIBE_TEMPLATE_IDS],
       success(res) {
         if (wx.getStorageSync('subNum')) {
           var num = Number(wx.getStorageSync('subNum'))
@@ -692,8 +699,8 @@ Page({
         if (sm.confirm) {
           // 用户点击了确定 可以调用删除方法了  
           var pk = e.target.dataset.id
-          var key = '[password]';
-          var iv = '[password]';
+          var key = AES_KEY;
+          var iv = AES_IV;
           key = CryptoJS.enc.Utf8.parse(key);
           iv = CryptoJS.enc.Utf8.parse(iv);
           var param = '{"id":"'+pk+'"}'
@@ -885,9 +892,9 @@ Page({
 
   gettoken() {
     var tokendata = []
-    tokendata.ak = 'wnkRCtmFWg7DZhCLjT72UOAT9WCdaI-TkPi8ncHr'
-    tokendata.sk = '_8ZESS4_ZA0fqCMekohRgyVbWT01C7qi12Xj2OM7'
-    tokendata.bkt = 'beifanggx'
+    tokendata.ak = QINIU_CONFIG.ak
+    tokendata.sk = QINIU_CONFIG.sk,
+    tokendata.bkt = QINIU_CONFIG.bkt
     tokendata.cdn = ''
     this.data.tokendata = tokendata
     var uptoken = token.token(tokendata)

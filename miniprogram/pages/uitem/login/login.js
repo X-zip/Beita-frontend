@@ -3,6 +3,11 @@ var app = getApp();
 const token = require('../../../utils/qntoken.js')
 const qiniuUploader = require("../../../utils/qiniuUploader_touxiang.js");
 const api = require('../../../config/api.js');
+const {
+    QINIU_CONFIG,
+    SUBSCRIBE_TEMPLATE_IDS,
+} = require('../../utils/constants_private.js');
+
 Page({
 
     /**
@@ -42,7 +47,7 @@ Page({
             },
         })
         wx.requestSubscribeMessage({
-          tmplIds: ['w5kbqlvMy5KVxqCDtQgVsDgcV_TCS63xrLKVAbpH9aQ'],
+          tmplIds: [SUBSCRIBE_TEMPLATE_IDS],
           success(res) {
             console.log(res.data)
             if (wx.getStorageSync('subNum')) {
@@ -102,9 +107,9 @@ Page({
     
       gettoken() {
         var tokendata = []
-        tokendata.ak = 'wnkRCtmFWg7DZhCLjT72UOAT9WCdaI-TkPi8ncHr'
-        tokendata.sk = '_8ZESS4_ZA0fqCMekohRgyVbWT01C7qi12Xj2OM7'
-        tokendata.bkt = 'beifanggx'
+        tokendata.ak = QINIU_CONFIG.ak
+        tokendata.sk = QINIU_CONFIG.sk,
+        tokendata.bkt = QINIU_CONFIG.bkt
         tokendata.cdn = ''
         this.data.tokendata = tokendata
         var uptoken = token.token(tokendata)

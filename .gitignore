@@ -12,3 +12,6 @@ $RECYCLE.BIN/
 
 # Node.js
 node_modules/
+
+# 忽略私密常量配置文件
+utils/constants_private.js

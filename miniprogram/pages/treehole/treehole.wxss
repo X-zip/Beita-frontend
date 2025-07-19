@@ -92,6 +92,7 @@ border-radius: 20rpx;
   height: 100%;
   float: left;
 }
+
 .box-right {
   position: relative;
   margin-left: 60%;
@@ -111,7 +112,7 @@ border-radius: 20rpx;
 .names_fl {
   font-size: 24rpx;
   color: black;
-  margin-left: 20rpx;
+  /* margin-left: 2%; */
   line-height: 34px;
   font-weight: 800;
 }
@@ -119,6 +120,9 @@ border-radius: 20rpx;
 .head {
   height: 30%;
   line-height: 30%;
+  display: flex;
+  flex-direction: row;
+  align-items: center; 
 
 }
 .title_box {  
@@ -199,7 +203,7 @@ border-radius: 20rpx;
   font-size: 20rpx;
   color: black;
   float: left;
-  margin-left: 10rpx;
+  /* margin-left: 10rpx; */
 }
 
 
@@ -350,3 +354,4 @@ border-radius: 20rpx;
     background-color: #292929 !important;
   }
 }
+

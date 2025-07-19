@@ -2,6 +2,12 @@
 var app = getApp();
 var api = require('../../../config/api.js');
 var CryptoJS = require('../../../utils/aes.js')
+
+const {
+    AES_KEY,
+    AES_IV,
+} = require('../../utils/constants_private.js');
+
 Page({
 
   /**
@@ -59,8 +65,8 @@ Page({
           // 用户点击了确定 可以调用删除方法了  
           console.log(e.target)
           var pk = e.target.dataset.id
-          var key = '[password]';
-          var iv = '[password]';
+          var key = AES_KEY;
+          var iv = AES_IV;
           key = CryptoJS.enc.Utf8.parse(key);
           iv = CryptoJS.enc.Utf8.parse(iv);
           var param = '{"id":"'+pk+'"}'
