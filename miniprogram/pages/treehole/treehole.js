@@ -7,6 +7,7 @@ Page({
    */
   data: {
     tasks: [],
+    lastId: 9999999,
     hidden: true,
     indicatorDots: true,
     autoplay: true,
@@ -109,6 +110,7 @@ Page({
     that.setData({
       noMore: false,
       tasks:[],
+      lastId:9999999,
       height: wx.getSystemInfoSync().windowHeight,
       width: wx.getSystemInfoSync().windowWidth
     })
@@ -201,13 +203,15 @@ Page({
     } else if (e==4) {
       radio = ['radio43']
     } 
-    var length = old_data.length
-    console.log(radio)
+    // var length = old_data.length
+    var cursor = that.data.lastId;
+    console.log("type",parseInt(t))
+    console.log("radio",radio)
     wx.request({
       url: api.GettaskbyType,
       method:'GET',
       data: {
-        length:length,
+        length:cursor,
         radioGroup: radio,
         type:parseInt(t)
       },
@@ -219,6 +223,13 @@ Page({
         var data = res.data.taskList
         for (var i in data){
           data[i].img = data[i].img.replace('[','').replace(']','').replace('\"','').replace('\"','').split(',')
+        }
+        console.log("lastId:", data[data.length - 1].id)
+        if (data.length > 0) {
+          that.setData({ lastId: data[data.length - 1].id });
+        } else {
+          // 没有新数据，标记为无更多
+          that.setData({ noMore: true });
         }
         console.log(data)
         wx.hideLoading()
@@ -324,6 +335,7 @@ Page({
       console.log(_this.data.currentSmallTab)
       _this.setData({
         tasks:[],
+        lastId:9999999,
       });
       _this.getTaskInfo(_this.data.currentTab,_this.data.currentSmallTab)
     }
@@ -347,6 +359,7 @@ Page({
     }
     _this.setData({
       tasks:[],
+      lastId:9999999
     });
     _this.getTaskInfo(_this.data.currentTab,_this.data.currentSmallTab)
   },
@@ -368,7 +381,8 @@ Page({
       mask: true,
     })
     this.setData({
-      tasks: []
+      tasks: [],
+      lastId:9999999
     })
     var e = this.data.currentTab
     var t = this.data.currentSmallTab
