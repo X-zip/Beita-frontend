@@ -207,7 +207,6 @@ Page({
     var cursor = that.data.lastId;
     console.log("type",parseInt(t))
     console.log("radio",radio)
-    
     wx.request({
       url: api.GettaskbyTypeCursor,
       method:'GET',
@@ -224,6 +223,13 @@ Page({
         var data = res.data.taskList
         for (var i in data){
           data[i].img = data[i].img.replace('[','').replace(']','').replace('\"','').replace('\"','').split(',')
+        }
+        console.log("lastId:", data[data.length - 1].id)
+        if (data.length > 0) {
+          that.setData({ lastId: data[data.length - 1].id });
+        } else {
+          // 没有新数据，标记为无更多
+          that.setData({ noMore: true });
         }
         console.log(data)
         console.log("lastId:", data[data.length - 1].id)
