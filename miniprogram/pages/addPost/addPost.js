@@ -120,10 +120,10 @@ Page({
     const title = values.Title?.trim() || content.slice(0, 30)
     const dataToEncrypt = { content, title, verify: 'zzyq', c_time: new Date() }
     const encrypted = encryptContent(dataToEncrypt)
-
+    
     check.checkString(content + title, app.globalData.openid).then(result => {
       if (!result) return showToast('有违规内容！')
-
+      
       wx.request({
         url: api.AddTask,
         method: 'POST',
@@ -133,7 +133,7 @@ Page({
           price: values.Price || '',
           wechat: values.Wechat || '',
           avatar,
-          radioGroup: values.radiogroup || 'radio7',
+          radioGroup: values.radiogroup || (option === "Parttime" ? 'radio5' : 'radio7'),
           campusGroup: values.campusGroup || 2,
           userName: userName.replace('匿名', 'happy'),
           img: this.data.imgOriList,
@@ -146,6 +146,7 @@ Page({
         },
         header: { "Content-Type": "application/x-www-form-urlencoded" },
         success: res => {
+          console.log(res.data)
           const code = res.data.code
           const banMap = { 1: "1天", 3: "3天", 7: "7天" }
           if (banMap[code]) {

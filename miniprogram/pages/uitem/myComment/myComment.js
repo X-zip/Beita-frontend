@@ -57,16 +57,15 @@ Page({
           // 用户点击了确定 可以调用删除方法了  
           console.log(e.target.dataset.id)
           var pk = e.target.dataset.id
-          const db = wx.cloud.database()
+        //   const db = wx.cloud.database()
           wx.request({
             url: api.DeleteComment,
-            method:'GET',
+            method:'POST',
             data: {
+              openid:app.globalData.openid,
               pk:parseInt(pk)
             },
-            header: {
-              'content-type': 'application/json' // 默认值
-            },
+            header: { "Content-Type": "application/json" },
             success (res) {
               wx.showToast({
                 title: '删除成功！',

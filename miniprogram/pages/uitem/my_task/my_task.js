@@ -6,7 +6,16 @@ var CryptoJS = require('../../../utils/aes.js')
 const {
     AES_KEY,
     AES_IV,
-} = require('../../utils/constants_private.js');
+} = require('../../../utils/constants_private.js');
+
+function encryptContent(contentObj) {
+    const encrypted = CryptoJS.AES.encrypt(JSON.stringify(contentObj), AES_KEY, {
+      iv: AES_IV,
+      mode: CryptoJS.mode.ECB,
+      padding: CryptoJS.pad.Pkcs7
+    })
+    return encrypted.ciphertext.toString().toUpperCase()
+}
 
 Page({
 
@@ -69,17 +78,14 @@ Page({
           var iv = AES_IV;
           key = CryptoJS.enc.Utf8.parse(key);
           iv = CryptoJS.enc.Utf8.parse(iv);
-          var param = '{"id":"'+pk+'"}'
-          var encrypted = CryptoJS.AES.encrypt(param, key, {
-            iv: iv,
-            mode: CryptoJS.mode.ECB,
-            padding: CryptoJS.pad.Pkcs7
-          });
-          encrypted = encrypted.ciphertext.toString().toUpperCase();  
+          const dataToEncrypt = { id: pk}
+          const encrypted = encryptContent(dataToEncrypt)
+          console.log("encrypted:",encrypted)
           wx.request({
             url: api.DeleteTask,
-            method:'GET',
+            method:'POST',
             data: {
+              openid:app.globalData.openid,
               pk:encrypted
             },
             header: {

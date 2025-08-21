@@ -3,14 +3,17 @@ const {
     API_ROOT_URL,
 } = require('../utils/constants_private.js');
 const ApiRootUrl = API_ROOT_URL
-// const ApiRootUrl = 'https://192.168.1.94:8802/';
+// const ApiRootUrl = 'https://192.168.31.134:8802/';
+// const ApiRootUrl = 'https://www.yqtech.ltd:8882/'
 
 module.exports = {
   GettaskbyType: ApiRootUrl + 'gettaskbyType', //获取首页帖子
+  GettaskbyTypeCursor: ApiRootUrl + 'gettaskbyTypeCursor', //获取首页帖子
   GetBanner: ApiRootUrl + 'getBanner', //获取首页banner
   GetBanner2: ApiRootUrl + 'getBanner2', //获取首页banner
 //   AddTask: ApiRootUrl + 'addtask', // 发布帖子
-  AddTask: ApiRootUrl + 'addtaskXiaoyuan',
+//   AddTask: ApiRootUrl + 'addtaskXiaoyuan',
+  AddTask: ApiRootUrl + 'addtaskVerify',
   AddRank: ApiRootUrl + 'addRank', // 合成北理工 提交成绩
   GetRank: ApiRootUrl + 'getRankList', // 合成北理工 排名
   Login: ApiRootUrl + 'wxLogin',
@@ -18,7 +21,8 @@ module.exports = {
   ImgCheck:ApiRootUrl + 'imgCheck',
   SendComment:ApiRootUrl + 'sendComment',
   GetQRList:ApiRootUrl + 'getQRList',
-  DeleteTask:ApiRootUrl + 'deleteTask',
+//   DeleteTask:ApiRootUrl + 'deleteTask',
+  DeleteTask:ApiRootUrl + 'deleteTaskVerify',
   AddVerifyUserQuanzi:ApiRootUrl + 'addVerifyUserQuanzi',
   SendEmailBeita:ApiRootUrl + 'sendEmailBeita',
   CheckVerifyUserQuanzi:ApiRootUrl + 'checkVerifyUserQuanzi',
@@ -27,8 +31,10 @@ module.exports = {
   AddLike:ApiRootUrl + 'addlike',
   GetlikeByPk:ApiRootUrl + 'getlikeByPk',
   DeleteLike:ApiRootUrl + 'deleteLike',
-  Addcomment:ApiRootUrl + 'addcomment',
-  DeleteComment:ApiRootUrl + 'deleteComment',
+//   Addcomment:ApiRootUrl + 'addcomment',
+  Addcomment:ApiRootUrl + 'addcommentVerify',
+//   DeleteComment:ApiRootUrl + 'deleteComment',
+  DeleteComment:ApiRootUrl + 'deleteCommentVerify',
   CheckBlackList:ApiRootUrl + 'checkBlackList',
   GettaskbyId:ApiRootUrl + 'gettaskbyId',
   GetSecondLevel:ApiRootUrl + 'getSecondLevel',

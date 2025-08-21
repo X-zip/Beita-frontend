@@ -1,89 +1,30 @@
-.qr-list {
-  width: 90%;
-  margin-left: 5%;
-  margin-top: 40rpx;
-  background-color: #f6f6f6;
-  display: flex;
-  justify-content: space-between;
-  border-radius: 20rpx;
-}
-
-.text-list {
-  width: 90%;
-  margin-left: 5%;
-  margin-top: -60rpx;
-  background-color: #f6f6f6;
-  display: flex;
-  justify-content: space-between;
-  border-radius: 20rpx;
-}
-
-.text {
-  font-size: 32rpx;
-  font-weight: 600;
-  color: black;
-  text-align: center;
-  flex-basis: 100%;
-  padding: 20rpx;
-}
-
-
+.page { padding: 24rpx; background: #f7f8fa; box-sizing: border-box; }
+.tip { font-size: 24rpx; color: #888; line-height: 1.6; margin-bottom: 24rpx; }
+.section-title { font-size: 28rpx; color: #323233; margin: 16rpx 0; }
 .item {
-  margin-top: 40rpx;
-  margin-bottom: 40rpx;
-  align-items: center;
-  flex-basis: 100%;
-  padding: 20rpx;
-}
-
-.image {
-  width: 50%;
-  margin-left: 25%;
-}
-.title {
-  font-weight: 64rpx;
-  margin-left: 5%;
-  margin-top: 50rpx;
-  font-weight: 600;
-  color: black;
-}
-
-
-
-
-.copy-logo {
-  width: 24rpx;
-}
-
-.copy-right {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  margin-top: 40rpx;
+  background: #fff;
+  padding: 20rpx;
+  border-radius: 12rpx;
+  margin-bottom: 16rpx;
 }
+.item-main { flex: 1; }
+.item-title { font-size: 28rpx; font-weight: 600; color: #222; }
+.item-sub { font-size: 24rpx; color: #666; word-break: break-all; margin-top: 4rpx; }
+.qr-card {
+  background: #fff;
+  padding: 16rpx;
+  text-align: center;
+  border-radius: 12rpx;
+  margin-bottom: 16rpx;
+}
+.qr-img { width: 160rpx; height: 160rpx; }
+.qr-name { font-size: 24rpx; margin-top: 8rpx; color: #444; }
+.footer { margin-top: 28rpx; }
+/* 原样保留你的其他样式，只补这几个覆盖 */
+.item { padding: 16rpx; }
+.item-actions { margin-left: 8rpx; display: flex; align-items: center; }
+.item-actions .van-button { padding: 0 12rpx; line-height: 1.8; } /* 更紧凑 */
 
-.copy-text {
-  font-size: 24rpx;
-  color: #999;
-  font-weight: 400;
-}
-
-@media (prefers-color-scheme: dark) {
-  /* DarkMode 下的样式 start */
-  page {
-    background: #191919;
-  }
-  .qr-list {
-    background-color: #292929;
-  }
-  .text-list {
-    background-color: #292929;
-  }
-  .text {
-    color: white;
-  }
- .title{
-   color: white;
- }
-  /* DarkMode 下的样式 end */
-}

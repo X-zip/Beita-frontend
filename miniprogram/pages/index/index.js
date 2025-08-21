@@ -12,6 +12,7 @@ Page({
     }],
     noMore: false,
     tasks: [],
+    lastId: 9999999,
     hidden: true,
     addflag: true, //判断是否显示搜索框右侧部分
     addimg: '../../images/search_icon.png',
@@ -158,17 +159,11 @@ Page({
     var id = event.target.dataset.id;
     var that = this
     console.log(id)
-    if (id == '../second/second' || id == '../find/find' || id == '../qr/qr') {
-      wx.navigateTo({
-        url: id,
-      })
-    }else if (id == '../treehole/treehole') {
-      wx.switchTab({
-        url: id,
-      })
-    } else if (id.indexOf('pages/detail') != -1) {
+    if (id.indexOf('pages') != -1) {
+        console.log('/'+id)
         wx.navigateTo({
           url: '/'+id,
+        // url: "/pages/uitem/contact/contact"
         })
     } else if (id.indexOf('http://') != -1) {
       wx.previewImage({
@@ -224,6 +219,7 @@ Page({
     that.setData({
       noMore: false,
       tasks:[],
+      lastId:9999999,
       height: wx.getSystemInfoSync().windowHeight,
       width: wx.getSystemInfoSync().windowWidth,
     })
@@ -426,11 +422,16 @@ Page({
     } else if (e==6){
       var radio = ['radio6']
     }
+    var cursor = that.data.lastId;
+    console.log("type",parseInt(t))
+    console.log("radio",radio)
+    console.log("cursor",cursor)
+
     wx.request({
-      url: api.GettaskbyType,
+      url: api.GettaskbyTypeCursor,
       method:'GET',
       data: {
-        length:length,
+        length:cursor,
         radioGroup: radio,
         type:parseInt(t)+4
       },
@@ -444,6 +445,16 @@ Page({
         for (var i in data){
           data[i].img = data[i].img.replace('[','').replace(']','').replace('\"','').replace('\"','').split(',')
         }
+        console.log(data)
+        console.log("lastId:", data[data.length - 1].id)
+        if (data.length > 0) {
+          that.setData({ lastId: data[data.length - 1].id });
+        } else {
+          // 没有新数据，标记为无更多
+          that.setData({ noMore: true });
+        }
+        console.log(data)
+        wx.hideLoading()
         that.setData({
           tasks: old_data.concat(data)
         })
@@ -499,6 +510,7 @@ Page({
       mask: true,
     })
     this.setData({
+      lastId:9999999,
       tasks: []
     })
     var e = this.data.currentTab
@@ -604,6 +616,7 @@ Page({
       });
     }
     _this.setData({
+      lastId:9999999,
       tasks:[],
     });
     _this.getTaskInfo(_this.data.currentTab,_this.data.currentSmallTab)
@@ -628,6 +641,7 @@ Page({
       });
       console.log(_this.data.currentSmallTab)
       _this.setData({
+        lastId:9999999,
         tasks:[],
       });
       _this.getTaskInfo(_this.data.currentTab,_this.data.currentSmallTab)
