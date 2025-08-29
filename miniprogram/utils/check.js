@@ -1,8 +1,9 @@
+const api = require("../config/api")
 
 async function checkString(content,openid) {
     return new Promise((resolve, reject) => {
       wx.request({
-        url: "https://www.yqtech.ltd:8802/msgCheck",
+        url: api.MsgCheck,
         method:'GET',
         data: {
           openid,openid,

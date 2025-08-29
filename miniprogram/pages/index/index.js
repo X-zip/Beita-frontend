@@ -430,7 +430,7 @@ Page({
       url: api.GettaskbyType,
       method:'GET',
       data: {
-        length:length,
+        length:100,
         radioGroup: radio,
         type:parseInt(t)+4
       },
