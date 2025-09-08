@@ -1,0 +1,4 @@
+var random = function (val, UV, c_time) {
+    return val
+};
+module.exports.random = random;

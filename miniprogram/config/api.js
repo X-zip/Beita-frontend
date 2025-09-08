@@ -42,4 +42,6 @@ module.exports = {
   GetCommentByOpenid:ApiRootUrl + 'getCommentByOpenid',
   GetCommentByApplyto:ApiRootUrl + 'getCommentByApplyto',
   Suggestion:ApiRootUrl + 'suggestion',
+  GetPushedAnnouncements: ApiRootUrl + 'api/announcements/list/pushed',
+  UpdateLastNoticeId: ApiRootUrl + 'api/announcements/update-last-notice-id',
 };

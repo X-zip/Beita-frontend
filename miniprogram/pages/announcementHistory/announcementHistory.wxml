@@ -1,0 +1,26 @@
+<view>
+    <!-- 公告列表 -->
+    <view class="announcement-item"
+          wx:for="{{announcements}}"
+          wx:for-item="item"
+          wx:key="id"
+          data-index="{{index}}"
+          bindtap="showAnnouncementDetail">
+        <view class="announcement-header">
+            <text class="announcement-title">{{item.title}}</text>
+            <text class="announcement-time">{{item.time}}</text>
+        </view>
+    </view>
+
+    <!-- 弹窗遮罩 -->
+    <view class="modal-mask" wx:if="{{showModal}}" bindtap="hideModal"></view>
+
+    <!-- 弹窗内容 -->
+    <view class="modal-dialog" wx:if="{{showModal}}">
+        <view class="modal-title">{{currentAnnouncement.title}}</view>
+        <view class="modal-content">{{currentAnnouncement.content}}</view>
+        <image wx:if="{{currentAnnouncement.imgurl}}" src="{{currentAnnouncement.imgurl}}" mode="widthFix" class="announcement-image"></image>
+        <view class="modal-time">{{currentAnnouncement.time}}</view>
+        <view class="modal-footer" bindtap="hideModal">关闭</view>
+    </view>
+</view>

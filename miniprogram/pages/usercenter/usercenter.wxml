@@ -36,6 +36,10 @@
         <van-tag plain type="danger" wx:if="{{isVerified == -1}}">未认证</van-tag>
         <van-tag plain type="primary" wx:if="{{isVerified == 0}}">认证中</van-tag>
     </view>
+    <view class="list-item" bindtap="toAnnouncementHistory">
+      <image src="../../images/announcement.png" mode="heightFix" class="item-image"></image>
+        <text class="item-text">历史公告</text>
+    </view>
     <view class="list-item" bindtap="toGame">
       <image src="../../images/game.png" mode="heightFix" class="item-image"></image>
         <text class="item-text">合成北理工</text>

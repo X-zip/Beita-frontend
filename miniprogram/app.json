@@ -18,7 +18,8 @@
         "pages/application/application",
         "pages/hotList/hotList",
         "pages/addPost/addPost",
-        "pages/agreement/agreement"
+        "pages/agreement/agreement",
+        "pages/announcementHistory/announcementHistory"
     ],
     "window": {
         "backgroundColor": "@navBackgroundColor",

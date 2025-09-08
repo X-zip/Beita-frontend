@@ -65,11 +65,15 @@ Page({
           'content-type': 'application/json' // 默认值
         },
         success (res) {
-          console.log('member',res.data.memberList[0])
-          if (res.data.memberList[0].au4 > 0) {
-            wx.setStorageSync('isdel', true)
+          if (res.data && res.data.memberList && res.data.memberList.length > 0) {
+            console.log('member',res.data.memberList[0])
+            if (res.data.memberList[0].au4 > 0) {
+              wx.setStorageSync('isdel', true)
+            } else {
+              wx.setStorageSync('isdel', false)
+            }
           } else {
-            wx.setStorageSync('isdel', false)
+            wx.setStorageSync('isdel', false);
           }
         },
     })
@@ -141,6 +145,11 @@ Page({
   toQR() {
     wx.navigateTo({
       url: '../uitem/qr/qr',
+    })
+  },
+  toAnnouncementHistory() {
+    wx.navigateTo({
+      url: '../announcementHistory/announcementHistory',
     })
   },
   

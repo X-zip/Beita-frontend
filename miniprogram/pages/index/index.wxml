@@ -4,15 +4,15 @@
 <wxs src="../../WXS/subutil_title_long.wxs" module="title_tools_long" />
 <wxs src="../../WXS/subutil_name.wxs" module="name_tools" />
 <wxs module = "getDate" src="../../WXS/sub_date.wxs"></wxs>
-<radial-menu 
-  run="{{ false }}" 
-  speed="{{ 100000 }}"
-  items="{{ items }}" 
-  midIcon="../../images/add.png" 
-  bindclick="click"
-  id="radial-menu"
-/>
 
+<radial-menu
+        run="{{ false }}"
+        speed="{{ 100000 }}"
+        items="{{ items }}"
+        midIcon="../../images/add.png"
+        bindclick="click"
+        id="radial-menu"
+/>
 
 <view class="top-box">
   <navigation class="{{ top>0 ? 'navColor' : ''}}">
@@ -22,34 +22,6 @@
     </view>
   </navigation>
 
-  <!-- <view style="margin-top:{{navBarHeight}}px;padding-top:20rpx;background-color: white;" bindtap="goHotList">
-        <van-row style="height: 80rpx !important;">
-            <van-col span="4" offset="1"><image src="../../images/hotlist2.png" mode="heightFix" style="height: 100rpx"/></van-col>
-            <van-col span="19">
-                <view class="hot-list">
-                    <swiper style="height: 100rpx;" autoplay="true" interval="5000" duration="3000" vertical="true" circular="true">
-                        <block wx:for="{{ hotList }}" wx:key="index" wx:for-item="task" class="rowup">
-                            <swiper-item style="align-items: center;display: flex;">
-                                <view style="width:100%;display: flex;">
-                                    <view style="width:80%">
-                                        <view class="item" style="width: 100%;" >
-                                            <image src="../../images/{{index+1}}.png" mode="widthFix" style="width: 28rpx;"/>
-                                            <text>{{title_tools.sub(task.content)}}</text>
-                                        </view>
-                                    </view>
-                                    <view style="width:20%">
-                                        <image src="{{task.img}}" mode="heightFix" style="height: 60rpx" wx:if="{{task.img.length > 0}}"/>
-                                        <image src="../../images/hot.png" mode="heightFix" style="height: 60rpx" wx:else/>
-                                    </view>
-                                </view> 
-                            </swiper-item>
-                        </block>
-                    </swiper>
-                </view>
-            </van-col>
-        </van-row>
-  </view> -->
-
   <swiper class="index-swiper" indicator-dots="{{indicatorDots}}" catchtap="onSwiperTap" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" wx:if="{{showBanner}}" style="margin-top:{{navBarHeight}}px">
     <block wx:for="{{bannerList}}" class="slide-block">
       <swiper-item>
@@ -57,12 +29,10 @@
       </swiper-item>
     </block>
   </swiper>
-  <!-- <van-notice-bar scrollable  text="自11月12日起，仅校园认证用户可在贝塔驿站小程序内发表帖子和评论,请大家前往个人中心进行认证。如对个人信息比较敏感，请使用加密邮箱认证" /> -->
 
   <view style="width:100%" class="{{ top>200 ? 'topnav' : 'normalnav'}}" style="--keyboard_height--:{{bottomEdge}}px;">
     <scroll-view class="scrollView {{ top>200 ? 'scrollColor' : ''}}" scroll-x='true' scroll-left="{{scrollLeft}}">
       <view class="menu-wrp" >
-        <!--设定一个item项后，遍历输出-->
         <view class="menu-list" wx:for="{{menu.imgUrls}}" wx:key="index">
           <view class="menu-item" data-id="{{ menu.name[index] }}" bindtap='topNavChange'  data-current="{{index}}">
             <image class="menu-img" src="{{item}}" data-id="{{ menu.name[index] }}" wx:if="{{top <= 200}}"/>
@@ -73,24 +43,39 @@
     </scroll-view>
   </view>
 
-
   <view class="scrollView-small" >
     <view class="menu-list-small" wx:for="{{sub_menu.descs}}" wx:key="{{index}}">
       <view class="menu-item-small" data-id="{{ sub_menu.name[index] }}" bindtap='bottomNavChange'  data-current="{{index}}">
         <view class="menu-desc-small {{currentSmallTab==index ? 'on-small' : ''}}" data-id="{{ sub_menu.name[index] }}">{{sub_menu.descs[index]}}</view>
       </view>
     </view>
-  </view>  
+  </view>
+</view>
 
+<view class="announcement-modal" wx:if="{{showAnnouncementModal}}">
+  <view class="modal-content">
+    <view class="modal-title" wx:if="{{unreadAnnouncements.length > 0 && currentAnnouncementIndex < unreadAnnouncements.length}}">{{unreadAnnouncements[currentAnnouncementIndex].title}}</view>
+    <view class="modal-body">
+      <scroll-view scroll-y style="height: 200px;">
+          <text wx:if="{{unreadAnnouncements.length > 0 && currentAnnouncementIndex < unreadAnnouncements.length}}">{{unreadAnnouncements[currentAnnouncementIndex].content}}</text>
+          <image wx:if="{{unreadAnnouncements.length > 0 && currentAnnouncementIndex < unreadAnnouncements.length && unreadAnnouncements[currentAnnouncementIndex].imgurl}}" src="{{unreadAnnouncements[currentAnnouncementIndex].imgurl}}" mode="widthFix" class="announcement-image"></image>
+          <text wx:else>暂无公告内容</text>
+        </scroll-view>
+    </view>
+    <view class="modal-footer">
+      <button wx:if="{{currentAnnouncementIndex < unreadAnnouncements.length - 1}}" bindtap="showNextAnnouncement">下一条</button>
+      <button bindtap="closeAnnouncementModal">{{currentAnnouncementIndex === unreadAnnouncements.length - 1 ? '关闭' : '跳过'}}</button>
+    </view>
+  </view>
 </view>
 
 <van-popup round show="{{ showQr }}" bind:close="onClose" custom-class="qr-box" closeable>
-    <text class="qr-title">扫码进群</text>
-    <view class="qr-list" wx:for="{{qrList}}">
-        <view class="qr-item" data-id="{{item.imageUrl}}">
-            <image class='qr-image' src="{{item.imageUrl}}" mode="widthFix" bindtap="imgYu" data-id="{{item.imageUrl}}"></image>
-        </view>
+  <text class="qr-title">扫码进群</text>
+  <view class="qr-list" wx:for="{{qrList}}">
+    <view class="qr-item" data-id="{{item.imageUrl}}">
+      <image class='qr-image' src="{{item.imageUrl}}" mode="widthFix" bindtap="imgYu" data-id="{{item.imageUrl}}"></image>
     </view>
+  </view>
 </van-popup>
 
 <view id="stories-list" >
@@ -123,14 +108,14 @@
             <view wx:elif="{{task.radioGroup == 'radio15'}}" class="type" data-id="{{ task.id }}">体育休闲</view>
             <view wx:elif="{{task.radioGroup == 'radio16'}}" class="type" data-id="{{ task.id }}">学习办公</view>
             <view wx:elif="{{task.radioGroup == 'radio17'}}" class="type" data-id="{{ task.id }}">母婴用品</view>
-            <view wx:elif="{{task.radioGroup == 'radio18'}}" class="type" data-id="{{ task.id }}">宠物植物</view>                 
+            <view wx:elif="{{task.radioGroup == 'radio18'}}" class="type" data-id="{{ task.id }}">宠物植物</view>
             <view wx:elif="{{task.radioGroup == 'radio19'}}" class="type" data-id="{{ task.id }}">求购</view>
             <view wx:elif="{{task.radioGroup == 'radio20'}}" class="type" data-id="{{ task.id }}">食品饮品</view>
             <view wx:elif="{{task.radioGroup == 'radio21'}}" class="type" data-id="{{ task.id }}">其他</view>
-            <view wx:elif="{{task.radioGroup == 'radio40'}}" class="type" data-id="{{ task.id }}">匿名 | 吐槽</view>                 
+            <view wx:elif="{{task.radioGroup == 'radio40'}}" class="type" data-id="{{ task.id }}">匿名 | 吐槽</view>
             <view wx:elif="{{task.radioGroup == 'radio41'}}" class="type" data-id="{{ task.id }}">匿名 | 倾诉</view>
             <view wx:elif="{{task.radioGroup == 'radio42'}}" class="type" data-id="{{ task.id }}">匿名 | 心愿</view>
-            <view wx:elif="{{task.radioGroup == 'radio43'}}" class="type" data-id="{{ task.id }}">匿名 | 知乎</view>          
+            <view wx:elif="{{task.radioGroup == 'radio43'}}" class="type" data-id="{{ task.id }}">匿名 | 知乎</view>
           </view>
         </view>
 
@@ -175,8 +160,7 @@
               <image class="like_img" src='../../images/hot.png' mode='aspectFill' data-id="{{ task.id }}"></image>
               <image class="like_img" src='../../images/hot.png' mode='aspectFill' data-id="{{ task.id }}"></image>
             </view>
-            
-            <!-- <text class="comment_num" data-id="{{ task.id }}">{{ task.watchNum }}</text> -->
+
             <image class="comment_img" src='../../images/love.png' mode='aspectFill' data-id="{{ task.id }}"></image>
             <text class="comment_num" data-id="{{ task.id }}">{{ task.likeNum }}</text>
             <image class="comment_img" src='../../images/comment.png' mode='aspectFill' data-id="{{ task.id }}"></image>
@@ -198,12 +182,7 @@
           <image class="task_img" src='{{ task.img[0]+"?imageView2/2/w/500" }}' mode='aspectFill' data-id="{{ task.id }}"></image>
         </view>
 
-      </view> 
+      </view>
     </view>
   </block>
-</view> 
-<!-- </scroll-view> -->
-    <!-- </swiper-item>  -->
-<!-- </block> -->
-<!-- </swiper> -->
-
+</view>
