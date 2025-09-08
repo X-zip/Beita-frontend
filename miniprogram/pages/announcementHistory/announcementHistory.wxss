@@ -27,6 +27,7 @@
     font-size: 28rpx;
     color: #666;
     margin-bottom: 10rpx;
+    white-space: pre-wrap;
 }
 
 .announcement-time {
@@ -65,6 +66,7 @@
 }
 
 .modal-content {
+    white-space: pre-wrap;
     font-size: 30rpx;
     color: #333;
     margin-bottom: 30rpx;
