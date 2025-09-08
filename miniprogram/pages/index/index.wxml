@@ -59,7 +59,6 @@
       <scroll-view scroll-y style="height: 200px;">
           <text wx:if="{{unreadAnnouncements.length > 0 && currentAnnouncementIndex < unreadAnnouncements.length}}">{{unreadAnnouncements[currentAnnouncementIndex].content}}</text>
           <image wx:if="{{unreadAnnouncements.length > 0 && currentAnnouncementIndex < unreadAnnouncements.length && unreadAnnouncements[currentAnnouncementIndex].imgurl}}" src="{{unreadAnnouncements[currentAnnouncementIndex].imgurl}}" mode="widthFix" class="announcement-image"></image>
-          <text wx:else>暂无公告内容</text>
         </scroll-view>
     </view>
     <view class="modal-footer">
