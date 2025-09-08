@@ -25,8 +25,8 @@ function showLoading(title = '加载中...') {
 }
 
 function encryptContent(contentObj) {
-  const key = CryptoJS.enc.Utf8.parse(AES_KEY) // 16/24/32 字节
-  const encrypted = CryptoJS.AES.encrypt(JSON.stringify(contentObj), key, {
+  const encrypted = CryptoJS.AES.encrypt(JSON.stringify(contentObj), AES_KEY, {
+    iv: AES_IV,
     mode: CryptoJS.mode.ECB,
     padding: CryptoJS.pad.Pkcs7
   })
