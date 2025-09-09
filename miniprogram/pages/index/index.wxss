@@ -91,7 +91,7 @@ border-radius: 20rpx;
   width: 100%;
   position:fixed;
   z-index:98; 
-  top:var(--keyboard_height--);
+  top: 0;
   background-color: whitesmoke;
   opacity: 0.85;
 }
