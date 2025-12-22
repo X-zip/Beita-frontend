@@ -34,11 +34,11 @@
       		<view class="best-container">{{highscore}}</view>
       	</view>
     </view>
-		<view class="ranking">
-      	<text class="restart-button" bindtap="showRank">排行榜</text>
-    </view>
-    <view class="above-game">
+		<view class="game-controls">
+      	<text class="restart-button" bindtap="undo" 
+            style="{{canUndo ? '' : 'opacity: 0.5; pointer-events: none;'}}">撤回</text>
       	<text class="restart-button" bindtap="restart">新游戏</text>
+      	<text class="restart-button" bindtap="showRank">排行榜</text>
     </view>
 
     <view class="game-container">

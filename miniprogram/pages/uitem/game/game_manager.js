@@ -4,6 +4,8 @@ var Tile = require('./tile.js');
 function GameManager(size) {
     this.size = size;
     this.startTiles = 2;
+    this.history = []; // 存储历史状态
+    this.maxHistorySize = 10; // 最多保存10步历史
 }
 
 GameManager.prototype = {
@@ -106,6 +108,10 @@ GameManager.prototype = {
     move: function(direction) {
         // 0: up, 1: right, 2: down, 3: left
         var self = this;
+        
+        // 在移动前保存当前状态
+        this.saveState();
+        
         var vector = this.getVector(direction);
         var traversals = this.buildTraversals(vector);
 
@@ -160,6 +166,9 @@ GameManager.prototype = {
             }
 
             return this.actuate();
+        } else {
+            // 如果没有移动，撤销刚才保存的状态
+            this.history.pop();
         }
 
         // return this.grid.cells
@@ -236,8 +245,60 @@ GameManager.prototype = {
         }
     },
 
+    // 深拷贝网格状态
+    deepCopyGrid: function(grid) {
+        var newGrid = new Grid(this.size);
+        for (var x = 0; x < this.size; x++) {
+            for (var y = 0; y < this.size; y++) {
+                var tile = grid.cells[x][y];
+                if (tile) {
+                    newGrid.cells[x][y] = new Tile({x: x, y: y}, tile.value);
+                }
+            }
+        }
+        return newGrid;
+    },
+
+    // 保存当前状态到历史记录
+    saveState: function() {
+        var state = {
+            grid: this.deepCopyGrid(this.grid),
+            score: this.score,
+            over: this.over,
+            won: this.won
+        };
+        
+        this.history.push(state);
+        
+        // 限制历史记录数量
+        if (this.history.length > this.maxHistorySize) {
+            this.history.shift();
+        }
+    },
+
+    // 撤回到上一步
+    undo: function() {
+        if (this.history.length === 0) {
+            return null; // 没有历史记录可撤回
+        }
+        
+        var previousState = this.history.pop();
+        this.grid = previousState.grid;
+        this.score = previousState.score;
+        this.over = previousState.over;
+        this.won = previousState.won;
+        
+        return this.actuate();
+    },
+
+    // 检查是否可以撤回
+    canUndo: function() {
+        return this.history.length > 0;
+    },
+
     // 重新开始
     restart: function() {
+        this.history = []; // 清空历史记录
         return this.setup();
     }
 }
