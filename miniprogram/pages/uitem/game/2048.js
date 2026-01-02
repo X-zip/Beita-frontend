@@ -17,6 +17,7 @@ var config = {
         overMsg: '游戏结束',
         showRank:false,
         rankList:[],
+        canUndo: false, // 是否可以撤回
     },
 
     onShareAppMessage: function() {
@@ -154,8 +155,25 @@ var config = {
             grids: this.GameManager.restart(),
             over: false,
             won: false,
-            score: 0
+            score: 0,
+            canUndo: false
         });
+    },
+
+    // 撤回操作
+    undo: function() {
+        var data = this.GameManager.undo();
+        if (data) {
+            var highscore = wx.getStorageSync('highscore') || 0;
+            this.updateView({
+                grids: data.grids,
+                over: data.over,
+                won: data.won,
+                score: data.score,
+                highscore: Math.max(highscore, data.score),
+                canUndo: this.GameManager.canUndo()
+            });
+        }
     },
 
     touchStartClienX: 0,
@@ -215,7 +233,8 @@ var config = {
                 over: data.over,
                 won: data.won,
                 score: data.score,
-                highscore: Math.max(highscore, data.score)
+                highscore: Math.max(highscore, data.score),
+                canUndo: this.GameManager.canUndo()
             });
 
         }

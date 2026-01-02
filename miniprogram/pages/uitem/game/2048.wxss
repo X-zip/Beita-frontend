@@ -420,6 +420,13 @@ hr {
 .tile-merged .tile-inner {
   z-index: 20;
 }
+.game-controls {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  gap: 10px;
+}
+
 .above-game:after {
   content: "";
   display: block;
@@ -439,9 +446,9 @@ hr {
   color: #f9f6f2;
   height: 40px;
   line-height: 42px;
-  display: block;
   text-align: center;
-  float: right;
+  flex: 1;
+  cursor: pointer;
 }
 .game-explanation {
   margin-top: 50px;
@@ -476,13 +483,20 @@ hr {
     box-sizing: border-box;
     line-height: 1.65;
   }
+  .game-controls {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    gap: 8px;
+  }
+  
   .restart-button {
-    margin-right:20rpx;
-    width: 42%;
     padding: 0;
     display: block;
     box-sizing: border-box;
     margin-top: 2px;
+    flex: 1;
+    font-size: 14px;
   }
   .game-container {
     margin-top: 17px;

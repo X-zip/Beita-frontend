@@ -5,17 +5,74 @@
   <!-- 搜索框开始 -->
     <view class='tit_seabox' style="height:{{menuHeight}}px;width:calc({{leftEdge}}px - 20rpx)">
         <view wx:if="{{!searchflag}}" class="app-title">贝塔驿站</view>
-        <view class="tit_seabox_bar" style="height:{{menuHeight}}px;width:calc({{leftEdge}}px - 80rpx)" wx:if="{{searchflag}}">
+
+        <view
+            class="tit_seabox_bar"
+            style="height:{{menuHeight}}px; width:{{searchflag ? 'calc({{leftEdge}}px - 80rpx)' : 'calc({{leftEdge}}px - 232rpx)'}}"
+        >
             <!-- <icon type='search' size="16"></icon> -->
-            <input type="text" style="height:{{menuHeight}}px;line-height:{{menuHeight}}px;" bindinput="searchList" bindconfirm="endsearchList" bindtap='getfocus' focus='{{autofocus}}' bindblur="blursearch" confirm-type='search' value='{{searchstr}}' placeholder='' />
-            <view style="height:{{menuHeight}}px;line-height:{{menuHeight}}px;"><icon bindtap='activity_clear' type='clear' size="16px" style="margin-right:20rpx;padding-top: calc({{(menuHeight - 16)/2}}px );"></icon></view>
+            <input
+                type="text"
+                style="height:{{menuHeight}}px; line-height:{{menuHeight}}px;"
+                bindinput="searchList"
+                bindconfirm="endsearchList"
+                bindtap='getfocus'
+                focus='{{autofocus}}'
+                bindblur="blursearch"
+                confirm-type='search'
+                value='{{searchstr}}'
+                placeholder=''
+            />
+
+            <view  wx:if="{{searchflag}}" style="height:{{menuHeight}}px; line-height:{{menuHeight}}px;">
+                <icon
+                    bindtap='activity_clear'
+                    type='clear'
+                    size="16px"
+                    style="margin-right:20rpx;padding-top: calc({{(menuHeight - 16)/2}}px );"
+                ></icon>
+            </view>
         </view>
-        <view class="tit_seabox_bar" style="height:{{menuHeight}}px;width:calc({{leftEdge}}px - 232rpx)" wx:else>
-            <!-- <icon type='search' size="16"></icon> -->
-            <input type="text" style="height:{{menuHeight}}px;line-height:{{menuHeight}}px;" bindinput="searchList" bindconfirm="endsearchList" bindtap='getfocus' focus='{{autofocus}}' bindblur="blursearch" confirm-type='search' value='{{searchstr}}' placeholder='' />
+
+        <!-- <view class="tit_seabox_bar" style="height:{{menuHeight}}px;width:calc({{leftEdge}}px - 232rpx)">
+            <icon type='search' size="16"></icon>
+            <input
+                type="text"
+                style="height:{{menuHeight}}px; line-height:{{menuHeight}}px;"
+                bindinput="searchList"
+                bindconfirm="endsearchList"
+                bindtap='getfocus'
+                focus='{{autofocus}}'
+                bindblur="blursearch"
+                confirm-type='search'
+                value='{{searchstr}}'
+                placeholder=''
+            />
+        </view> -->
+
+        <view
+            wx:if="{{searchflag}}"
+            bindtap='cancelsearch'
+            class="activity_add"
+            style="height:{{menuHeight}}px; line-height:{{menuHeight}}px;"
+        >
+            <image
+                src='{{closeimg}}'
+                style="padding-top: calc({{(menuHeight - 20)/2}}px );"
+            ></image>
         </view>
-        <view wx:if="{{searchflag}}" bindtap='cancelsearch' class="activity_add" style="height:{{menuHeight}}px;line-height:{{menuHeight}}px;"><image  src='{{closeimg}}' style="padding-top: calc({{(menuHeight - 20)/2}}px );"></image></view>
-        <view class='activity_add' wx:if="{{addflag}}" style="height:{{menuHeight}}px;line-height:{{menuHeight}}px;"><image bindtap='addhandle' src='{{addimg}}' style="padding-top: calc({{(menuHeight - 20)/2}}px );"></image></view>
+
+        <view
+            class='activity_add'
+            wx:if="{{addflag}}"
+            style="height:{{menuHeight}}px; line-height:{{menuHeight}}px;"
+        >
+            <image
+                bindtap='addhandle'
+                src='{{addimg}}'
+                style="padding-top: calc({{(menuHeight - 20)/2}}px );"
+            ></image>
+        </view>
     </view>
 <!-- 搜索框结束 -->
 </view>
