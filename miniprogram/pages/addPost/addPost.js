@@ -2,29 +2,29 @@
 const app = getApp()
 const util = require('../../utils/util.js')
 const check = require('../../utils/check.js')
-const token = require('../../utils/qntoken.js')
 const qiniuUploader = require("../../utils/qiniuUploader_shudong.js")
 const api = require('../../config/api.js')
 const CryptoJS = require('../../utils/aes.js')
+const session = require('../../utils/session.js')
+const apiCompat = require('../../utils/apiCompat.js')
+const uploadCredential = require('../../utils/uploadCredential.js')
 const {
     AES_KEY,
     AES_IV,
-    QINIU_CONFIG,
     SUBSCRIBE_TEMPLATE_IDS,
     MAX_IMAGE_COUNT,
 } = require('../../utils/constants_private.js');
-  
+
 
 // 生成随机头像与名字（保持同一索引对应）
 function pickRandomAvatar(avatarList, timestamp = '') {
     const imgs = avatarList?.img || [];
     const names = avatarList?.name || [];
     const n = Math.min(imgs.length, names.length); // 以较短的为准
-    console.log(n)
     if (n === 0) {
       return { userName: 'Guest' + timestamp, avatar: '' }; // 可换成你的默认头像
     }
-  
+
     const idx = Math.floor(Math.random() * n); // 0 ~ n-1
     return {
       userName: names[idx] + timestamp,
@@ -63,7 +63,7 @@ function validateForm(option, values) {
   if (!values.Content || values.Content.length === 0) return false
   return required.every(f => values[f] && values[f].length > 0)
 }
-  
+
 
 Page({
   data: {
@@ -79,7 +79,7 @@ Page({
     banDate: "0天",
     option: '',
     animalList: {
-      img: [...Array(21)].map((_, i) => `http://yqtech.ltd/animal/${i + 1}.png`),
+      img: [...Array(21)].map((_, i) => `https://yqtech.ltd/animal/${i + 1}.png`),
       name: [
         'Bee', 'Butterfly', 'Monkey', 'Octopus', 'Sheep', 'Snail', 'Boa',
         'Dragonfly', 'Nustang', 'Octopus', 'Peacock', 'Antelope', 'Walrus',
@@ -99,7 +99,7 @@ Page({
         this.setData({
             nickNameOld: wx.getStorageSync('nickName')
         })
-        
+
     }
   },
 
@@ -118,10 +118,10 @@ Page({
 
     const values = e.detail.value
     const option = this.data.option
+    var prepost = wx.getStorageSync('prepost')
     if (!validateForm(option, values)) {
       return showToast('请补全信息！')
     }
-
     if (this.data.imgViewList.length > MAX_IMAGE_COUNT) {
       return showToast('最多上传3张图片')
     }
@@ -154,10 +154,19 @@ Page({
     const title = content.slice(0, 30)
     const dataToEncrypt = { content, title, verify: 'zzyq', c_time: new Date() }
     const encrypted = encryptContent(dataToEncrypt)
-    
+    if (prepost == content) {
+        wx.hideLoading()
+        return showToast('请不要发布重复内容！');
+    }
     check.checkString(content + title, app.globalData.openid).then(result => {
-      if (!result) return showToast('有违规内容！')
-      
+      if (result === null) {
+        wx.hideLoading()
+        return
+      }
+      if (!result) {
+        wx.hideLoading()
+        return showToast('有违规内容！')
+      }
       wx.request({
         url: api.AddTask,
         method: 'POST',
@@ -178,9 +187,12 @@ Page({
           verify: "zzyqxxkj",
           encrypted
         },
-        header: { "Content-Type": "application/x-www-form-urlencoded" },
+        header: session.authHeader({ "Content-Type": "application/x-www-form-urlencoded" }),
         success: res => {
-          console.log(res.data)
+          if (apiCompat.shouldStopForApiError(res)) {
+            wx.hideLoading()
+            return
+          }
           const code = res.data.code
           const banMap = { 1: "1天", 3: "3天", 7: "7天" }
           if (banMap[code]) {
@@ -189,10 +201,11 @@ Page({
             const target = option === "treehole" ? '../treehole/treehole' : '../index/index'
             wx.switchTab({ url: target })
             showToast('发布成功', 'success')
+            wx.setStorageSync('prepost', content)
           }
           wx.hideLoading()
         },
-        fail: () => {
+        fail: (e) => {
           wx.hideLoading()
           showToast('提交失败，请稍后再试')
         }
@@ -222,27 +235,20 @@ Page({
 
   uploadImageToQiniu(filePath) {
     showLoading('上传图片中...')
-    const uptoken = token.token({
-        ak: QINIU_CONFIG.ak,
-        sk: QINIU_CONFIG.sk,
-        bkt: QINIU_CONFIG.bkt
-    });
-
-    qiniuUploader.upload(filePath, res => {
-      const url = 'http://' + res.imageURL
-      const imgViewList = this.data.imgViewList.concat(url)
-      const imgOriList = this.data.imgOriList.concat(url)
-      this.setData({ imgViewList, imgOriList, imgnum: imgViewList.length })
-      wx.hideLoading()
-    }, err => {
-      console.log(err)
+    uploadCredential.getUploadCredential('task', filePath).then(credential => {
+      qiniuUploader.upload(filePath, res => {
+        const url = uploadCredential.normalizeImageUrl(res.imageURL)
+        const imgViewList = this.data.imgViewList.concat(url)
+        const imgOriList = this.data.imgOriList.concat(url)
+        this.setData({ imgViewList, imgOriList, imgnum: imgViewList.length })
+        wx.hideLoading()
+      }, err => {
+        wx.hideLoading()
+        showToast('上传失败')
+      }, uploadCredential.qiniuOptions(credential))
+    }).catch(() => {
       wx.hideLoading()
       showToast('上传失败')
-    }, {
-      region: 'NCN',
-      uptoken,
-      uploadURL: 'https://upload-z1.qiniup.com',
-      domain: 'imgbf.yqtech.ltd'
     })
   },
 

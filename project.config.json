@@ -1,6 +1,5 @@
 {
     "miniprogramRoot": "miniprogram/",
-    "cloudfunctionRoot": "cloudfunctions/",
     "setting": {
         "urlCheck": true,
         "es6": false,
@@ -42,9 +41,13 @@
         "disableUseStrict": false,
         "useStaticServer": true,
         "useCompilerPlugins": false,
-        "ignoreUploadUnusedFiles": true
+        "ignoreUploadUnusedFiles": true,
+        "compileWorklet": false,
+        "localPlugins": false,
+        "condition": false,
+        "swc": false,
+        "disableSWC": true
     },
-    "cloudfunctionTemplateRoot": "cloudfunctionTemplate/",
     "condition": {
         "search": {
             "list": []
@@ -79,5 +82,7 @@
         "ignore": [],
         "include": []
     },
-    "appid": "wxc0d677e74a6493df"
+    "appid": "wxc0d677e74a6493df",
+    "libVersion": "3.13.0",
+    "simulatorPluginLibVersion": {}
 }

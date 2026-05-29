@@ -86,7 +86,6 @@ Page({
                         url: '../usercenter/usercenter'
                       })
                 } else if (res.cancel) {
-                  console.log('用户点击取消')
                 }
             }
           })
@@ -135,7 +134,7 @@ Page({
               wx.setStorageSync('bannerList1', res.data.bannerList)
               wx.setStorageSync('bannerListtime1', Date.parse(new Date()))
             }
-        })  
+        })
     }
     var e = that.data.currentTab
     var t = that.data.currentSmallTab
@@ -172,21 +171,18 @@ Page({
           'content-type': 'application/json' // 默认值
         },
         success (res) {
-          console.log(res.data)
           that.setData({
               hotList:res.data.taskList
           })
           wx.setStorageSync('hotList', res.data.taskList)
           wx.setStorageSync('hotListtime', Date.parse(new Date()))
-          console.log("hotlist:",that.data.hotList)
         },
-      }) 
+      })
   },
 
   getTaskInfo(e,t) {
     var that = this
     var old_data = that.data.tasks;
-    console.log(e,t)
     var that = this
     that.setData({
       noMore: false,
@@ -200,9 +196,8 @@ Page({
       radio = ['radio42']
     } else if (e==4) {
       radio = ['radio43']
-    } 
+    }
     var length = old_data.length
-    console.log(radio)
     wx.request({
       url: api.GettaskbyType,
       method:'GET',
@@ -215,12 +210,11 @@ Page({
         'content-type': 'application/json' // 默认值
       },
       success (res) {
-        wx.stopPullDownRefresh(); 
+        wx.stopPullDownRefresh();
         var data = res.data.taskList
         for (var i in data){
           data[i].img = data[i].img.replace('[','').replace(']','').replace('\"','').replace('\"','').split(',')
         }
-        console.log(data)
         wx.hideLoading()
         that.setData({
           tasks: old_data.concat(data)
@@ -238,7 +232,6 @@ Page({
 
 
   goToStoryDetail(e) {
-    console.log("e.target.dataset" + JSON.stringify(e.target.dataset))
     wx.navigateTo({
       url: '../detail/detail?id=' + e.target.dataset.id
     })
@@ -264,19 +257,16 @@ Page({
         avatarUrl: wx.getStorageSync('avatarUrl'),
         userName:wx.getStorageSync('userName'),
         hasUserInfo: true
-      }) 
+      })
     } else {
       this.setData({
         hasUserInfo: false
       })
-    } 
+    }
     var t = that.data.currentSmallTab
     var tasks = wx.getStorageSync('tasks2')
     var taskstime = wx.getStorageSync('taskstime2')
-    console.log("tasks2:",tasks.length)
-    console.log("taskstime:",taskstime)
     var now = Date.parse(new Date());
-    console.log("diff:",(now - taskstime)/1000)
     if (tasks.length > 0 && (now - taskstime)/1000 < 60*60 ) {
         that.setData({
             tasks: tasks
@@ -321,7 +311,6 @@ Page({
         currentSmallTab: nextActiveIndex,
         prevSmallIndex: currentIndex
       });
-      console.log(_this.data.currentSmallTab)
       _this.setData({
         tasks:[],
       });
@@ -329,7 +318,7 @@ Page({
     }
   },
 
-  
+
   scrollTopNav: function() {
     var _this =this
     // 当激活的当航小于4个时，不滚动
@@ -398,7 +387,6 @@ Page({
     }
   },
   goToSection(e) {
-    console.log("e.target.dataset" + JSON.stringify(e.target.dataset))
     wx.navigateTo({
       url: '../addtreehole/adddetail'
     })
@@ -414,7 +402,6 @@ Page({
 
   // 搜索框右侧 事件
   addhandle() {
-    console.log('触发搜索框右侧事件')
     var search_item = this.data.searchstr
     wx.navigateTo({
       url: '../search/search?search_item=' + search_item
@@ -431,7 +418,6 @@ Page({
 
   //搜索回调
   endsearchList(e) {
-    console.log('查询数据')
   },
   // 取消搜索
   cancelsearch() {
@@ -449,7 +435,6 @@ Page({
 
   onSwiperTap: function(event) {
     var id = event.target.dataset.id;
-    console.log(id)
     if (id == '../second/second' || id == '../find/find' || id == '../qr/qr') {
       wx.navigateTo({
         url: id,
@@ -458,7 +443,7 @@ Page({
       wx.switchTab({
         url: id,
       })
-    } else if (id.indexOf('http://') != -1) {
+    } else if (id.indexOf('http') === 0) {
       wx.previewImage({
         current: id,
         urls: id.split(),
@@ -495,7 +480,7 @@ Page({
 	onShareTimeline: function () {
 		return {
 	      title: '买卖二手，树洞北理，尽在北理贝塔驿站',
-	      imageUrl: 'http://yqtech.ltd/treehole/timeline.jpg'
+	      imageUrl: 'https://yqtech.ltd/treehole/timeline.jpg'
 	    }
 	},
 })

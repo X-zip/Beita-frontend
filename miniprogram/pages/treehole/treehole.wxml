@@ -24,12 +24,12 @@
   };
 </wxs>
 
-
-<radial-menu 
-  run="{{ false }}" 
+<official-account></official-account>
+<radial-menu
+  run="{{ false }}"
   speed="{{ 100000 }}"
-  items="{{ items }}" 
-  midIcon="../../images/add.png" 
+  items="{{ items }}"
+  midIcon="../../images/add.png"
   bindclick="click"
   id="radial-menu"
 />
@@ -61,7 +61,7 @@
                     <image src="{{task.img}}" mode="heightFix" style="height: 60rpx" wx:if="{{task.img.length > 0}}"/>
                     <image src="../../images/hot.png" mode="heightFix" style="height: 60rpx" wx:else/>
                   </view>
-                </view> 
+                </view>
               </swiper-item>
             </block>
           </swiper>
@@ -89,7 +89,7 @@
           <view class="menu-desc-small {{currentSmallTab==index ? 'on-small' : ''}}" data-id="{{ sub_menu.name[index] }}">{{sub_menu.descs[index]}}</view>
         </view>
       </view>
-    </view>  
+    </view>
   </view>
 </view>
 
@@ -97,7 +97,7 @@
   <view id="stories-list" style="width:100%;">
     <block wx:for="{{ tasks }}" wx:key="{{ index }}" wx:for-item="task" >
       <!-- 以前为 radio40/radio4、41、42、43 各写一份；现在合并为一份，通过 class 与文案控制 -->
-      <view 
+      <view
         class="task-list-item {{ style_tools.bgClass(task.radioGroup) }}"
         bindtap="goToStoryDetail"
         data-id="{{ task.id }}"
@@ -150,8 +150,8 @@
           <view class="img_box" wx:if="{{ task.img[0] }}" data-id="{{ task.id }}">
             <image class="task_img" src='{{ task.img[0]+"?imageView2/2/w/500" }}' mode='aspectFill' data-id="{{ task.id }}"></image>
           </view>
-        </view> 
+        </view>
       </view>
     </block>
-  </view> 
+  </view>
 </view>

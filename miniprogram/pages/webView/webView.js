@@ -12,7 +12,6 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log(options)
     var that= this
     that.setData({
       src:options.id
@@ -64,7 +63,7 @@ Page({
 onShareTimeline: function () {
     return {
       title: '买卖二手，树洞北理，尽在北理贝塔驿站',
-      imageUrl: 'http://yqtech.ltd/treehole/timeline.jpg'
+      imageUrl: 'https://yqtech.ltd/treehole/timeline.jpg'
     }
 },
 

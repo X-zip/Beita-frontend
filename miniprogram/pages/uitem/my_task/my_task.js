@@ -2,6 +2,8 @@
 var app = getApp();
 var api = require('../../../config/api.js');
 var CryptoJS = require('../../../utils/aes.js')
+const session = require('../../../utils/session.js')
+const apiCompat = require('../../../utils/apiCompat.js')
 
 const {
     AES_KEY,
@@ -43,13 +45,12 @@ Page({
           avatarUrl: wx.getStorageSync('avatarUrl'),
           userName:wx.getStorageSync('userName'),
           hasUserInfo: true
-        }) 
+        })
     }
   },
 
   goToStoryDetail(e) {
     if (this.endTime - this.startTime < 350) {
-      console.log("e.target.dataset" + JSON.stringify(e.target.dataset))
       wx.navigateTo({
         url: '../../detail/detail?id=' + e.target.dataset.id
       })
@@ -71,8 +72,7 @@ Page({
       content: '确定要删除吗？',
       success: function(sm) {
         if (sm.confirm) {
-          // 用户点击了确定 可以调用删除方法了  
-          console.log(e.target)
+          // 用户点击了确定 可以调用删除方法了
           var pk = e.target.dataset.id
           var key = AES_KEY;
           var iv = AES_IV;
@@ -80,7 +80,6 @@ Page({
           iv = CryptoJS.enc.Utf8.parse(iv);
           const dataToEncrypt = { id: pk}
           const encrypted = encryptContent(dataToEncrypt)
-          console.log("encrypted:",encrypted)
           wx.request({
             url: api.DeleteTask,
             method:'POST',
@@ -88,15 +87,15 @@ Page({
               openid:app.globalData.openid,
               pk:encrypted
             },
-            header: {
-              'content-type': 'application/json' // 默认值
-            },
+            header: session.authHeader({ 'content-type': 'application/json' }),
             success (res) {
+              if (apiCompat.shouldStopForApiError(res)) {
+                return
+              }
               that.onShow()
             },
           })
         } else if (sm.cancel) {
-          console.log('用户点击取消')
         }
       }
     })
@@ -135,15 +134,12 @@ Page({
         encrypted,
         c_time: new Date(),
       },
-      header: {
-        'content-type': 'application/json' // 默认值
-      },
+      header: session.authHeader({ 'content-type': 'application/json' }),
       success (res) {
         var data = res.data.taskList
         for (var i in data){
           data[i].img = data[i].img.replace('[','').replace(']','').replace('\"','').replace('\"','').split(',')
         }
-        console.log(data)
         wx.hideLoading()
         that.setData({
           tasks: old_data.concat(data)
@@ -203,7 +199,7 @@ Page({
         title: '没有更多内容',
         icon: 'none'
       })
-    } 
+    }
   },
 
   /**

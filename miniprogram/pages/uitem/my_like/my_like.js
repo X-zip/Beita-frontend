@@ -2,6 +2,7 @@
 var app = getApp();
 const api = require('../../../config/api.js');
 var CryptoJS = require('../../../utils/aes.js')
+const session = require('../../../utils/session.js')
 const {
     AES_KEY,
     AES_IV,
@@ -38,12 +39,11 @@ Page({
           avatarUrl: wx.getStorageSync('avatarUrl'),
           userName:wx.getStorageSync('userName'),
           hasUserInfo: true
-        }) 
+        })
     }
   },
 
   goToStoryDetail(e) {
-    console.log("e.target.dataset" + JSON.stringify(e.target.dataset))
     wx.navigateTo({
       url: '../../detail/detail?id=' + e.target.dataset.id
     })
@@ -82,11 +82,8 @@ Page({
         openid: openid,
         length:length
       },
-      header: {
-        'content-type': 'application/json' // 默认值
-      },
+      header: session.authHeader({ 'content-type': 'application/json' }),
       success (res) {
-        console.log(res)
         if (res.data.likeList.length == 0) {
           that.setData({
             noMore: true
@@ -102,7 +99,7 @@ Page({
         }
         const dataToEncrypt = { verify: 'zzyq', c_time: new Date() }
         const encrypted = encryptContent(dataToEncrypt)
-        for (let i = 0; i < pk_list.length; i++) { 
+        for (let i = 0; i < pk_list.length; i++) {
           wx.request({
             url: api.GettaskbyId,
             method:'GET',
@@ -120,7 +117,7 @@ Page({
               that.setData({
                 tasks: tasks.concat(task)
               })
-              
+
             },
           })
         }
@@ -165,7 +162,7 @@ Page({
         title: '没有更多内容',
         icon: 'none'
       })
-    } 
+    }
   },
 
   /**

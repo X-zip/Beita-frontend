@@ -1,12 +1,11 @@
 // pages/application/application.js 优化后版本
 const app = getApp()
 const api = require('../../config/api.js')
-const token = require('../../utils/qntoken.js')
 const qiniuUploader = require("../../utils/qiniuUploader_touxiang.js")
+const session = require('../../utils/session.js')
+const apiCompat = require('../../utils/apiCompat.js')
+const uploadCredential = require('../../utils/uploadCredential.js')
 import Toast from '@vant/weapp/toast/toast'
-const {
-    QINIU_CONFIG,
-} = require('../../utils/constants_private.js');
 
 
 Page({
@@ -35,6 +34,7 @@ Page({
       url: api.CheckVerifyUserQuanzi,
       method: 'GET',
       data: { openid: wx.getStorageSync('openid') },
+      header: session.authHeader({ 'content-type': 'application/json' }),
       success: (res) => {
         const { code } = res.data
         if (code === "200") {
@@ -78,7 +78,7 @@ Page({
       url: api.ImgCheck,
       filePath: file.url,
       name: 'file',
-      header: { 'content-type': 'multipart/form-data' },
+      header: session.authHeader({ 'content-type': 'multipart/form-data' }),
       success: (checkres) => {
         const res = JSON.parse(checkres.data)
         if (res.errmsg === "ok") {
@@ -95,39 +95,28 @@ Page({
   },
 
   uploadCanvasImg(oriImg, name) {
-    this.gettoken()
     this.uploadOri(oriImg, name)
-  },
-
-  gettoken() {
-    const tokendata = {
-        ak: QINIU_CONFIG.ak,
-        sk: QINIU_CONFIG.sk,
-        bkt: QINIU_CONFIG.bkt,
-        cdn: ''
-    }
-    this.setData({ uptoken: token.token(tokendata) })
   },
 
   uploadOri(path, name) {
     wx.showLoading({ title: '正在上传图片...', mask: true })
-    qiniuUploader.upload(path,
-      (res) => {
-        const url = 'http://' + res.imageURL
-        if (name === "student") {
-          const fileListStudent = [...this.data.fileListStudent, { url }]
-          this.setData({ fileListStudent })
-        }
-        wx.hideLoading()
-      },
-      (error) => {
-        console.log('upload error: ', error)
-        wx.hideLoading()
-      }, {
-        region: 'NCN',
-        uptoken: this.data.uptoken,
-        uploadURL: 'https://upload-z1.qiniup.com',
-        domain: 'imgbf.yqtech.ltd'
+    uploadCredential.getUploadCredential('verify', path).then(credential => {
+      qiniuUploader.upload(path,
+        (res) => {
+          const url = uploadCredential.normalizeImageUrl(res.imageURL)
+          if (name === "student") {
+            const fileListStudent = [...this.data.fileListStudent, { url }]
+            this.setData({ fileListStudent })
+          }
+          wx.hideLoading()
+        },
+        (error) => {
+          wx.hideLoading()
+          wx.showToast({ title: '上传失败', icon: 'none' })
+        }, uploadCredential.qiniuOptions(credential))
+    }).catch(() => {
+      wx.hideLoading()
+      wx.showToast({ title: '上传失败', icon: 'none' })
       })
   },
 
@@ -146,7 +135,11 @@ Page({
         campus: "beita",
         email: ""
       },
+      header: session.authHeader({ 'content-type': 'application/json' }),
       success: (res) => {
+        if (apiCompat.shouldStopForApiError(res)) {
+          return
+        }
         if (res.data.code === "-1") {
           Toast.fail(res.data.msg)
         } else {
@@ -172,7 +165,11 @@ Page({
       url: api.SendEmailBeita,
       method: 'GET',
       data: { email: fullEmail, code },
+      header: session.authHeader({ 'content-type': 'application/json' }),
       success: (res) => {
+        if (apiCompat.shouldStopForApiError(res)) {
+          return
+        }
         wx.showToast({ title: '已发送！', icon: 'none' })
         const interval = setInterval(() => {
           const newTime = this.data.snsMsgWait - 1
@@ -197,13 +194,21 @@ Page({
       url: api.CheckEmailQuanzi,
       method: 'GET',
       data: { campus: "beita", email },
+      header: session.authHeader({ 'content-type': 'application/json' }),
       success: (res) => {
+        if (apiCompat.shouldStopForApiError(res)) {
+          return
+        }
         if (res.data.code === 200) {
           wx.request({
             url: api.AddVerifyUserQuanzi,
             method: 'GET',
             data: { openid: app.globalData.openid, pic: "", campus: "beita", email },
-            success: () => {
+            header: session.authHeader({ 'content-type': 'application/json' }),
+            success: (addRes) => {
+              if (apiCompat.shouldStopForApiError(addRes)) {
+                return
+              }
               Toast.success('验证成功，欢迎来到贝塔驿站！')
               wx.setStorageSync('isVerified', 1)
             }

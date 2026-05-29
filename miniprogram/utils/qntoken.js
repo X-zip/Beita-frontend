@@ -19,18 +19,13 @@ function token(opt) {
   wx.setStorageSync('tokentime', strdata.deadline)
   var str = JSON.stringify(strdata);
   var encoded = Buffer.from(str).toString('base64');
-  console.log('base64', encoded)
   var encodedStr = base64ToUrlSafe(encoded);
-  console.log('encodedStr', str,encodedStr)
 //HmacSHA1加密
 
   var sign = CryptoJS.HmacSHA1(encodedStr, secretkey);
-  console.log('sign',sign)
   var cod = base64.stringify(sign)
-  console.log('cod',cod)
   var encodedSign = base64ToUrlSafe(cod);
   var token = accessKey + ':' + encodedSign + ':' + encodedStr;
-  console.log('token', token)
   return token;
 };
 

@@ -1,5 +1,6 @@
 <!-- pages/usercenter/usercenter.wxml -->
 <van-toast id="van-toast" />
+<official-account></official-account>
 <view>
   <view class="top-box">
     <van-row custom-class="row-0">

@@ -1,4 +1,5 @@
 const api = require("../../../config/api");
+const session = require('../../../utils/session.js')
 
 var app = getApp();
 Page({
@@ -21,12 +22,11 @@ Page({
           avatarUrl: wx.getStorageSync('avatarUrl'),
           userName:wx.getStorageSync('userName'),
           hasUserInfo: true
-        }) 
+        })
     }
   },
 
   goToStoryDetail(e) {
-    console.log("e.target.dataset" + JSON.stringify(e.target.dataset))
     wx.navigateTo({
       url: '../../detail/detail?id=' + e.target.dataset.detail
     })
@@ -54,7 +54,6 @@ Page({
     var that = this
     var old_data = that.data.tasks;
     var length = old_data.length
-    console.log(length)
     wx.request({
       url: api.GetCommentByApplyto,
       method:'GET',
@@ -62,11 +61,8 @@ Page({
         applyTo: app.globalData.openid,
         length: parseInt(length),
       },
-      header: {
-        'content-type': 'application/json' // 默认值
-      },
+      header: session.authHeader({ 'content-type': 'application/json' }),
       success (res) {
-        console.log("reply:",res.data)
         wx.hideLoading()
         that.setData({
           tasks: old_data.concat(res.data.commentList)
@@ -126,7 +122,7 @@ Page({
         title: '没有更多内容',
         icon: 'none'
       })
-    } 
+    }
   },
 
   /**

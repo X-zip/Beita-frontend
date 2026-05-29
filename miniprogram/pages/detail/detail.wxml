@@ -8,6 +8,10 @@
 <wxs module = "getDate" src="../../WXS/sub_date.wxs"></wxs>
 <wxs src="../../WXS/cal_view.wxs" module="random" />
 
+
+<official-account></official-account>
+
+
 <!-- 合并为一个容器，通过条件类控制树洞背景 -->
 <view class="container {{ (task[0].radioGroup == 'radio40' || task[0].radioGroup == 'radio41' || task[0].radioGroup == 'radio42' || task[0].radioGroup == 'radio43') ? 'treehole-style' : '' }}">
 
@@ -15,7 +19,7 @@
   <view class="detail" style="width: 100%;">
     <block wx:for="{{ task }}" wx:key="index" wx:for-item="task">
       <view class="task-list-title">
-        <!-- <image wx:if="{{ is_self }}" class="up_img" src='../../images/up.png' bindtap='updatetime' mode='aspectFill'></image> -->     
+        <!-- <image wx:if="{{ is_self }}" class="up_img" src='../../images/up.png' bindtap='updatetime' mode='aspectFill'></image> -->
         <text class="task_title" wx:if="{{task.radioGroup == 'radio4'}}">树洞 | 吐槽</text>
         <text class="task_title" wx:elif="{{task.radioGroup == 'radio40'}}">树洞 | 吐槽</text>
         <text class="task_title" wx:elif="{{task.radioGroup == 'radio41'}}">树洞 | 倾诉</text>
@@ -37,8 +41,8 @@
         </view>
         <view wx:if="{{task.campusGroup == '1'}}" class="campus-box" data-id="{{ task.id }}">良乡校区</view>
         <view wx:elif="{{task.campusGroup == '0'}}" class="campus-box" data-id="{{ task.id }}">中关村校区</view>
-        <view wx:else class="campus-box" data-id="{{ task.id }}"></view> 
-        <view class="delete-box"> 
+        <view wx:else class="campus-box" data-id="{{ task.id }}"></view>
+        <view class="delete-box">
           <text wx:if="{{ is_self || isdel}}" bindtap='delete_detail' class="delete-button" data-id="{{ task.id }}">删除</text>
         </view>
       </view>
@@ -96,7 +100,7 @@
             <view class="menu-desc-small {{currentSmallTab==index ? 'on-small' : ''}}" data-id="{{ sub_menu.name[index] }}">{{sub_menu.descs[index]}}</view>
           </view>
         </view>
-      </view>  
+      </view>
     </view>
 
     <view class="pro-con">
@@ -114,7 +118,7 @@
                   <view class="names_fl">{{item.userName}}</view>
                 </view>
               </view>
-              <view class="delete-comment-box"> 
+              <view class="delete-comment-box">
                 <text wx:if="{{current_openid == item.openid || isdel}}" bindtap='delete_comment' class="delete-comment" data-id="{{ item.id }}">删除</text>
               </view>
             </view>
@@ -189,14 +193,14 @@
   <!-- 发布区：保留一份，原逻辑/入参/事件不变 -->
   <form bindsubmit="submitForm" report-submit="true">
     <view class="release">
-      <view wx:if="{{task[0].radioGroup == 'radio4' || task[0].radioGroup == 'radio40' || task[0].radioGroup == 'radio41' || task[0].radioGroup == 'radio42' || task[0].radioGroup == 'radio43'}}" class="nickNameinfo">  
+      <view wx:if="{{task[0].radioGroup == 'radio4' || task[0].radioGroup == 'radio40' || task[0].radioGroup == 'radio41' || task[0].radioGroup == 'radio42' || task[0].radioGroup == 'radio43'}}" class="nickNameinfo">
         <input class="name__bar" wx:if="{{ !is_self }}" placeholder-class="input_null" value="{{nickNameOld}}" name="nickNameinfo" placeholder="请输入昵称" minlength="0" maxlength="50" />
       </view>
 
       <view wx:if="{{reply}}" class="replyinfo">
         <textarea placeholder-class="input_null" fixed="true" maxlength="-1" show-confirm-bar="false" cursor-spacing="15" auto-height="true" placeholder="请输入回复" name="comment" value='回复{{replyName}}:{{form_info}}'></textarea>
-        <image src="../../images/pic.png" bindtap="takePhoto" mode="aspectFit" wx:if="{{imgOriList.length == 0}}"></image> 
-        <image src="{{imgOriList[0] + '?imageView2/2/w/50'}}" bindtap="takePhoto" mode="aspectFit" wx:else></image>  
+        <image src="../../images/pic.png" bindtap="takePhoto" mode="aspectFit" wx:if="{{imgOriList.length == 0}}"></image>
+        <image src="{{imgOriList[0] + '?imageView2/2/w/50'}}" bindtap="takePhoto" mode="aspectFit" wx:else></image>
         <button form-type="submit" class="submit" wx:if="{{ hasUserInfo }}">发送</button>
         <button bindtap="nologin" class="submit" wx:else>发送</button>
       </view>
@@ -204,7 +208,7 @@
       <view class="replyinfo" wx:else>
         <textarea placeholder-class="input_null" fixed="true" maxlength="-1" show-confirm-bar="false" cursor-spacing="15" auto-height="true" placeholder="请输入回复" name="comment" value='{{form_info}}'></textarea>
         <image src="../../images/pic.png" bindtap="takePhoto" mode="aspectFit" wx:if="{{imgOriList.length == 0}}"></image>
-        <image src="{{imgOriList[0] + '?imageView2/2/w/50'}}" bindtap="takePhoto" mode="aspectFit" wx:else></image>      
+        <image src="{{imgOriList[0] + '?imageView2/2/w/50'}}" bindtap="takePhoto" mode="aspectFit" wx:else></image>
         <button form-type="submit" class="submit" wx:if="{{ hasUserInfo }}">发送</button>
         <button bindtap="nologin" class="submit" wx:else>发送</button>
       </view>

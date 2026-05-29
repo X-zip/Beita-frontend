@@ -1,6 +1,7 @@
 // pages/usercenter/usercenter.js
 var app = getApp();
 const api = require("../../config/api");
+const session = require('../../utils/session.js')
 import Toast from '@vant/weapp/toast/toast';
 Page({
 
@@ -61,11 +62,8 @@ Page({
           openid: app.globalData.openid,
           campus:app.globalData.campus
         },
-        header: {
-          'content-type': 'application/json' // 默认值
-        },
+        header: session.authHeader({ 'content-type': 'application/json' }),
         success (res) {
-          console.log('member',res.data.memberList[0])
           if (res.data.memberList[0].au4 > 0) {
             wx.setStorageSync('isdel', true)
           } else {
@@ -75,11 +73,9 @@ Page({
     })
     let tmplIds=[];
     tmplIds[0] = app.globalData.template_id
-    console.log("tmplIds",tmplIds)
     wx.requestSubscribeMessage({
       tmplIds: tmplIds,
       success(res) {
-        console.log(res.data)
         if (wx.getStorageSync('subNum')) {
           var num = Number(wx.getStorageSync('subNum'))
           num += 1
@@ -106,7 +102,6 @@ Page({
   toApplication: function() {
     var that = this
     var isVerified = that.data.isVerified
-    console.log(isVerified)
     if (isVerified == -1) {
         wx.navigateTo({
             url: '../application/application',
@@ -115,7 +110,7 @@ Page({
         Toast('请耐心等待认证结果');
     } else {
         Toast('已认证');
-    }  
+    }
   },
   toMytask: function() {
     wx.navigateTo({
@@ -143,7 +138,7 @@ Page({
       url: '../uitem/qr/qr',
     })
   },
-  
+
   /**
    * 生命周期函数--监听页面加载
    */
@@ -152,7 +147,7 @@ Page({
       avatarUrl: wx.getStorageSync('avatarUrl'),
       userName:wx.getStorageSync('userName'),
       isVerified : wx.getStorageSync('isVerified')
-    }) 
+    })
     if (wx.getStorageSync('getMember') != 1) {
       this.getMember()
       wx.setStorageSync('getMember',"1")
@@ -174,7 +169,7 @@ Page({
         avatarUrl: wx.getStorageSync('avatarUrl'),
         userName:wx.getStorageSync('userName'),
         isVerified : wx.getStorageSync('isVerified')
-    }) 
+    })
     if (wx.getStorageSync('getMember') != 1) {
         this.getMember()
         wx.setStorageSync('getMember',"1")
@@ -182,8 +177,7 @@ Page({
   },
 
   chooseTab(e) {
-    var that = this 
-    console.log(e.target.dataset.id)
+    var that = this
     if (e.target.dataset.id == 'post') {
       that.toMytask()
     } else if (e.target.dataset.id == 'like') {

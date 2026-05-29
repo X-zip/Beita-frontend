@@ -2,10 +2,10 @@
 <!-- <text class="title">贝塔驿站</text>
 <view class="qr-list">
   <view class="item">
-    <image class='image' src="http://yqtech.ltd/beita/contact/contact2.jpg" mode="widthFix" bindtap="imgYu"></image>
+    <image class='image' src="https://yqtech.ltd/beita/contact/contact2.jpg" mode="widthFix" bindtap="imgYu"></image>
   </view>
   <view class="item">
-    <image class='image' src="http://yqtech.ltd/beita/contact/contact1.jpg" mode="widthFix" bindtap="imgYu2"></image>
+    <image class='image' src="https://yqtech.ltd/beita/contact/contact1.jpg" mode="widthFix" bindtap="imgYu2"></image>
   </view>
 </view>
 <view class="text-list">
@@ -45,7 +45,7 @@
   </view>
 
   <!-- 联系方式 -->
-  <view class="section">
+  <!-- <view class="section">
     <view class="section-title">联系方式</view>
     <block wx:for="{{contacts}}" wx:key="value">
       <view class="item">
@@ -64,12 +64,12 @@
         </view>
       </view>
     </block>
-  </view>
-  
+  </view> -->
+
 
   <!-- 二维码（可选） -->
   <view class="section" wx:if="{{qrcodes.length}}">
-    <view class="section-title">二维码</view>
+    <view class="section-title">贝塔驿站微信二维码</view>
     <view class="qr-grid">
       <block wx:for="{{qrcodes}}" wx:key="img">
         <view class="qr-card" bindtap="previewQRCodes" data-index="{{index}}">

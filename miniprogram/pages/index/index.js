@@ -44,7 +44,7 @@ Page({
         '../../images/second_hand.png',
         '../../images/find.png',
         '../../images/help.png',
-        '../../images/internship.png',        
+        '../../images/internship.png',
         '../../images/rent.png',
       ],
       descs: [
@@ -52,7 +52,7 @@ Page({
         '二手市场',
         '失物寻物',
         '打听求助',
-        '兼职发布',       
+        '兼职发布',
         '租房信息',
       ],
       name: [
@@ -69,21 +69,21 @@ Page({
       descs: [
         '全部校区',
         '中关村',
-        '良乡',     
-        '珠海',  
+        '良乡',
+        '珠海',
       ],
     name:[
       '2',
       '1',
       '0',
-      '3', 
+      '3',
     ]},
     currentTab: 0,
     currentSmallTab:0,
     imgUrls: [
-      'http://yqtech.ltd/bit_titlesecond_title.jpg',
-      'http://yqtech.ltd/bit_titlefind_title.png',
-      'http://yqtech.ltd/treehole/treehole.png',
+      'https://yqtech.ltd/bit_titlesecond_title.jpg',
+      'https://yqtech.ltd/bit_titlefind_title.png',
+      'https://yqtech.ltd/treehole/treehole.png',
     ],
     indicatorDots: true,
     autoplay: true,
@@ -128,7 +128,6 @@ Page({
                     url: '../usercenter/usercenter'
                   })
             } else if (res.cancel) {
-              console.log('用户点击取消')
             }
         }
       })
@@ -159,9 +158,8 @@ Page({
             showQr:true
           })
           wx.setStorageSync('shownQr', true)
-          console.log(res.data.qrList)
         }
-      }) 
+      })
   },
 
   onClose() {
@@ -172,14 +170,12 @@ Page({
   onSwiperTap: function(event) {
     var id = event.target.dataset.id;
     var that = this
-    console.log(id)
     if (id.indexOf('pages') != -1) {
-        console.log('/'+id)
         wx.navigateTo({
           url: '/'+id,
         // url: "/pages/uitem/contact/contact"
         })
-    } else if (id.indexOf('http://') != -1) {
+    } else if (id.indexOf('http') === 0) {
       wx.previewImage({
         current: id,
         urls: id.split(),
@@ -215,7 +211,7 @@ Page({
 	onShareTimeline: function () {
 		return {
 	      title: '买卖二手，树洞北理，尽在北理贝塔驿站',
-	      imageUrl: 'http://yqtech.ltd/treehole/timeline.jpg'
+	      imageUrl: 'https://yqtech.ltd/treehole/timeline.jpg'
 	    }
 	},
   onLoad: function(options) {
@@ -224,11 +220,10 @@ Page({
         mask: true,
       })
     var that = this
-    console.log(options)
     if (options.data) {
       that.setData({
         currentTab:options.data
-      })     
+      })
     }
     var UV = app.globalData.UV
     that.setData({
@@ -244,7 +239,7 @@ Page({
     var bannerList = wx.getStorageSync('bannerList1')
     var bannerListtime = wx.getStorageSync('bannerListtime1')
     var now = Date.parse(new Date());
-    if (bannerList.length > 0 && (now - bannerListtime)/1000 < 60*60*24 ) {
+    if (bannerList && bannerList.length > 0 && (now - bannerListtime)/1000 < 60*60*24 ) {
         that.setData({
             bannerList:bannerList,
             showBanner:true
@@ -259,12 +254,13 @@ Page({
               'content-type': 'application/json' // 默认值
             },
             success (res) {
-              if (res.data.bannerList.length > 0) {
+              const bannerList = (res.data && res.data.bannerList) || []
+              if (bannerList.length > 0) {
                 that.setData({
-                    bannerList:res.data.bannerList,
+                    bannerList:bannerList,
                     showBanner:true
                 })
-                wx.setStorageSync('bannerList1', res.data.bannerList)
+                wx.setStorageSync('bannerList1', bannerList)
                 wx.setStorageSync('bannerListtime1', Date.parse(new Date()))
               } else {
                 that.setData({
@@ -273,7 +269,7 @@ Page({
               }
 
             }
-          })  
+          })
     }
     var e = that.data.currentTab
     var t = that.data.currentSmallTab
@@ -289,7 +285,6 @@ Page({
     //             'content-type': 'application/json' // 默认值
     //         },
     //         success (res) {
-    //             console.log(res.data.text)
     //             wx.setStorageSync('kuaishoutime', Date.parse(new Date()))
     //             wx.setClipboardData({
     //                 data: res.data.text,
@@ -301,16 +296,15 @@ Page({
     //                     })
     //                     wx.hideLoading()
     //                 }
-    //             })    
+    //             })
     //         }
     //     })
     // }
-    console.log(e,t)
     this.getTaskInfo(e,t)
     var hotList = wx.getStorageSync('hotList')
     var hotListtime = wx.getStorageSync('hotListtime')
     var now = Date.parse(new Date());
-    if (hotList.length > 0 && (now - hotListtime)/1000 < 60*60*4 ) {
+    if (hotList && hotList.length > 0 && (now - hotListtime)/1000 < 60*60*4 ) {
         that.setData({
             hotList:hotList
         })
@@ -355,7 +349,7 @@ Page({
   onReady: function() {
 
   },
-  
+
 
   getHotList() {
     var that = this
@@ -371,15 +365,14 @@ Page({
           'content-type': 'application/json' // 默认值
         },
         success (res) {
-          console.log(res.data)
+          const taskList = (res.data && res.data.taskList) || []
           that.setData({
-              hotList:res.data.taskList
+              hotList:taskList
           })
-          wx.setStorageSync('hotList', res.data.taskList)
+          wx.setStorageSync('hotList', taskList)
           wx.setStorageSync('hotListtime', Date.parse(new Date()))
-          console.log("hotlist:",that.data.hotList)
         },
-      }) 
+      })
   },
 
   /**
@@ -394,18 +387,17 @@ Page({
         avatarUrl: wx.getStorageSync('avatarUrl'),
         userName:wx.getStorageSync('userName'),
         hasUserInfo: true
-      }) 
+      })
     } else {
       this.setData({
         hasUserInfo: false
       })
-    } 
+    }
     var t = that.data.currentSmallTab
     var tasks = wx.getStorageSync('tasks1')
     var taskstime = wx.getStorageSync('taskstime1')
     var now = Date.parse(new Date());
-    console.log("diff:",(now - taskstime)/1000)
-    if (tasks.length > 0 && (now - taskstime)/1000 < 60*60 ) {
+    if (tasks && tasks.length > 0 && (now - taskstime)/1000 < 60*60 ) {
         that.setData({
             tasks: tasks
         })
@@ -416,7 +408,6 @@ Page({
   },
 
   getTaskInfo(e,t) {
-    console.log(e,t)
     var that = this
     that.setData({
       noMore: false,
@@ -439,9 +430,6 @@ Page({
       var radio = ['radio6']
     }
     var cursor = that.data.lastId;
-    console.log("type",parseInt(t))
-    console.log("radio",radio)
-    console.log("cursor",cursor)
     const dataToEncrypt = { verify: 'zzyq', c_time: new Date() }
     const encrypted = encryptContent(dataToEncrypt)
     wx.request({
@@ -457,34 +445,31 @@ Page({
       header: { "Content-Type": "application/x-www-form-urlencoded" },
       success (res) {
         wx.hideLoading()
-        wx.stopPullDownRefresh(); 
-        var data = res.data.taskList
+        wx.stopPullDownRefresh();
+        var data = (res.data && res.data.taskList) || []
         for (var i in data){
           data[i].img = data[i].img.replace('[','').replace(']','').replace('\"','').replace('\"','').split(',')
         }
-        console.log(data)
-        console.log("lastId:", data[data.length - 1].id)
         if (data.length > 0) {
           that.setData({ lastId: data[data.length - 1].id });
         } else {
           // 没有新数据，标记为无更多
           that.setData({ noMore: true });
         }
-        console.log(data)
         wx.hideLoading()
         that.setData({
           tasks: old_data.concat(data)
         })
         wx.setStorageSync('tasks1', old_data.concat(data))
         wx.setStorageSync('taskstime1', Date.parse(new Date()))
-        if (res.data.taskList.length == 0) {
+        if (data.length == 0) {
           that.setData({
             noMore: true
           })
         }
       },
-    }) 
-   
+    })
+
 
   },
 
@@ -532,7 +517,6 @@ Page({
     })
     var e = this.data.currentTab
     var t = this.data.currentSmallTab
-    console.log(e,t)
     this.getTaskInfo(e,t)
     this.setData({
       triggered: false,
@@ -645,7 +629,6 @@ Page({
     that.setData({
       top:e.scrollTop
     })
-    console.log(that.data.top)
   },
 
   bottomNavChange: function(e) {
@@ -656,7 +639,6 @@ Page({
         currentSmallTab: nextActiveIndex,
         prevSmallIndex: currentIndex
       });
-      console.log(_this.data.currentSmallTab)
       _this.setData({
         lastId:9999999,
         tasks:[],
@@ -668,7 +650,7 @@ Page({
 
 
   /**
-   * 
+   *
    * Called when user click on the top right corner to share
    */
   onShareAppMessage: function() {

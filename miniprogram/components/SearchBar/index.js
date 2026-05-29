@@ -69,7 +69,6 @@ Component({
     },
     //失去焦点
     blursearch() {
-      // console.log('失去焦点')
 
     },
     // 取消

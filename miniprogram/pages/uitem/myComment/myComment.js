@@ -1,4 +1,6 @@
 const api = require("../../../config/api");
+const session = require('../../../utils/session.js')
+const apiCompat = require('../../../utils/apiCompat.js')
 
 var app = getApp();
 Page({
@@ -26,13 +28,12 @@ Page({
         userInfo: app.globalData.userInfo,
         hasUserInfo: true
       })
-      
+
     }
   },
 
   goToStoryDetail(e) {
     if (this.endTime - this.startTime < 350) {
-      console.log("e.target.dataset" + JSON.stringify(e.target.dataset))
       wx.navigateTo({
         url: '../../detail/detail?id=' + e.target.dataset.detail
       })
@@ -54,10 +55,8 @@ Page({
       content: '确定要删除吗？',
       success: function (sm) {
         if (sm.confirm) {
-          // 用户点击了确定 可以调用删除方法了  
-          console.log(e.target.dataset.id)
+          // 用户点击了确定 可以调用删除方法了
           var pk = e.target.dataset.id
-        //   const db = wx.cloud.database()
           wx.request({
             url: api.DeleteComment,
             method:'POST',
@@ -65,8 +64,11 @@ Page({
               openid:app.globalData.openid,
               pk:parseInt(pk)
             },
-            header: { "Content-Type": "application/json" },
+            header: session.authHeader({ "Content-Type": "application/json" }),
             success (res) {
+              if (apiCompat.shouldStopForApiError(res)) {
+                return
+              }
               wx.showToast({
                 title: '删除成功！',
                 icon: 'none',
@@ -75,7 +77,6 @@ Page({
             },
           })
         } else if (sm.cancel) {
-          console.log('用户点击取消')
         }
       }
     })
@@ -103,7 +104,6 @@ Page({
     var that = this
     var old_data = that.data.tasks;
     var length = old_data.length
-    console.log(length)
     wx.request({
       url: api.GetCommentByOpenid,
       method:'GET',
@@ -111,11 +111,8 @@ Page({
         openid: app.globalData.openid,
         length: parseInt(length),
       },
-      header: {
-        'content-type': 'application/json' // 默认值
-      },
+      header: session.authHeader({ 'content-type': 'application/json' }),
       success (res) {
-        console.log("comment:",res.data)
         that.setData({
           tasks: old_data.concat(res.data.commentList)
         })

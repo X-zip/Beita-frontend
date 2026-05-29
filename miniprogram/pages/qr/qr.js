@@ -27,7 +27,6 @@ Page({
               that.setData({
                 qrList:res.data.qrList
               })
-              console.log(res.data.qrList)
             }
         })
 

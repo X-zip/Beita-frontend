@@ -6,15 +6,15 @@
 <wxs module = "getDate" src="../../WXS/sub_date.wxs"></wxs>
 <wxs src="../../WXS/cal_view.wxs" module="random" />
 
-<radial-menu 
-  run="{{ false }}" 
+<radial-menu
+  run="{{ false }}"
   speed="{{ 100000 }}"
-  items="{{ items }}" 
-  midIcon="../../images/add.png" 
+  items="{{ items }}"
+  midIcon="../../images/add.png"
   bindclick="click"
   id="radial-menu"
 />
-
+<official-account></official-account>
 <view class="top-box">
   <navigation class="{{ top>0 ? 'navColor' : ''}}">
     <view class="search">

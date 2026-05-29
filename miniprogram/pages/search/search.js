@@ -49,7 +49,6 @@ Page({
     var length = old_data.length
     const dataToEncrypt = { verify: 'zzyq', c_time: new Date() }
     const encrypted = encryptContent(dataToEncrypt)
-    console.log(length)
     wx.request({
       url: api.GettaskbySearch,
       method:'GET',
@@ -68,7 +67,6 @@ Page({
         for (var i in data){
           data[i].img = data[i].img.replace('[','').replace(']','').replace('\"','').replace('\"','').split(',')
         }
-        console.log(data)
         wx.hideLoading()
         that.setData({
           tasks: old_data.concat(data)
@@ -79,7 +77,6 @@ Page({
 
 
   goToStoryDetail(e) {
-    console.log("e.target.dataset" + JSON.stringify(e.target.dataset))
     wx.navigateTo({
       url: '../detail/detail?id=' + e.target.dataset.id
     })

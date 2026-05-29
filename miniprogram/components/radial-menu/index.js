@@ -54,7 +54,6 @@ Component({
 
       wx.getSystemInfo({
         success: function(res) {
-          console.log(res.platform)
           var windowHeight = res.windowHeight
           var windowWidth = res.windowWidth
           that.setData({
@@ -100,16 +99,15 @@ Component({
 
   goGong:function (e) {  // 一键回到顶部
     wx.navigateTo({
-        url: '../webView/webView?id=' + "https://mp.weixin.qq.com/s/Yf82iZkM6bebYJQqyjSWKQ",
+        url: '../webView/webView?id=' + "https://mp.weixin.qq.com/s/Hpcb835vGc8jDQd05Rbe9A",
       })
   },
 
 
     hideIcon:function(){
       var that=this
-      console.log("hideIcon")
       that.pop()
-      that.setData({ 
+      that.setData({
         pushStatus: false,
         isPush:false
       })

@@ -1,10 +1,10 @@
 // pages/uitem/login/login.js
 var app = getApp();
-const token = require('../../../utils/qntoken.js')
 const qiniuUploader = require("../../../utils/qiniuUploader_touxiang.js");
 const api = require('../../../config/api.js');
+const session = require('../../../utils/session.js')
+const uploadCredential = require('../../../utils/uploadCredential.js')
 const {
-    QINIU_CONFIG,
     SUBSCRIBE_TEMPLATE_IDS,
 } = require('../../../utils/constants_private.js');
 
@@ -15,26 +15,22 @@ Page({
      */
     data: {
         avatarUrl: "../../../images/unlogin.png",
-        avatarList: ["http://yqtech.ltd/animal/d1.jpg",
-                    "http://yqtech.ltd/animal/d2.jpg",
-                    "http://yqtech.ltd/animal/d3.jpg",
-                    "http://yqtech.ltd/animal/d4.jpg",],
+        avatarList: ["https://yqtech.ltd/animal/d1.jpg",
+                    "https://yqtech.ltd/animal/d2.jpg",
+                    "https://yqtech.ltd/animal/d3.jpg",
+                    "https://yqtech.ltd/animal/d4.jpg",],
         showSelect:false
     },
 
     getUserProfile: function(e) {
-        console.log("value:",e.detail.value)
         wx.request({
             url: api.GetMember,
             method:'GET',
             data: {
               openid: app.globalData.openid,
             },
-            header: {
-              'content-type': 'application/json' // 默认值
-            },
+            header: session.authHeader({ 'content-type': 'application/json' }),
             success (res) {
-            //   console.log(res.data.memberList[0].au4)
                 if (res.data.memberList.length > 0) {
                     if (res.data.memberList[0].au4 > 0) {
                     wx.setStorageSync('isdel', true)
@@ -49,7 +45,6 @@ Page({
         wx.requestSubscribeMessage({
           tmplIds: [SUBSCRIBE_TEMPLATE_IDS],
           success(res) {
-            console.log(res.data)
             if (wx.getStorageSync('subNum')) {
               var num = Number(wx.getStorageSync('subNum'))
               num += 1
@@ -93,60 +88,44 @@ Page({
       },
 
       selectAvatar(e){
-        console.log(e.currentTarget.dataset.id)
         this.setData({
             selectId:e.currentTarget.dataset.id
         })
         wx.setStorageSync('avatarUrl', this.data.avatarList[e.currentTarget.dataset.id] )
       },
-    
+
       onChooseAvatar(e) {
-        this.gettoken()
         this.upload(e.detail.avatarUrl)
       },
-    
-      gettoken() {
-        var tokendata = []
-        tokendata.ak = QINIU_CONFIG.ak
-        tokendata.sk = QINIU_CONFIG.sk,
-        tokendata.bkt = QINIU_CONFIG.bkt
-        tokendata.cdn = ''
-        this.data.tokendata = tokendata
-        var uptoken = token.token(tokendata)
-        this.setData({
-          uptoken: uptoken
-        })
-        //console.log('uptoken', uptoken, this.data.tokendata)
-      },
-    
+
       upload(e) {
-        // await this.gettoken()//获取token需要用到 不用await记得吧async取消
-        console.log(e) //传入的地址
         var that = this
-        qiniuUploader.upload(
-          e, //上传的图片
-          (res) => { //回调 success
-            console.log(res)
-            let url = 'http://' + res.imageURL;      
-            console.log("image:", url);
-            wx.setStorageSync('avatarUrl', url )
-            that.setData({
-              avatarUrl: url,
-            })
-          },
-          (error) => { //回调 fail
-            console.log('error: ' + error);
-          }, {
-            // 参数设置  地区代码 token domain 和直传的链接 注意七牛四个不同地域的链接不一样，我使用的是华南地区
-            region: 'NCN',
-            // ECN, SCN, NCN, NA, ASG，分别对应七牛的：华东，华南，华北，北美，新加坡 5 个区域
-            uptoken: that.data.uptoken, //上传凭证自己生成
-            uploadURL: 'https://upload-z1.qiniup.com', //下面选你的区z2是华南的
-            domain: 'imgbf.yqtech.ltd', //cdn域名建议直接写出来不然容易出异步问题如domain:‘你的cdn’
-          },
-          (progress) => {
-          },
-        )
+        uploadCredential.getUploadCredential('avatar', e).then(credential => {
+          qiniuUploader.upload(
+            e,
+            (res) => {
+              let url = uploadCredential.normalizeImageUrl(res.imageURL);
+              wx.setStorageSync('avatarUrl', url )
+              that.setData({
+                avatarUrl: url,
+              })
+            },
+            (error) => {
+              wx.showToast({
+                title: '上传失败',
+                icon: 'none'
+              })
+            },
+            uploadCredential.qiniuOptions(credential),
+            (progress) => {
+            },
+          )
+        }).catch(() => {
+          wx.showToast({
+            title: '上传失败',
+            icon: 'none'
+          })
+        })
       },
 
     /**

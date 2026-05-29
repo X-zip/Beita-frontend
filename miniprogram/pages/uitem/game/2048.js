@@ -1,5 +1,7 @@
 var app = getApp();
 var api = require('../../../config/api.js');
+const session = require('../../../utils/session.js')
+const apiCompat = require('../../../utils/apiCompat.js')
 var Grid = require('./grid.js');
 var Tile = require('./tile.js');
 var GameManager = require('./game_manager.js');
@@ -30,7 +32,7 @@ var config = {
 	onShareTimeline: function () {
 		return {
 	      title: '只有最强的理工魂才合成过北理工!',
-	      imageUrl: 'http://yqtech.ltd/treehole/timeline.jpg'
+	      imageUrl: 'https://yqtech.ltd/treehole/timeline.jpg'
 	    }
     },
 
@@ -59,12 +61,12 @@ var config = {
               userName: wx.getStorageSync('userName'),
               score:that.data.score,
             },
-            header: {
-              'content-type': 'application/json' // 默认值
-            },
+            header: session.authHeader({ 'content-type': 'application/json' }),
             method:'GET',
             success: function (res) {
-                console.log(res)
+                if (apiCompat.shouldStopForApiError(res)) {
+                  return
+                }
                 wx.showToast({
                   title: '提交成功',
                 })
@@ -89,24 +91,23 @@ var config = {
           },
           method:'GET',
           success: function (res) {
-              console.log(res)
               var data = res.data.rankList
               that.setData({
                 rankList:old_data.concat(data)
               })
           },
           fail: function () {
-            console.log("请求失败")
+            console.error("请求失败")
           }
         })
      },
 
      scrollToLower: function(e) {
          var that=this
-        console.info('scrollToLower', e); 
+        console.info('scrollToLower', e);
         that.getRankList()
       },
-    
+
     onLoad: function() {
         this.GameManager = new GameManager(4);
 

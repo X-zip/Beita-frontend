@@ -2,14 +2,15 @@
 const app = getApp()
 var util = require('../../utils/util.js')
 var check = require('../../utils/check.js')
-const token = require('../../utils/qntoken.js')
 const qiniuUploader = require("../../utils/qiniuUploader.js");
 var api = require('../../config/api.js');
 var CryptoJS = require('../../utils/aes.js')
+const session = require('../../utils/session.js')
+const apiCompat = require('../../utils/apiCompat.js')
+const uploadCredential = require('../../utils/uploadCredential.js')
 const {
     AES_KEY,
     AES_IV,
-    QINIU_CONFIG,
     SUBSCRIBE_TEMPLATE_IDS,
 } = require('../../utils/constants_private.js');
 
@@ -21,17 +22,16 @@ function encryptContent(contentObj) {
     })
     return encrypted.ciphertext.toString().toUpperCase()
 }
-  
+
 // 生成随机头像与名字（保持同一索引对应）
 function pickRandomAvatar(avatarList, timestamp = '') {
     const imgs = avatarList?.img || [];
     const names = avatarList?.name || [];
     const n = Math.min(imgs.length, names.length); // 以较短的为准
-    console.log(n)
     if (n === 0) {
       return { userName: 'Guest' + timestamp, avatar: '' }; // 可换成你的默认头像
     }
-  
+
     const idx = Math.floor(Math.random() * n); // 0 ~ n-1
     return {
       userName: names[idx] + timestamp,
@@ -89,7 +89,7 @@ Page({
 	      menus: ['shareAppMessage', 'shareTimeline']
 	    })
   },
-  
+
 	//用户点击右上角分享朋友圈
 	onShareTimeline: function () {
     var that = this
@@ -101,7 +101,7 @@ Page({
     } else {
       return {
 	      title: that.data.task[0].title,
-	      imageUrl: 'http://yqtech.ltd/treehole/timeline.jpg'
+	      imageUrl: 'https://yqtech.ltd/treehole/timeline.jpg'
 	    }
     }
 
@@ -128,7 +128,7 @@ Page({
 
   thumbsup: function(e) {
     var that = this
-    var pk = that.data.pk 
+    var pk = that.data.pk
     var openid = app.globalData.openid
     if (that.data.state == false) {
       that.setData({
@@ -156,11 +156,9 @@ Page({
           pk: that.data.pk,
           openid:app.globalData.openid
         },
-        header: {
-          'content-type': 'application/json' // 默认值
-        },
+        header: session.authHeader({ 'content-type': 'application/json' }),
         success (res) {
-
+          apiCompat.shouldStopForApiError(res)
         },
       })
     } else {
@@ -186,9 +184,7 @@ Page({
           openid: openid,
           pk: pk
         },
-        header: {
-          'content-type': 'application/json' // 默认值
-        },
+        header: session.authHeader({ 'content-type': 'application/json' }),
         success (res) {
           that.setData({
             ['_id']: res.data.likeList[0].id,
@@ -201,11 +197,9 @@ Page({
               id:parseInt(that.data._id),
               pk:parseInt(that.data._pk),
             },
-            header: {
-              'content-type': 'application/json' // 默认值
-            },
+            header: session.authHeader({ 'content-type': 'application/json' }),
             success (res) {
-
+              apiCompat.shouldStopForApiError(res)
             },
           })
         },
@@ -232,12 +226,11 @@ Page({
                         url: '../usercenter/usercenter'
                       })
                 } else if (res.cancel) {
-                  console.log('用户点击取消')
                 }
             }
         })
         return
-    } 
+    }
     if (pages.length > 1) {
       var page = pages[1].route + '?id=' + pk
     } else {
@@ -295,32 +288,37 @@ Page({
         that.setData({
           ['comment.userName']: form.nickNameinfo
         })
+
         wx.setStorageSync('nickName',form.nickNameinfo)
       } else {
         that.setData({
           ['comment.userName']: nickName
         })
         wx.setStorageSync('nickName',nickName)
-      } 
+      }
     }else {
       that.setData({
         ['comment.userName']: userName
       })
       that.setData({
         ['comment.avatar']: avatar
-      })  
-    }   
+      })
+    }
     var c_time = util.formatTime(new Date())
     if (form.comment == "") {
     //if (1) {
+      wx.hideLoading()
       wx.showToast({
         title: '回复不能为空！',
         icon: 'none',
       })
       return;
     } else {
-    //   const db = wx.cloud.database()
       let checkResult = check.checkString(that.data.comment.comment,app.globalData.openid).then(function(result) {
+        if (result === null) {
+          wx.hideLoading()
+          return
+        }
         if (result) {
             wx.request({
               url: api.Addcomment,
@@ -337,11 +335,12 @@ Page({
                 level:level,
                 pid:that.data.pid,
               },
-              header: {
-                'content-type': 'application/json' // 默认值
-              },
+              header: session.authHeader({ 'content-type': 'application/json' }),
               success (res) {
-                console.log("res: ",res)
+                if (apiCompat.shouldStopForApiError(res)) {
+                  wx.hideLoading()
+                  return
+                }
                 if(res.data.code==200) {
                     wx.showToast({
                       title: '您已被禁言！请联系管理员解封！'+'id: '+res.data.id,
@@ -385,11 +384,8 @@ Page({
                             comment: comment,
                             time: c_time,
                         },
-                        header: {
-                            'content-type': 'application/json' // 默认值
-                        },
-                        success: function(re) {
-                            
+                        header: session.authHeader({ 'content-type': 'application/json' }),
+                        success: function(res) {
                         }
                     })
                     that.setData({
@@ -401,13 +397,13 @@ Page({
                         title: '发送成功',
                         icon: 'none',
                     })
-                    that.onShow() 
+                    that.onShow()
                 }
-                
+
               },
             })
-          
-          
+
+
         } else {
           wx.hideLoading()
           wx.showToast({
@@ -431,10 +427,11 @@ Page({
       data: {
         openid:app.globalData.openid
       },
-      header: {
-        'content-type': 'application/json' // 默认值
-      },
+      header: session.authHeader({ 'content-type': 'application/json' }),
       success (res) {
+        if (apiCompat.shouldStopForApiError(res)) {
+          return
+        }
         if(res.data.code==200 || res.data.code==1 || res.data.code==3 || res.data.code==7 ) {
           wx.showToast({
             title: '您近期有违规操作，请与贝塔联系！',
@@ -457,11 +454,11 @@ Page({
                 }
               })
             }
-          })      
+          })
         }
       }
-    })  
-    
+    })
+
   },
 
   return_index: function() {
@@ -545,7 +542,6 @@ Page({
     //             'content-type': 'application/json' // 默认值
     //         },
     //         success (res) {
-    //             console.log(res.data.text)
     //             wx.setStorageSync('kuaishoutime', Date.parse(new Date()))
     //             wx.setClipboardData({
     //                 data: res.data.text,
@@ -556,9 +552,8 @@ Page({
     //                         mask: true,
     //                     })
     //                     wx.hideLoading()
-    //                     console.log(res)
     //                 }
-    //             })    
+    //             })
     //         }
     //     })
     // }
@@ -591,7 +586,7 @@ Page({
       header: {
         'content-type': 'application/json' // 默认值
       },
-      success (res) {  
+      success (res) {
          if (res.data.taskList.length > 0){
           if (openid == res.data.taskList[0].openid) {
             that.setData({
@@ -630,7 +625,7 @@ Page({
               }
               }
           })
-        }       
+        }
       }
     })
     var e = that.data.currentSmallTab
@@ -669,7 +664,7 @@ Page({
     })
   },
 
-  
+
   delete_detail(e) {
     var that = this
     wx.showModal({
@@ -677,7 +672,7 @@ Page({
       content: '确定要删除吗？',
       success: function(sm) {
         if (sm.confirm) {
-          // 用户点击了确定 可以调用删除方法了  
+          // 用户点击了确定 可以调用删除方法了
           var pk = e.target.dataset.id
           var key = AES_KEY;
           var iv = AES_IV;
@@ -685,7 +680,6 @@ Page({
           iv = CryptoJS.enc.Utf8.parse(iv);
           const dataToEncrypt = { id: pk}
           const encrypted = encryptContent(dataToEncrypt)
-          console.log("encrypted:",encrypted)
           wx.request({
             url: api.DeleteTask,
             method:'POST',
@@ -693,8 +687,11 @@ Page({
               openid:app.globalData.openid,
               pk:encrypted
             },
-            header: { "Content-Type": "application/json" },
+            header: session.authHeader({ "Content-Type": "application/json" }),
             success (res) {
+              if (apiCompat.shouldStopForApiError(res)) {
+                return
+              }
               // wx.switchTab({
               //   url: '../index/index',
               // })
@@ -703,11 +700,10 @@ Page({
               })
             },
             fail(e) {
-                console.log(e)
             }
           })
         } else if (sm.cancel) {
-    
+
         }
       }
     })
@@ -720,9 +716,8 @@ Page({
       content: '确定要删除吗？',
       success: function (sm) {
         if (sm.confirm) {
-          // 用户点击了确定 可以调用删除方法了  
+          // 用户点击了确定 可以调用删除方法了
           var pk = e.target.dataset.id
-        //   const db = wx.cloud.database()
           wx.request({
             url: api.DeleteComment,
             method:'POST',
@@ -730,8 +725,11 @@ Page({
               openid:app.globalData.openid,
               pk:parseInt(pk)
             },
-            header: { "Content-Type": "application/json" },
+            header: session.authHeader({ "Content-Type": "application/json" }),
             success (res) {
+              if (apiCompat.shouldStopForApiError(res)) {
+                return
+              }
               wx.showToast({
                 title: '删除成功！',
                 icon: 'none',
@@ -770,7 +768,7 @@ Page({
 
   getComment:function(e) {
     var that = this
-    var pk = that.data.pk    
+    var pk = that.data.pk
     var old_data = that.data.list;
     var length = old_data.length
     const dataToEncrypt = { verify: 'zzyq', c_time: new Date() }
@@ -831,11 +829,8 @@ Page({
             filePath: res.path,
             name: 'file',
             url: api.ImgCheck,
-            header: {
-                'content-type': 'multipart/form-data'
-            },
+            header: session.authHeader({ 'content-type': 'multipart/form-data' }),
             success: function(checkres) {
-              console.log("checkres",checkres)
                 if (JSON.parse(checkres.data).errmsg == "ok") {
                     that.uploadCanvasImg(res.path,oriPath);
                 } else {
@@ -851,7 +846,7 @@ Page({
                   icon:'error'
                 })
             }
-          })       
+          })
         }
       })
     } else {
@@ -864,21 +859,7 @@ Page({
       title: '正在上传图片...',
       mask: true
     })
-    this.gettoken()
     this.uploadOri(oriImg)
-  },
-
-  gettoken() {
-    var tokendata = []
-    tokendata.ak = QINIU_CONFIG.ak
-    tokendata.sk = QINIU_CONFIG.sk,
-    tokendata.bkt = QINIU_CONFIG.bkt
-    tokendata.cdn = ''
-    this.data.tokendata = tokendata
-    var uptoken = token.token(tokendata)
-    this.setData({
-      uptoken: uptoken
-    })
   },
 
   uploadOri(e) {
@@ -887,30 +868,36 @@ Page({
       mask: true
     })
     var that = this
-    qiniuUploader.upload(
-      e, //上传的图片
-      (res) => { //回调 success
-        let url = 'http://' + res.imageURL;      
-        let imgOriList = that.data.imgOriList;
-        imgOriList.push(url)
-        that.setData({
-          imgOriList: imgOriList,
-        })
-        wx.hideLoading()
-      },
-      (error) => { //回调 fail
-      }, {
-        // 参数设置  地区代码 token domain 和直传的链接 注意七牛四个不同地域的链接不一样，我使用的是华南地区
-        region: 'NCN',
-        // ECN, SCN, NCN, NA, ASG，分别对应七牛的：华东，华南，华北，北美，新加坡 5 个区域
-        uptoken: that.data.uptoken, //上传凭证自己生成
-        uploadURL: 'https://upload-z1.qiniup.com', //下面选你的区z2是华南的
-        domain: 'imgbf.yqtech.ltd', //cdn域名建议直接写出来不然容易出异步问题如domain:‘你的cdn’
-      },
-      (progress) => {
-
-      },
-    )
+    uploadCredential.getUploadCredential('comment', e).then(credential => {
+      qiniuUploader.upload(
+        e,
+        (res) => {
+          let url = uploadCredential.normalizeImageUrl(res.imageURL);
+          let imgOriList = that.data.imgOriList;
+          imgOriList.push(url)
+          that.setData({
+            imgOriList: imgOriList,
+          })
+          wx.hideLoading()
+        },
+        (error) => {
+          wx.hideLoading()
+          wx.showToast({
+            title: '上传失败',
+            icon: 'none'
+          })
+        },
+        uploadCredential.qiniuOptions(credential),
+        (progress) => {
+        },
+      )
+    }).catch(() => {
+      wx.hideLoading()
+      wx.showToast({
+        title: '上传失败',
+        icon: 'none'
+      })
+    })
   },
 
   bottomNavChange: function(e) {
@@ -966,11 +953,9 @@ Page({
       data: {
         pk: e.currentTarget.dataset.id,
       },
-      header: {
-        'content-type': 'application/json' // 默认值
-      },
+      header: session.authHeader({ 'content-type': 'application/json' }),
       success (res) {
-        
+        apiCompat.shouldStopForApiError(res)
       },
     })
   },
@@ -1010,11 +995,9 @@ Page({
       data: {
         pk: e.currentTarget.dataset.id,
       },
-      header: {
-        'content-type': 'application/json' // 默认值
-      },
+      header: session.authHeader({ 'content-type': 'application/json' }),
       success (res) {
-        
+        apiCompat.shouldStopForApiError(res)
       },
     })
   },

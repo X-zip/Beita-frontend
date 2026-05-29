@@ -1,6 +1,8 @@
 // pages/suggestion/suggestion.js
 
 const api = require("../../../config/api");
+const session = require('../../../utils/session.js')
+const apiCompat = require('../../../utils/apiCompat.js')
 
 //const app = getApp()
 var app = getApp()
@@ -11,7 +13,6 @@ Page({
    * Page initial data
    */
   formSubmit: function(e) {
-    //console.log(e.detail.value.Title.length + e.detail.value.Title.length + '  ' + e.detail.value.Wechat.length)
     if (e.detail.value.Content.length == 0) {
       wx.showToast({
         title: '请补全信息！',
@@ -21,7 +22,6 @@ Page({
     } else {
       var that = this;
       var id = that.data.id
-      console.log('id'+id)
       wx.request({
         url: api.Suggestion,
         method:'GET',
@@ -30,10 +30,11 @@ Page({
           id:that.data.id,
           openid:app.globalData.openid
         },
-        header: {
-          'content-type': 'application/json' // 默认值
-        },
+        header: session.authHeader({ 'content-type': 'application/json' }),
         success (res) {
+          if (apiCompat.shouldStopForApiError(res)) {
+            return
+          }
           wx.navigateBack({
             delta: 0,
           })
@@ -46,7 +47,6 @@ Page({
   },
 
   formReset: function() {
-    console.log('form发生了reset事件')
   },
 
   data: {
@@ -77,7 +77,7 @@ Page({
     if (len > this.data.max) return;
     // 当输入框内容的长度大于最大长度限制（max)时，终止setData()的执行
     this.setData({
-      currentWordNumber: len //当前字数  
+      currentWordNumber: len //当前字数
     });
   },
   /**
@@ -85,7 +85,6 @@ Page({
    */
   onLoad: function(options) {
     //new getApp().ToastPannel();
-    console.log(options)
     if (options.id) {
       var id = options.id
     } else {
@@ -98,7 +97,6 @@ Page({
 
 
   markertap(e) {
-    console.log(e)
   },
 
   /**

@@ -17,6 +17,5 @@ node_modules/
 miniprogram/utils/constants_private.js
 miniprogram/WXS/cal_view.wxs
 
-miniprogram/utils/constants_private.js
-miniprogram/utils/constants_private.js
-miniprogram/utils/constants_private.js
+# 私有配置文件
+project.private.config.json

@@ -53,7 +53,6 @@ function upload(filePath, success, fail, options, progress, cancelTask, before, 
         console.error('qiniu uploader need filePath to upload');
         return;
     }
-  console.log('options',filePath,options)
     if (options) {
       updateConfigWithOptions(options);
     }
@@ -81,12 +80,11 @@ function doUpload(filePath, success, fail, options, progress, cancelTask, before
         console.error('qiniu UploadToken is null, please check the init config or networking');
         return
     }
-    var url = uploadURLFromRegionCode(config.qiniuRegion);
+    var url = (options && options.uploadURL) || uploadURLFromRegionCode(config.qiniuRegion);
     var today = new Date();
     var day = today.getDate();
     var month = today.getMonth() + 1;
     var year = today.getFullYear();
-    console.log(`${month}_${day}_${year}`);
     var fileName = 'beita/touxiang/'+`${month}_${day}_${year}`+'/'+filePath.split('//')[1];
     if (options && options.key) {
         fileName = options.key;
@@ -115,12 +113,10 @@ function doUpload(filePath, success, fail, options, progress, cancelTask, before
             var fileUrl = config.qiniuImageURLPrefix + '/' + dataObject.key;
             dataObject.fileUrl = fileUrl
             dataObject.imageURL = fileUrl;
-            console.log(dataObject);
             if (success) {
               success(dataObject);
             }
           } catch(e) {
-            console.log('parse JSON failed, origin String is: ' + dataString)
             if (fail) {
               fail(e);
             }

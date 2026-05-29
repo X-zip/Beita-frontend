@@ -640,7 +640,7 @@
 <!-- <view wx:if="{{hidden}}">
     <modal hidden="{{hidden}}" title="封禁提醒" confirm-text="确定" bindconfirm="confirm" no-cancel="{{nocancel}}">
        <view>
-        <image class="image" src="http://yqtech.ltd/beita/contact/bitqr.jpg" mode='aspectFill' bindtap="previewQr" data-id="http://yqtech.ltd/beita/contact/bitqr.jpg"></image>
+        <image class="image" src="https://yqtech.ltd/beita/contact/bitqr.jpg" mode='aspectFill' bindtap="previewQr" data-id="https://yqtech.ltd/beita/contact/bitqr.jpg"></image>
       </view>
       <view class="fontSize">根据社区相关规定，您已被禁言{{banDate}}。若想恢复使用，请添加贝塔微信说明情况进行手动解封！</view>
 </modal>

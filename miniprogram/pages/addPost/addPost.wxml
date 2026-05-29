@@ -1,7 +1,7 @@
 <!-- 🚫 封禁提醒弹窗 -->
 <modal hidden="{{hidden}}" title="封禁提醒" confirm-text="确定" bindconfirm="confirm" no-cancel="{{nocancel}}">
   <view class="ban-modal">
-    <image class="ban-modal__image" src="http://yqtech.ltd/beita/contact/bitqr.jpg" mode="aspectFill" bindtap="previewQr" data-id="http://yqtech.ltd/beita/contact/bitqr.jpg" />
+    <image class="ban-modal__image" src="https://yqtech.ltd/beita/contact/bitqr.jpg" mode="aspectFill" bindtap="previewQr" data-id="https://yqtech.ltd/beita/contact/bitqr.jpg" />
     <view class="ban-modal__text">
       根据社区相关规定，您已被禁言{{banDate}}。若想恢复使用，请添加贝塔微信说明情况进行手动解封！
     </view>
