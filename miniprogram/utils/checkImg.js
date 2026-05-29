@@ -12,7 +12,7 @@ async function checkString(mediaUrl) {
       url: api.ImgCheck,
       filePath: mediaUrl,
       name: 'file',
-      header: session.authHeader({ 'content-type': 'multipart/form-data' }),
+      header: session.authHeader(),
       success: function(res) {
         try {
           const data = JSON.parse(res.data);

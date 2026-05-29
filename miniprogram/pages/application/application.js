@@ -78,7 +78,7 @@ Page({
       url: api.ImgCheck,
       filePath: file.url,
       name: 'file',
-      header: session.authHeader({ 'content-type': 'multipart/form-data' }),
+      header: session.authHeader(),
       success: (checkres) => {
         const res = JSON.parse(checkres.data)
         if (res.errmsg === "ok") {

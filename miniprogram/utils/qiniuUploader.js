@@ -98,6 +98,12 @@ function doUpload(filePath, success, fail, options, progress, cancelTask, before
         name: 'file',
         formData: formData,
         success: function (res) {
+          if (res.statusCode && (res.statusCode < 200 || res.statusCode >= 300)) {
+            if (fail) {
+              fail(res);
+            }
+            return;
+          }
           var dataString = res.data
         //   // this if case is a compatibility with wechat server returned a charcode, but was fixed
         //   if(res.data.hasOwnProperty('type') && res.data.type === 'Buffer'){
@@ -105,6 +111,12 @@ function doUpload(filePath, success, fail, options, progress, cancelTask, before
         //   }
           try {
             var dataObject = JSON.parse(dataString);
+            if (!dataObject.key) {
+              if (fail) {
+                fail(dataObject);
+              }
+              return;
+            }
             //do something
             var fileUrl = config.qiniuImageURLPrefix + '/' + dataObject.key;
             dataObject.fileUrl = fileUrl

@@ -829,7 +829,7 @@ Page({
             filePath: res.path,
             name: 'file',
             url: api.ImgCheck,
-            header: session.authHeader({ 'content-type': 'multipart/form-data' }),
+            header: session.authHeader(),
             success: function(checkres) {
                 if (JSON.parse(checkres.data).errmsg == "ok") {
                     that.uploadCanvasImg(res.path,oriPath);
