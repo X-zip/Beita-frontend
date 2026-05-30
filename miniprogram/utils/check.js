@@ -35,7 +35,7 @@ function requestCheck(content, openid, retried) {
             reject(new Error('msgCheck response missing suggest'));
             return;
           }
-          resolve(suggest == 'pass');
+          resolve(suggest === 'pass' || suggest === 'review');
         },
         fail: (err) => {
             reject(err);

@@ -1,8 +1,9 @@
 <!--pages/uitem/login/login.wxml-->
 <form class="login-form" bindsubmit="getUserProfile" bindreset="formReset">
-    <view class="input-group">
+    <view class="input-group avatar-input-group">
         <text class="input-label">头像上传</text>
         <image-uploader
+            custom-class="avatar-uploader"
             scene="avatar"
             uploader-type="touxiang"
             choose-mode="avatar"
@@ -13,7 +14,7 @@
             trigger-class="avatar-wrapper"
             bind:change="onAvatarUploadChange"
         >
-            <image src='{{avatarUrl+"?imageView2/2/w/50"}}' mode="aspectFill" class="unlogin" style="width: 80rpx; height: 80rpx; border-radius: 50%; display: block;"></image>
+            <image src='{{avatarUrl+"?imageView2/2/w/50"}}' mode="aspectFill" class="unlogin avatar-preview"></image>
         </image-uploader>
     </view>
     <view wx:if="{{showSelect}}" class="img-group">
@@ -29,4 +30,3 @@
     </view>
     <button form-type="submit" class="wx-button-1">确定</button> 
 </form>
-

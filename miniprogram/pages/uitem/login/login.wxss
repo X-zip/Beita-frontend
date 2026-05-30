@@ -13,6 +13,43 @@
     border-radius: 50%;
   }
 
+.avatar-input-group {
+    min-height: 96rpx;
+    padding: 20rpx 24rpx;
+}
+
+.avatar-input-group .input-label {
+    flex: 0 0 150rpx;
+}
+
+.avatar-uploader {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: 28rpx;
+}
+
+.avatar-wrapper {
+    width: 88rpx;
+    height: 88rpx;
+    padding: 0 !important;
+    margin: 0 !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    overflow: hidden;
+    background: #f7f7f7;
+}
+
+.avatar-preview {
+    width: 88rpx;
+    height: 88rpx;
+    border-radius: 50%;
+    display: block;
+}
+
   .avatar {
     width: 80rpx;
     height: 80rpx;

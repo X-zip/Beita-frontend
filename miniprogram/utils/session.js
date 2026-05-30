@@ -1,4 +1,5 @@
 const SESSION_KEY = 'loginSession'
+const SESSION_SUPPORTED_KEY = 'loginSessionSupported'
 let loginPromise = null
 
 function getClientVersion() {
@@ -18,6 +19,7 @@ function extractLoginSession(result) {
 function saveLoginSession(result) {
   const token = extractLoginSession(result)
   wx.setStorageSync(SESSION_KEY, token)
+  wx.setStorageSync(SESSION_SUPPORTED_KEY, !!token)
   return token
 }
 
@@ -69,12 +71,8 @@ function requestLoginSession() {
           },
           success(res) {
             const result = res.data && res.data.result
-            const token = saveLoginSession(result)
-            if (!token) {
-              reject(new Error('login response missing session token'))
-              return
-            }
             saveLoginIdentity(result)
+            saveLoginSession(result)
             resolve(result)
           },
           fail: reject
@@ -88,6 +86,9 @@ function requestLoginSession() {
 function ensureLoginSession(force) {
   if (!force && getLoginSession()) {
     return Promise.resolve(getLoginSession())
+  }
+  if (!force && wx.getStorageSync(SESSION_SUPPORTED_KEY) === false) {
+    return Promise.resolve('')
   }
   if (loginPromise) {
     return loginPromise
@@ -107,6 +108,7 @@ function ensureLoginSession(force) {
 
 function clearLoginSession() {
   wx.removeStorageSync(SESSION_KEY)
+  wx.removeStorageSync(SESSION_SUPPORTED_KEY)
 }
 
 module.exports = {
