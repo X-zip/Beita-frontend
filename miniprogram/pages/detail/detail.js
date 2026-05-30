@@ -427,7 +427,9 @@ Page({
       },
       header: session.authHeader({ 'content-type': 'application/json' }),
       success (res) {
-        if (apiCompat.shouldStopForApiError(res)) {
+        const code = apiCompat.getApiCode(res)
+        if (code === 401 || code === 403 || code === 409 || code === 429) {
+          apiCompat.showApiErrorToast(res)
           return
         }
         if(res.data.code==200 || res.data.code==1 || res.data.code==3 || res.data.code==7 ) {

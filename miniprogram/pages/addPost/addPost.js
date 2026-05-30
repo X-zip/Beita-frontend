@@ -191,10 +191,10 @@ Page({
             wx.hideLoading()
             return
           }
-          const code = res.data.code
+          const code = Number(res.data && res.data.code)
           const banMap = { 1: "1天", 3: "3天", 7: "7天" }
-          if (banMap[code]) {
-            this.setData({ hidden: false, banDate: banMap[code] })
+          if (banMap[code] || (code === 200 && res.data && res.data.id)) {
+            this.setData({ hidden: false, banDate: banMap[code] || "永久" })
           } else {
             const target = option === "treehole" ? '../treehole/treehole' : '../index/index'
             wx.switchTab({ url: target })

@@ -1,13 +1,24 @@
 <!--pages/suggestion/suggestion.wxml-->
 <view class="task">
   <form bindsubmit="formSubmit" bindreset="formReset">
+    <view wx:if="{{isReport}}" class="section">
+      <view class="section__title">举报原因</view>
+      <radio-group class="reason-list" bindchange="onReasonChange">
+        <label class="reason-item" wx:for="{{reportReasons}}" wx:key="code">
+          <radio value="{{item.code}}" checked="{{selectedReason == item.code}}" color="#D98F14" />
+          <text>{{item.title}}</text>
+        </label>
+      </radio-group>
+    </view>
 
     <view class="section">
-      <textarea class="text__bar__content" name="Content" placeholder="感谢您的信息，谢谢." minlength="0" maxlength="500" bindinput="inputs" />
+      <view class="section__title">{{isReport ? '补充说明' : '反馈内容'}}</view>
+      <textarea class="text__bar__content" name="Content" placeholder="{{isReport ? '可补充说明具体情况' : '请输入反馈内容'}}" minlength="0" maxlength="500" bindinput="inputs" />
+      <view class="word-count">{{currentWordNumber}}/500</view>
     </view>
 
     <view class="btn-area">
-      <button class="submit" form-type="submit">提交</button>
+      <button class="submit" form-type="submit">{{isReport ? '提交举报' : '提交'}}</button>
       <button class="reset" form-type="reset">重置</button>
     </view>
   </form>

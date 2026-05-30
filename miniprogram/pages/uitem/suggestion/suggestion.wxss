@@ -94,6 +94,7 @@
   border-radius: 20rpx;
   margin-top: 10rpx;
   min-height: 120rpx;
+  padding-bottom: 18rpx;
 }
 
 .section__title {
@@ -102,6 +103,35 @@
   font-weight: 800;
   color: #2c2c2c;
   line-height: 100rpx;
+}
+
+.reason-list {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 20rpx 8rpx;
+}
+
+.reason-item {
+  width: 50%;
+  box-sizing: border-box;
+  padding: 12rpx 4rpx;
+  font-size: 28rpx;
+  color: #2c2c2c;
+}
+
+.text__bar__content {
+  width: 88%;
+  min-height: 220rpx;
+  margin-left: 20rpx;
+  font-size: 28rpx;
+  color: #2c2c2c;
+}
+
+.word-count {
+  padding-right: 24rpx;
+  text-align: right;
+  font-size: 22rpx;
+  color: #888;
 }
 
 .radio_item {
@@ -174,6 +204,12 @@
     color: white;
   }
   .radio_item {
+    color: white;
+  }
+  .reason-item {
+    color: white;
+  }
+  .text__bar__content {
     color: white;
   }
   .chooseimg {

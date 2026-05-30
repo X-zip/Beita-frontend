@@ -4,147 +4,166 @@ const api = require("../../../config/api");
 const session = require('../../../utils/session.js')
 const apiCompat = require('../../../utils/apiCompat.js')
 
-//const app = getApp()
-var app = getApp()
+const app = getApp()
+
+const reportReasons = [
+  { code: 'spam', title: '垃圾广告' },
+  { code: 'fraud', title: '诈骗引流' },
+  { code: 'harassment', title: '辱骂骚扰' },
+  { code: 'sexual', title: '色情低俗' },
+  { code: 'illegal', title: '违法违规' },
+  { code: 'privacy', title: '隐私泄露' },
+  { code: 'false_info', title: '虚假信息' },
+  { code: 'off_topic', title: '与校园无关' },
+  { code: 'other', title: '其他' },
+]
 
 Page({
+  data: {
+    id: -1,
+    isReport: false,
+    selectedReason: reportReasons[0].code,
+    reportReasons,
+    texts: "至少5个字。",
+    currentWordNumber: 0,
+    min: 5,
+    max: 500,
+  },
 
-  /**
-   * Page initial data
-   */
   formSubmit: function(e) {
-    if (e.detail.value.Content.length == 0) {
+    const content = ((e.detail.value && e.detail.value.Content) || '').trim()
+    if (!this.data.isReport && content.length === 0) {
       wx.showToast({
-        title: '请补全信息！',
+        title: '请补充信息',
         icon: 'none',
         duration: 1500
       })
-    } else {
-      var that = this;
-      var id = that.data.id
-      wx.request({
-        url: api.Suggestion,
-        method:'GET',
-        data: {
-          content: e.detail.value,
-          id:that.data.id,
-          openid:app.globalData.openid
-        },
-        header: session.authHeader({ 'content-type': 'application/json' }),
-        success (res) {
-          if (apiCompat.shouldStopForApiError(res)) {
-            return
-          }
-          wx.navigateBack({
-            delta: 0,
-          })
-          wx.showToast({
-            title: '提交成功',
-          })
-        },
-      })
+      return
     }
+
+    if (this.data.isReport) {
+      this.submitReport(content)
+    } else {
+      this.submitSuggestion(content)
+    }
+  },
+
+  submitReport: function(content) {
+    const openid = app.globalData.openid || wx.getStorageSync('openid') || ''
+    wx.request({
+      url: api.ReportCreate,
+      method: 'POST',
+      data: {
+        targetType: 'task',
+        targetId: String(this.data.id),
+        reporterOpenid: openid,
+        reporterUnionid: wx.getStorageSync('unionid') || '',
+        reasonCode: this.data.selectedReason,
+        reasonText: content,
+        evidenceUrls: [],
+        source: 'miniprogram'
+      },
+      header: session.authHeader({ 'content-type': 'application/json' }),
+      success: (res) => {
+        const code = res.data && Number(res.data.code)
+        if (code === 0 || code === 200) {
+          this.finishSubmit('举报已提交')
+        } else {
+          this.submitSuggestion(content)
+        }
+      },
+      fail: () => {
+        this.submitSuggestion(content)
+      }
+    })
+  },
+
+  submitSuggestion: function(content) {
+    const openid = app.globalData.openid || wx.getStorageSync('openid') || ''
+    wx.request({
+      url: api.Suggestion,
+      method: 'GET',
+      data: {
+        content,
+        id: this.data.id,
+        openid
+      },
+      header: session.authHeader({ 'content-type': 'application/json' }),
+      success: (res) => {
+        if (apiCompat.shouldStopForApiError(res)) {
+          return
+        }
+        this.finishSubmit(this.data.isReport ? '举报已提交' : '提交成功')
+      },
+    })
+  },
+
+  finishSubmit: function(title) {
+    wx.navigateBack({
+      delta: 0,
+    })
+    wx.showToast({
+      title,
+      icon: 'none',
+    })
   },
 
   formReset: function() {
   },
 
-  data: {
-    texts: "至少五个字。",
-    task_data: [],
-  },
-
-  //监听组件事件，返回的结果
-
-
-  inputs: function(e) {
-    // 获取输入框的内容
-    var value = e.detail.value;
-    // 获取输入框内容的长度
-    var len = parseInt(value.length);
-
-    //最少字数限制
-    if (len <= this.data.min)
-      this.setData({
-        texts: "至少5个字。"
-      })
-    else if (len > this.data.min)
-      this.setData({
-        texts: " "
-      })
-
-    //最多字数限制
-    if (len > this.data.max) return;
-    // 当输入框内容的长度大于最大长度限制（max)时，终止setData()的执行
+  onReasonChange: function(e) {
     this.setData({
-      currentWordNumber: len //当前字数
-    });
-  },
-  /**
-   * Lifecycle function--Called when page load
-   */
-  onLoad: function(options) {
-    //new getApp().ToastPannel();
-    if (options.id) {
-      var id = options.id
-    } else {
-      var id = -1
-    }
-    this.setData({
-      id:id
+      selectedReason: e.detail.value
     })
   },
 
-
-  markertap(e) {
+  inputs: function(e) {
+    const value = e.detail.value || ''
+    const len = parseInt(value.length)
+    if (len <= this.data.min) {
+      this.setData({
+        texts: "至少5个字。"
+      })
+    } else if (len > this.data.min) {
+      this.setData({
+        texts: " "
+      })
+    }
+    if (len > this.data.max) return
+    this.setData({
+      currentWordNumber: len
+    })
   },
 
-  /**
-   * Lifecycle function--Called when page is initially rendered
-   */
+  onLoad: function(options) {
+    const id = options.id ? Number(options.id) : -1
+    this.setData({
+      id,
+      isReport: id > 0
+    })
+    wx.setNavigationBarTitle({
+      title: id > 0 ? '举报内容' : '意见反馈'
+    })
+  },
+
   onReady: function() {
-
   },
 
-  /**
-   * Lifecycle function--Called when page show
-   */
   onShow: function() {
-
   },
 
-  /**
-   * Lifecycle function--Called when page hide
-   */
   onHide: function() {
-
   },
 
-  /**
-   * Lifecycle function--Called when page unload
-   */
   onUnload: function() {
-
   },
 
-  /**
-   * Page event handler function--Called when user drop down
-   */
   onPullDownRefresh: function() {
-
   },
 
-  /**
-   * Called when page reach bottom
-   */
   onReachBottom: function() {
-
   },
 
-  /**
-   * Called when user click on the top right corner to share
-   */
   onShareAppMessage: function() {
-
   }
 })

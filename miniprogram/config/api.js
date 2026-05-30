@@ -47,6 +47,8 @@ module.exports = {
   GetCommentByOpenid:ApiRootUrl + 'getCommentByOpenid',
   GetCommentByApplyto:ApiRootUrl + 'getCommentByApplyto',
   Suggestion:ApiRootUrl + 'suggestion',
+  ReportCreate: ApiRootUrl + 'report/create',
+  ReportReasons: ApiRootUrl + 'report/reasons',
   QiniuUploadToken: ApiRootUrl + 'qiniu/uploadToken',
 
   //20250827
