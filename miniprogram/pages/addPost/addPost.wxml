@@ -118,8 +118,19 @@
                 <image src="{{item+'?imageView2/2/w/100'}}" bindlongpress="deleteImg" data-id="{{index}}" />
               </view>
             </block>
-            <view class="chooseimg" bindtap="takePhoto">
-              <view class="weui-uploader__input-box"></view>
+            <view class="chooseimg">
+              <image-uploader
+                style="width: 100%; height: 100%; display: block;"
+                custom-class="post-image-uploader"
+                trigger-class="weui-uploader__input-box"
+                scene="task"
+                uploader-type="shudong"
+                max-count="{{3}}"
+                value="{{imgViewList}}"
+                custom-trigger="{{true}}"
+                check-before-upload="{{false}}"
+                bind:change="onImageUploadChange"
+              />
             </view>
           </view>
           <view class="tips">长按对应的图片即可删除</view>

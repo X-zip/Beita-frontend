@@ -1,5 +1,6 @@
 {
     "usingComponents": {
-      "mp-form": "weui-miniprogram/form/form"
+      "mp-form": "weui-miniprogram/form/form",
+      "image-uploader": "/components/image-uploader/index"
     }
   }

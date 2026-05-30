@@ -1,0 +1,33 @@
+<view class="image-uploader custom-class">
+  <button
+    wx:if="{{chooseMode == 'avatar'}}"
+    class="image-uploader__avatar-button trigger-class"
+    open-type="chooseAvatar"
+    bindchooseavatar="onChooseAvatar"
+    disabled="{{disabled || uploading}}"
+  >
+    <slot></slot>
+  </button>
+
+  <view wx:else class="image-uploader__media">
+    <view wx:if="{{customTrigger}}" class="image-uploader__custom-trigger trigger-class" bindtap="choose">
+      <slot></slot>
+    </view>
+
+    <block wx:else>
+      <view class="image-uploader__list">
+        <view wx:for="{{displayList}}" wx:key="url" class="image-uploader__item">
+          <image class="image-uploader__preview" src="{{item.url + previewSuffix}}" mode="aspectFill"></image>
+          <view class="image-uploader__delete" catchtap="deleteImage" data-index="{{index}}">x</view>
+        </view>
+        <view
+          wx:if="{{displayList.length < maxCount || replaceWhenFull}}"
+          class="image-uploader__add trigger-class"
+          bindtap="choose"
+        >
+          <image class="image-uploader__placeholder" src="{{placeholder}}" mode="aspectFit"></image>
+        </view>
+      </view>
+    </block>
+  </view>
+</view>

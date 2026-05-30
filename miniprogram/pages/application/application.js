@@ -1,10 +1,8 @@
 // pages/application/application.js 优化后版本
 const app = getApp()
 const api = require('../../config/api.js')
-const qiniuUploader = require("../../utils/qiniuUploader_touxiang.js")
 const session = require('../../utils/session.js')
 const apiCompat = require('../../utils/apiCompat.js')
-const uploadCredential = require('../../utils/uploadCredential.js')
 import Toast from '@vant/weapp/toast/toast'
 
 
@@ -62,62 +60,10 @@ Page({
   onChangeEmail(e) { this.setData({ email: e.detail }) },
   onChangeCode(e) { this.setData({ code: e.detail }) },
 
-  deleteImg(event) {
-    const { index, name } = event.detail
-    if (name === "student") {
-      const fileListStudent = [...this.data.fileListStudent]
-      fileListStudent.splice(index, 1)
-      this.setData({ fileListStudent })
-    }
-  },
-
-  afterRead(event) {
-    const { file, name } = event.detail
-    wx.showLoading({ title: '正在上传图片...', mask: true })
-    wx.uploadFile({
-      url: api.ImgCheck,
-      filePath: file.url,
-      name: 'file',
-      header: session.authHeader(),
-      success: (checkres) => {
-        const res = JSON.parse(checkres.data)
-        if (res.errmsg === "ok") {
-          this.uploadCanvasImg(file.url, name)
-        } else {
-          wx.showToast({
-            title: res.errcode === "40006" ? '图片太大！' : '图片违规！',
-            icon: 'error'
-          })
-          wx.hideLoading()
-        }
-      }
+  onVerifyImageChange(event) {
+    this.setData({
+      fileListStudent: event.detail.fileList || []
     })
-  },
-
-  uploadCanvasImg(oriImg, name) {
-    this.uploadOri(oriImg, name)
-  },
-
-  uploadOri(path, name) {
-    wx.showLoading({ title: '正在上传图片...', mask: true })
-    uploadCredential.getUploadCredential('verify', path).then(credential => {
-      qiniuUploader.upload(path,
-        (res) => {
-          const url = uploadCredential.normalizeImageUrl(res.imageURL)
-          if (name === "student") {
-            const fileListStudent = [...this.data.fileListStudent, { url }]
-            this.setData({ fileListStudent })
-          }
-          wx.hideLoading()
-        },
-        (error) => {
-          wx.hideLoading()
-          wx.showToast({ title: '上传失败', icon: 'none' })
-        }, uploadCredential.qiniuOptions(credential))
-    }).catch(() => {
-      wx.hideLoading()
-      wx.showToast({ title: '上传失败', icon: 'none' })
-      })
   },
 
   submitApplication() {

@@ -85,15 +85,24 @@
     <view class="container">
       <view class="detail-box">
         <view class="item">
-          <van-uploader
-            class="van-uploader-box"
-            file-list="{{ fileListStudent }}"
-            deletable="true"
-            catch:delete="deleteImg"
-            bind:after-read="afterRead"
-            max-count="1"
-            name="student"
-          />
+          <image-uploader
+            style="width: 160rpx; height: 160rpx; display: block; margin: 0 auto;"
+            custom-class="van-uploader-box"
+            trigger-class="{{fileListStudent.length ? 'verify-image-trigger' : 'weui-uploader__input-box'}}"
+            scene="verify"
+            uploader-type="touxiang"
+            value="{{fileListStudent}}"
+            max-count="{{1}}"
+            custom-trigger="{{true}}"
+            bind:change="onVerifyImageChange"
+          >
+            <image
+              wx:if="{{fileListStudent.length}}"
+              class="verify-image-preview"
+              src="{{fileListStudent[0].url + '?imageView2/2/w/160'}}"
+              mode="aspectFill"
+            />
+          </image-uploader>
         </view>
       </view>
       <van-button round type="info" custom-class="btn-box" bind:click="submitApplication">提交</van-button>

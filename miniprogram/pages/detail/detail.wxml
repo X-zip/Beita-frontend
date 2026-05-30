@@ -199,16 +199,20 @@
 
       <view wx:if="{{reply}}" class="replyinfo">
         <textarea placeholder-class="input_null" fixed="true" maxlength="-1" show-confirm-bar="false" cursor-spacing="15" auto-height="true" placeholder="请输入回复" name="comment" value='回复{{replyName}}:{{form_info}}'></textarea>
-        <image src="../../images/pic.png" bindtap="takePhoto" mode="aspectFit" wx:if="{{imgOriList.length == 0}}"></image>
-        <image src="{{imgOriList[0] + '?imageView2/2/w/50'}}" bindtap="takePhoto" mode="aspectFit" wx:else></image>
+        <image-uploader style="width: 64rpx; height: 64rpx; display: block; flex-shrink: 0;" scene="comment" max-count="{{1}}" value="{{imgOriList}}" custom-trigger="{{true}}" replace-when-full="{{true}}" bind:change="onCommentImageChange">
+          <image style="width: 64rpx; height: 64rpx; background-color: #fff;" src="../../images/pic.png" mode="aspectFit" wx:if="{{imgOriList.length == 0}}"></image>
+          <image style="width: 64rpx; height: 64rpx; background-color: #fff;" src="{{imgOriList[0] + '?imageView2/2/w/50'}}" mode="aspectFit" wx:else></image>
+        </image-uploader>
         <button form-type="submit" class="submit" wx:if="{{ hasUserInfo }}">发送</button>
         <button bindtap="nologin" class="submit" wx:else>发送</button>
       </view>
 
       <view class="replyinfo" wx:else>
         <textarea placeholder-class="input_null" fixed="true" maxlength="-1" show-confirm-bar="false" cursor-spacing="15" auto-height="true" placeholder="请输入回复" name="comment" value='{{form_info}}'></textarea>
-        <image src="../../images/pic.png" bindtap="takePhoto" mode="aspectFit" wx:if="{{imgOriList.length == 0}}"></image>
-        <image src="{{imgOriList[0] + '?imageView2/2/w/50'}}" bindtap="takePhoto" mode="aspectFit" wx:else></image>
+        <image-uploader style="width: 64rpx; height: 64rpx; display: block; flex-shrink: 0;" scene="comment" max-count="{{1}}" value="{{imgOriList}}" custom-trigger="{{true}}" replace-when-full="{{true}}" bind:change="onCommentImageChange">
+          <image style="width: 64rpx; height: 64rpx; background-color: #fff;" src="../../images/pic.png" mode="aspectFit" wx:if="{{imgOriList.length == 0}}"></image>
+          <image style="width: 64rpx; height: 64rpx; background-color: #fff;" src="{{imgOriList[0] + '?imageView2/2/w/50'}}" mode="aspectFit" wx:else></image>
+        </image-uploader>
         <button form-type="submit" class="submit" wx:if="{{ hasUserInfo }}">发送</button>
         <button bindtap="nologin" class="submit" wx:else>发送</button>
       </view>

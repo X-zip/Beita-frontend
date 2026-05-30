@@ -1,6 +1,7 @@
 {
     "usingComponents": {
       "van-popup": "@vant/weapp/popup/index",
-      "van-checkbox": "@vant/weapp/checkbox/index"
+      "van-checkbox": "@vant/weapp/checkbox/index",
+      "image-uploader": "/components/image-uploader/index"
     }
   }

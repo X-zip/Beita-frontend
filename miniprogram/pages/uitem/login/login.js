@@ -1,9 +1,7 @@
 // pages/uitem/login/login.js
 var app = getApp();
-const qiniuUploader = require("../../../utils/qiniuUploader_touxiang.js");
 const api = require('../../../config/api.js');
 const session = require('../../../utils/session.js')
-const uploadCredential = require('../../../utils/uploadCredential.js')
 const {
     SUBSCRIBE_TEMPLATE_IDS,
 } = require('../../../utils/constants_private.js');
@@ -19,6 +17,7 @@ Page({
                     "https://yqtech.ltd/animal/d2.jpg",
                     "https://yqtech.ltd/animal/d3.jpg",
                     "https://yqtech.ltd/animal/d4.jpg",],
+        avatarUploadList: [],
         showSelect:false
     },
 
@@ -94,37 +93,13 @@ Page({
         wx.setStorageSync('avatarUrl', this.data.avatarList[e.currentTarget.dataset.id] )
       },
 
-      onChooseAvatar(e) {
-        this.upload(e.detail.avatarUrl)
-      },
-
-      upload(e) {
-        var that = this
-        uploadCredential.getUploadCredential('avatar', e).then(credential => {
-          qiniuUploader.upload(
-            e,
-            (res) => {
-              let url = uploadCredential.normalizeImageUrl(res.imageURL);
-              wx.setStorageSync('avatarUrl', url )
-              that.setData({
-                avatarUrl: url,
-              })
-            },
-            (error) => {
-              wx.showToast({
-                title: '上传失败',
-                icon: 'none'
-              })
-            },
-            uploadCredential.qiniuOptions(credential),
-            (progress) => {
-            },
-          )
-        }).catch(() => {
-          wx.showToast({
-            title: '上传失败',
-            icon: 'none'
-          })
+      onAvatarUploadChange(e) {
+        const url = (e.detail.urls || [])[0]
+        if (!url) return
+        wx.setStorageSync('avatarUrl', url)
+        this.setData({
+          avatarUrl: url,
+          avatarUploadList: [{ url }]
         })
       },
 

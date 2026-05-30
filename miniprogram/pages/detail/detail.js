@@ -2,12 +2,10 @@
 const app = getApp()
 var util = require('../../utils/util.js')
 var check = require('../../utils/check.js')
-const qiniuUploader = require("../../utils/qiniuUploader.js");
 var api = require('../../config/api.js');
 var CryptoJS = require('../../utils/aes.js')
 const session = require('../../utils/session.js')
 const apiCompat = require('../../utils/apiCompat.js')
-const uploadCredential = require('../../utils/uploadCredential.js')
 const {
     AES_KEY,
     AES_IV,
@@ -800,103 +798,9 @@ Page({
     })
   },
 
-  takePhoto: function() {
-    var that = this;
-    //拍照、从相册选择上传
-    wx.chooseMedia({
-      count: 1, //这个是上传的最大数量，默认为9
-      mediaType: ['image'],
-      sourceType: ['album', 'camera'], //这个是图片来源，相册或者相机
-      success: function(res) {
-        that.setData({
-          imgOriList:[]
-        })
-        var tempFilePaths = res.tempFiles //这个是选择后返回的图片列表
-        that.getCanvasImg(0, 0, tempFilePaths) //进行压缩
-      }
-    });
-  },
-
-  getCanvasImg: function(index, failNum, tempFilePaths) {
-    var that = this;
-    if (index < tempFilePaths.length) {
-      wx.getImageInfo({
-        src: tempFilePaths[index].tempFilePath,
-        success: function(res) {
-          index = index + 1; //上传成功的数量，上传成功则加1
-          var oriPath = res.path
-          wx.uploadFile({
-            filePath: res.path,
-            name: 'file',
-            url: api.ImgCheck,
-            header: session.authHeader(),
-            success: function(checkres) {
-                if (JSON.parse(checkres.data).errmsg == "ok") {
-                    that.uploadCanvasImg(res.path,oriPath);
-                } else {
-                    wx.showToast({
-                        title: '图片违规！',
-                        icon:'error'
-                    })
-                }
-            },
-            fail: function(checke) {
-                wx.showToast({
-                  title: '图片违规！',
-                  icon:'error'
-                })
-            }
-          })
-        }
-      })
-    } else {
-      // wx.hideLoading()
-    }
-  },
-
-  uploadCanvasImg: function(oriImg) {
-    wx.showLoading({
-      title: '正在上传图片...',
-      mask: true
-    })
-    this.uploadOri(oriImg)
-  },
-
-  uploadOri(e) {
-    wx.showLoading({
-      title: '正在上传图片...',
-      mask: true
-    })
-    var that = this
-    uploadCredential.getUploadCredential('comment', e).then(credential => {
-      qiniuUploader.upload(
-        e,
-        (res) => {
-          let url = uploadCredential.normalizeImageUrl(res.imageURL);
-          let imgOriList = that.data.imgOriList;
-          imgOriList.push(url)
-          that.setData({
-            imgOriList: imgOriList,
-          })
-          wx.hideLoading()
-        },
-        (error) => {
-          wx.hideLoading()
-          wx.showToast({
-            title: '上传失败',
-            icon: 'none'
-          })
-        },
-        uploadCredential.qiniuOptions(credential),
-        (progress) => {
-        },
-      )
-    }).catch(() => {
-      wx.hideLoading()
-      wx.showToast({
-        title: '上传失败',
-        icon: 'none'
-      })
+  onCommentImageChange(e) {
+    this.setData({
+      imgOriList: e.detail.urls || []
     })
   },
 

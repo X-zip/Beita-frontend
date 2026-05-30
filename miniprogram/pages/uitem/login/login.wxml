@@ -2,9 +2,19 @@
 <form class="login-form" bindsubmit="getUserProfile" bindreset="formReset">
     <view class="input-group">
         <text class="input-label">头像上传</text>
-        <button class="avatar-wrapper" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
-            <image src='{{avatarUrl+"?imageView2/2/w/50"}}' mode="widthFix" class="unlogin"></image>
-        </button>
+        <image-uploader
+            scene="avatar"
+            uploader-type="touxiang"
+            choose-mode="avatar"
+            value="{{avatarUploadList}}"
+            max-count="{{1}}"
+            replace-when-full="{{true}}"
+            check-before-upload="{{false}}"
+            trigger-class="avatar-wrapper"
+            bind:change="onAvatarUploadChange"
+        >
+            <image src='{{avatarUrl+"?imageView2/2/w/50"}}' mode="aspectFill" class="unlogin" style="width: 80rpx; height: 80rpx; border-radius: 50%; display: block;"></image>
+        </image-uploader>
     </view>
     <view wx:if="{{showSelect}}" class="img-group">
         <block wx:for="{{avatarList}}" wx:key="index">
@@ -19,6 +29,4 @@
     </view>
     <button form-type="submit" class="wx-button-1">确定</button> 
 </form>
-
-
 

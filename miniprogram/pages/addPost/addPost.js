@@ -2,12 +2,10 @@
 const app = getApp()
 const util = require('../../utils/util.js')
 const check = require('../../utils/check.js')
-const qiniuUploader = require("../../utils/qiniuUploader_shudong.js")
 const api = require('../../config/api.js')
 const CryptoJS = require('../../utils/aes.js')
 const session = require('../../utils/session.js')
 const apiCompat = require('../../utils/apiCompat.js')
-const uploadCredential = require('../../utils/uploadCredential.js')
 const {
     AES_KEY,
     AES_IV,
@@ -221,34 +219,12 @@ Page({
     })
   },
 
-  takePhoto() {
-    if (this.data.imgnum >= MAX_IMAGE_COUNT) return showToast('最多选择3张！')
-    wx.chooseMedia({
-      count: MAX_IMAGE_COUNT - this.data.imgnum,
-      mediaType: ['image'],
-      sourceType: ['album', 'camera'],
-      success: res => {
-        res.tempFiles.forEach(f => this.uploadImageToQiniu(f.tempFilePath))
-      }
-    })
-  },
-
-  uploadImageToQiniu(filePath) {
-    showLoading('上传图片中...')
-    uploadCredential.getUploadCredential('task', filePath).then(credential => {
-      qiniuUploader.upload(filePath, res => {
-        const url = uploadCredential.normalizeImageUrl(res.imageURL)
-        const imgViewList = this.data.imgViewList.concat(url)
-        const imgOriList = this.data.imgOriList.concat(url)
-        this.setData({ imgViewList, imgOriList, imgnum: imgViewList.length })
-        wx.hideLoading()
-      }, err => {
-        wx.hideLoading()
-        showToast('上传失败')
-      }, uploadCredential.qiniuOptions(credential))
-    }).catch(() => {
-      wx.hideLoading()
-      showToast('上传失败')
+  onImageUploadChange(e) {
+    const urls = e.detail.urls || []
+    this.setData({
+      imgViewList: urls,
+      imgOriList: urls,
+      imgnum: urls.length
     })
   },
 
