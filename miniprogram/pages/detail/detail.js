@@ -410,6 +410,13 @@ Page({
             duration: 1500
           })
         }
+      }).catch(function() {
+        wx.hideLoading()
+        wx.showToast({
+          title: '\u5185\u5bb9\u5ba1\u6838\u5931\u8d25\uff0c\u8bf7\u7a0d\u540e\u518d\u8bd5',
+          icon: 'none',
+          duration: 1500
+        })
       })
     }
   },

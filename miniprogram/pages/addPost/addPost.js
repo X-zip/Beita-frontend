@@ -156,7 +156,7 @@ Page({
         wx.hideLoading()
         return showToast('请不要发布重复内容！');
     }
-    check.checkString(content + title, app.globalData.openid).then(result => {
+    check.checkString(content, app.globalData.openid).then(result => {
       if (result === null) {
         wx.hideLoading()
         return
@@ -208,6 +208,9 @@ Page({
           showToast('提交失败，请稍后再试')
         }
       })
+    }).catch(() => {
+      wx.hideLoading()
+      return showToast('\u5185\u5bb9\u5ba1\u6838\u5931\u8d25\uff0c\u8bf7\u7a0d\u540e\u518d\u8bd5')
     })
   },
 
