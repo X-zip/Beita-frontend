@@ -84,11 +84,11 @@
   <van-tab title="证件认证">
     <view class="container">
       <view class="detail-box">
-        <view class="item">
+        <view class="item verify-upload-item">
           <image-uploader
             style="width: 160rpx; height: 160rpx; display: block; margin: 0 auto;"
             custom-class="van-uploader-box"
-            trigger-class="{{fileListStudent.length ? 'verify-image-trigger' : 'weui-uploader__input-box'}}"
+            trigger-class="verify-image-trigger"
             scene="verify"
             uploader-type="touxiang"
             value="{{fileListStudent}}"
