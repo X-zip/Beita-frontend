@@ -64,6 +64,34 @@ page {
     background-color: #fff;
   }
 
+  .verify-image-placeholder {
+    width: 100%;
+    height: 100%;
+    border: 2rpx dashed #111;
+    border-radius: 10rpx;
+    background-color: #f7f7f7;
+    box-sizing: border-box;
+    position: relative;
+  }
+
+  .verify-image-placeholder__bar {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    background-color: #111;
+    transform: translate(-50%, -50%);
+  }
+
+  .verify-image-placeholder__bar--vertical {
+    width: 4rpx;
+    height: 52rpx;
+  }
+
+  .verify-image-placeholder__bar--horizontal {
+    width: 52rpx;
+    height: 4rpx;
+  }
+
   .btn-area {
     align-items: center;
     position: fixed;
@@ -133,4 +161,3 @@ page {
     text-align: center;
     /* margin-left: 5%; */
   }
-

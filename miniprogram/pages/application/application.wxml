@@ -102,6 +102,10 @@
               src="{{fileListStudent[0].url + '?imageView2/2/w/160'}}"
               mode="aspectFill"
             />
+            <view wx:else class="verify-image-placeholder">
+              <view class="verify-image-placeholder__bar verify-image-placeholder__bar--vertical"></view>
+              <view class="verify-image-placeholder__bar verify-image-placeholder__bar--horizontal"></view>
+            </view>
           </image-uploader>
         </view>
       </view>
