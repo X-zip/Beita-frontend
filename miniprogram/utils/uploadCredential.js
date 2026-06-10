@@ -30,6 +30,20 @@ function fileNameFromPath(filePath) {
   return parts[parts.length - 1] || ''
 }
 
+function getFileSize(filePath) {
+  return new Promise(resolve => {
+    if (!filePath) {
+      resolve(0)
+      return
+    }
+    wx.getFileInfo({
+      filePath,
+      success: res => resolve(res.size || 0),
+      fail: () => resolve(0)
+    })
+  })
+}
+
 function normalizeCredential(data) {
   if (!data) return null
   const payload = data.result || data.data || data
@@ -45,7 +59,7 @@ function normalizeCredential(data) {
 }
 
 function requestBackendQiniuToken(scene, filePath) {
-  return new Promise((resolve, reject) => {
+  return getFileSize(filePath).then(fileSize => new Promise((resolve, reject) => {
     if (!api.QiniuUploadToken) {
       reject(new Error('missing qiniu upload token api'))
       return
@@ -59,7 +73,8 @@ function requestBackendQiniuToken(scene, filePath) {
         scene,
         fileName: fileNameFromPath(filePath),
         mimeType: 'image/*',
-        contentType: 'image/*'
+        contentType: 'image/*',
+        size: fileSize
       },
       header: authHeader({ 'content-type': 'application/json' }),
       timeout: 2000,
@@ -73,7 +88,7 @@ function requestBackendQiniuToken(scene, filePath) {
       },
       fail: reject
     })
-  })
+  }))
 }
 
 function getUploadCredential(scene, filePath) {

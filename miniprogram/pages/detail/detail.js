@@ -320,7 +320,7 @@ Page({
         if (result) {
             wx.request({
               url: api.Addcomment,
-              method:'GET',
+              method:'POST',
               data: {
                 c_time: c_time,
                 openid:app.globalData.openid,
@@ -329,11 +329,11 @@ Page({
                 userName: that.data.comment.userName.replace("匿名","happy"),
                 avatar: that.data.comment.avatar,
                 applyTo: applyTo,
-                img:that.data.imgOriList,
+                img: JSON.stringify(that.data.imgOriList || []),
                 level:level,
                 pid:that.data.pid,
               },
-              header: session.authHeader({ 'content-type': 'application/json' }),
+              header: session.authHeader({ 'content-type': 'application/x-www-form-urlencoded' }),
               success (res) {
                 if (apiCompat.shouldStopForApiError(res)) {
                   wx.hideLoading()
