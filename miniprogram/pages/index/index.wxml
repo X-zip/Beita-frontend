@@ -85,7 +85,7 @@
     </view>
   </block>
   <block wx:for="{{ tasks }}" wx:key="index" wx:for-item="task">
-    <view class="task-list-item ux-fade-up ux-pressable" hover-class="ux-pressable-hover" data-id="{{ task.id }}" bindtap="goToStoryDetail">
+    <view class="task-list-item ux-fade-up ux-card-pressable" hover-class="ux-card-pressable-hover" hover-start-time="20" hover-stay-time="80" data-id="{{ task.id }}" bindtap="goToStoryDetail">
       <view class="box-left" data-id="{{ task.id }}">
         <view class="head" data-id="{{ task.id }}">
           <image class="img" src='{{ task.avatar +"?imageView2/2/w/50"}}' mode="aspectFit" data-id="{{ task.id }}"></image>

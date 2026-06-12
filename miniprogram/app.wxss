@@ -46,6 +46,18 @@ page {
   transform: scale(.985);
 }
 
+.ux-card-pressable {
+  transition-property: opacity, transform;
+  transition-duration: 140ms;
+  transition-timing-function: ease-out;
+  transform-origin: center center;
+}
+
+.ux-card-pressable-hover {
+  opacity: .96;
+  transform: scale(.985);
+}
+
 .ux-safe-transition {
   transition-property: opacity, transform, background-color, border-color;
   transition-duration: 180ms;

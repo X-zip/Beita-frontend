@@ -139,8 +139,10 @@
     <block wx:for="{{ tasks }}" wx:key="{{ index }}" wx:for-item="task" >
       <!-- 以前为 radio40/radio4、41、42、43 各写一份；现在合并为一份，通过 class 与文案控制 -->
       <view
-        class="task-list-item ux-fade-up ux-pressable {{ style_tools.bgClass(task.radioGroup) }}"
-        hover-class="ux-pressable-hover"
+        class="task-list-item ux-fade-up ux-card-pressable {{ style_tools.bgClass(task.radioGroup) }}"
+        hover-class="ux-card-pressable-hover"
+        hover-start-time="20"
+        hover-stay-time="80"
         bindtap="goToStoryDetail"
         data-id="{{ task.id }}"
         wx:if="{{ task.radioGroup == 'radio40' || task.radioGroup == 'radio41' || task.radioGroup == 'radio42' || task.radioGroup == 'radio43' || task.radioGroup == 'radio4' }}"
