@@ -297,6 +297,23 @@
   box-sizing: border-box;
 }
 
+.detail-comment-skeleton-tabs {
+  width: 30%;
+  height: 50rpx;
+  margin-top: 10rpx;
+  margin-left: 70%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-around;
+  box-sizing: border-box;
+}
+
+.detail-comment-skeleton-tab {
+  width: 44rpx;
+  height: 26rpx;
+  margin-top: 2rpx;
+}
+
 .detail-comment-skeleton-item {
   width: 100%;
   display: flex;

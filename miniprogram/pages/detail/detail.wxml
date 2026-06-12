@@ -140,6 +140,11 @@
     </view>
 
     <view wx:if="{{commentLoading && list.length == 0}}" class="detail-comment-skeleton-list ux-fade-in">
+      <view class="detail-comment-skeleton-tabs">
+        <view class="ux-skeleton-line detail-comment-skeleton-tab"></view>
+        <view class="ux-skeleton-line detail-comment-skeleton-tab"></view>
+        <view class="ux-skeleton-line detail-comment-skeleton-tab"></view>
+      </view>
       <view class="detail-comment-skeleton-item" wx:for="{{commentSkeletonRows}}" wx:key="index">
         <view class="detail-comment-skeleton-avatar ux-skeleton-avatar"></view>
         <view class="detail-comment-skeleton-card normal-color">
