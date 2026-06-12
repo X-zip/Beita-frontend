@@ -1,5 +1,14 @@
 {
+  "scripts": {
+    "ui:capture": "node scripts/miniprogram-ui-capture.js",
+    "ui:capture:index": "node scripts/miniprogram-ui-capture.js --page /pages/index/index --name index --redact",
+    "ui:capture:treehole": "node scripts/miniprogram-ui-capture.js --page /pages/treehole/treehole --name treehole --redact",
+    "ui:capture:contact": "node scripts/miniprogram-ui-capture.js --page /pages/uitem/contact/contact --name contact"
+  },
   "dependencies": {
     "@vant/weapp": "^1.11.1"
+  },
+  "devDependencies": {
+    "miniprogram-automator": "^0.12.1"
   }
 }

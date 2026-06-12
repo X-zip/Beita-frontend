@@ -19,3 +19,6 @@ miniprogram/WXS/cal_view.wxs
 
 # 私有配置文件
 project.private.config.json
+
+# Local UI capture output
+screenshots/
