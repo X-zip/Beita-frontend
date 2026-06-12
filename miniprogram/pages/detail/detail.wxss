@@ -293,7 +293,7 @@
 
 .detail-comment-skeleton-list {
   width: 100%;
-  margin-bottom: 100px;
+  margin-bottom: 40rpx;
   box-sizing: border-box;
 }
 
@@ -334,6 +334,18 @@
 .detail-comment-skeleton-meta {
   width: 50%;
   margin-top: 22rpx;
+}
+
+.detail-comment-empty {
+  width: 90%;
+  margin: 28rpx auto 80rpx;
+  padding: 44rpx 24rpx;
+  box-sizing: border-box;
+  border-radius: 20rpx;
+  background: rgba(255, 255, 255, .72);
+  color: #8a8f98;
+  font-size: 26rpx;
+  text-align: center;
 }
 
   .normal-color{

@@ -93,7 +93,8 @@ Page({
     commentSwipeClass: '',
     commentSwipeStyle: '',
     width: 375,
-    skeletonRows: [1, 2, 3]
+    skeletonRows: [1, 2, 3],
+    commentSkeletonRows: [1]
   },
 
   onShareAppMessage: function() {

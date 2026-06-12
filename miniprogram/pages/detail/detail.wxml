@@ -140,7 +140,7 @@
     </view>
 
     <view wx:if="{{commentLoading && list.length == 0}}" class="detail-comment-skeleton-list ux-fade-in">
-      <view class="detail-comment-skeleton-item" wx:for="{{skeletonRows}}" wx:key="index">
+      <view class="detail-comment-skeleton-item" wx:for="{{commentSkeletonRows}}" wx:key="index">
         <view class="detail-comment-skeleton-avatar ux-skeleton-avatar"></view>
         <view class="detail-comment-skeleton-card normal-color">
           <view class="ux-skeleton-line detail-comment-skeleton-name"></view>
@@ -148,6 +148,9 @@
           <view class="ux-skeleton-line detail-comment-skeleton-meta"></view>
         </view>
       </view>
+    </view>
+    <view wx:elif="{{!commentLoading && list.length == 0}}" class="detail-comment-empty ux-fade-in">
+      暂无评论
     </view>
 
     <view class="pro-con">
