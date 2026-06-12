@@ -17,6 +17,26 @@
     <view class="wechat-tip">点击二维码可放大查看</view>
   </view>
 
+  <view class="repo-card">
+    <view class="repo-title">开源仓库</view>
+    <view class="repo-desc">小程序端无法直接跳转外部网页，可复制链接后在浏览器中打开。</view>
+    <block wx:for="{{repos}}" wx:key="url">
+      <view class="repo-item">
+        <view class="repo-main">
+          <view class="repo-name">{{item.name}}</view>
+          <view class="repo-url" selectable="true">{{item.url}}</view>
+        </view>
+        <van-button
+          type="primary"
+          size="small"
+          round
+          data-url="{{item.url}}"
+          bind:tap="copyRepoLink"
+        >复制</van-button>
+      </view>
+    </block>
+  </view>
+
   <view class="section">
     <block wx:for="{{serviceItems}}" wx:key="title">
       <view class="item">

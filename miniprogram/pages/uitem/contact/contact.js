@@ -1,6 +1,16 @@
 Page({
   data: {
     wechatQr: '/images/contact_wechat_qr.jpg',
+    repos: [
+      {
+        name: '前端仓库',
+        url: 'https://github.com/X-zip/Beita-frontend'
+      },
+      {
+        name: '后端仓库',
+        url: 'https://github.com/X-zip/Beita-backend'
+      }
+    ],
     serviceItems: [
       {
         title: '问题反馈',
@@ -36,6 +46,19 @@ Page({
     wx.previewImage({
       current: this.data.wechatQr,
       urls: [this.data.wechatQr]
+    })
+  },
+
+  copyRepoLink(e) {
+    const url = e.currentTarget.dataset.url
+    if (!url) {
+      wx.showToast({ title: '链接为空', icon: 'none' })
+      return
+    }
+    wx.setClipboardData({
+      data: url,
+      success: () => wx.showToast({ title: '链接已复制', icon: 'success' }),
+      fail: () => wx.showToast({ title: '复制失败', icon: 'none' })
     })
   },
 
