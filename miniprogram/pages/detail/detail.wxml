@@ -39,6 +39,9 @@
         <view class="ux-skeleton-line detail-skeleton-line-short"></view>
       </view>
     </view>
+    <view class="detail-skeleton-button-list">
+      <view class="ux-skeleton-line detail-skeleton-button" wx:for="{{skeletonRows}}" wx:key="index"></view>
+    </view>
   </view>
 
   <view wx:else class="detail ux-fade-in" style="width: 100%;">
