@@ -1,86 +1,20 @@
-<!--pages/contact/contact.wxml-->
-<!-- <text class="title">贝塔驿站</text>
-<view class="qr-list">
-  <view class="item">
-    <image class='image' src="https://yqtech.ltd/beita/contact/contact2.jpg" mode="widthFix" bindtap="imgYu"></image>
-  </view>
-  <view class="item">
-    <image class='image' src="https://yqtech.ltd/beita/contact/contact1.jpg" mode="widthFix" bindtap="imgYu2"></image>
-  </view>
-</view>
-<view class="text-list">
-  <text class="text">贝塔驿站公众号</text>
-  <text class="text">贝塔驿站客服</text>
-</view>
-
-<view class= "copy-right">
-    <image class='copy-logo' src="../../../images/favicon.ico" mode="widthFix" bindtap="imgYu"></image>
-    <text class="copy-text">昱清科技 © 2022 Powered By Yuqing Pte.Ltd</text>
-</view> -->
-
 <view class="page">
-  <view class="tip">出于平台规则，无法直接跳转外部网页。可复制链接打开。</view>
+  <view class="header">
+    <view class="title">帮助与反馈</view>
+    <view class="subtitle">如遇到使用问题，请通过站内反馈入口提交说明。</view>
+  </view>
 
-  <!-- 开源仓库 -->
   <view class="section">
-    <view class="section-title">开源仓库</view>
-    <block wx:for="{{repos}}" wx:key="url">
+    <block wx:for="{{serviceItems}}" wx:key="title">
       <view class="item">
-        <view class="item-main">
-          <view class="item-title">{{item.name}}</view>
-          <view class="item-sub" selectable="true">{{item.url}}</view>
-        </view>
-        <view class="item-actions">
-            <van-button
-            type="success"
-            size="small"
-            round
-            data-url="{{item.url}}"
-            bind:tap="copyLink"
-            >复制</van-button>
-          <!-- <button size="mini" class="btn" bindtap="previewQR" data-src="{{item.qr}}">二维码</button> -->
-        </view>
+        <view class="item-title">{{item.title}}</view>
+        <view class="item-desc">{{item.desc}}</view>
       </view>
     </block>
   </view>
 
-  <!-- 联系方式 -->
-  <!-- <view class="section">
-    <view class="section-title">联系方式</view>
-    <block wx:for="{{contacts}}" wx:key="value">
-      <view class="item">
-        <view class="item-main">
-          <view class="item-title">{{item.label}}</view>
-          <view class="item-sub" selectable="true">{{item.value}}</view>
-        </view>
-        <view class="item-actions">
-            <van-button
-            type="success"
-            size="small"
-            round
-            data-url="{{item.value}}"
-            bind:tap="copyLink"
-            >复制</van-button>
-        </view>
-      </view>
-    </block>
-  </view> -->
-
-
-  <!-- 二维码（可选） -->
-  <view class="section" wx:if="{{qrcodes.length}}">
-    <view class="section-title">贝塔驿站微信二维码</view>
-    <view class="qr-grid">
-      <block wx:for="{{qrcodes}}" wx:key="img">
-        <view class="qr-card" bindtap="previewQRCodes" data-index="{{index}}">
-          <image class="qr-img" mode="aspectFit" src="{{item.img}}" />
-          <view class="qr-name">{{item.name}}</view>
-        </view>
-      </block>
-    </view>
+  <view class="actions">
+    <van-button type="primary" block round bind:tap="toSuggestion">提交意见反馈</van-button>
+    <van-button custom-class="secondary-button" block round bind:tap="copyHelpText">复制反馈说明</van-button>
   </view>
 </view>
-
-
-
-

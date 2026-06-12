@@ -1,30 +1,62 @@
-.page { padding: 24rpx; background: #f7f8fa; box-sizing: border-box; }
-.tip { font-size: 24rpx; color: #888; line-height: 1.6; margin-bottom: 24rpx; }
-.section-title { font-size: 28rpx; color: #323233; margin: 16rpx 0; }
-.item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: #fff;
-  padding: 20rpx;
-  border-radius: 12rpx;
-  margin-bottom: 16rpx;
+.page {
+  min-height: 100vh;
+  padding: 32rpx 28rpx;
+  background: #f7f8fa;
+  box-sizing: border-box;
 }
-.item-main { flex: 1; }
-.item-title { font-size: 28rpx; font-weight: 600; color: #222; }
-.item-sub { font-size: 24rpx; color: #666; word-break: break-all; margin-top: 4rpx; }
-.qr-card {
-  background: #fff;
-  padding: 16rpx;
-  text-align: center;
-  border-radius: 12rpx;
-  margin-bottom: 16rpx;
-}
-.qr-img { width: 160rpx; height: 160rpx; }
-.qr-name { font-size: 24rpx; margin-top: 8rpx; color: #444; }
-.footer { margin-top: 28rpx; }
-/* 原样保留你的其他样式，只补这几个覆盖 */
-.item { padding: 16rpx; }
-.item-actions { margin-left: 8rpx; display: flex; align-items: center; }
-.item-actions .van-button { padding: 0 12rpx; line-height: 1.8; } /* 更紧凑 */
 
+.header {
+  padding: 28rpx 24rpx;
+  background: #ffffff;
+  border-radius: 16rpx;
+  box-sizing: border-box;
+}
+
+.title {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #202124;
+}
+
+.subtitle {
+  margin-top: 12rpx;
+  font-size: 26rpx;
+  line-height: 1.6;
+  color: #70757a;
+}
+
+.section {
+  margin-top: 24rpx;
+}
+
+.item {
+  padding: 24rpx;
+  margin-bottom: 18rpx;
+  background: #ffffff;
+  border-radius: 16rpx;
+  box-sizing: border-box;
+}
+
+.item-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #202124;
+}
+
+.item-desc {
+  margin-top: 10rpx;
+  font-size: 26rpx;
+  line-height: 1.6;
+  color: #5f6368;
+}
+
+.actions {
+  margin-top: 28rpx;
+}
+
+.secondary-button {
+  margin-top: 18rpx;
+  color: #4b5563 !important;
+  background: #ffffff !important;
+  border-color: #e5e7eb !important;
+}
