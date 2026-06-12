@@ -1,5 +1,6 @@
 Page({
   data: {
+    wechatQr: '/images/contact_wechat_qr.jpg',
     serviceItems: [
       {
         title: '问题反馈',
@@ -28,6 +29,13 @@ Page({
       data: this.data.helpText,
       success: () => wx.showToast({ title: '已复制', icon: 'success' }),
       fail: () => wx.showToast({ title: '复制失败', icon: 'none' })
+    })
+  },
+
+  previewWechatQr() {
+    wx.previewImage({
+      current: this.data.wechatQr,
+      urls: [this.data.wechatQr]
     })
   },
 

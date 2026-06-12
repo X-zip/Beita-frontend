@@ -1,7 +1,20 @@
 <view class="page">
   <view class="header">
     <view class="title">帮助与反馈</view>
-    <view class="subtitle">如遇到使用问题，请通过站内反馈入口提交说明。</view>
+    <view class="subtitle">如遇到使用问题，可以添加客服微信或通过站内反馈入口提交说明。</view>
+  </view>
+
+  <view class="wechat-card">
+    <view class="wechat-title">联系我们</view>
+    <view class="wechat-desc">扫码添加客服微信，反馈使用问题或咨询平台相关事项。</view>
+    <image
+      class="wechat-qr"
+      src="{{wechatQr}}"
+      mode="widthFix"
+      show-menu-by-longpress="{{true}}"
+      bindtap="previewWechatQr"
+    ></image>
+    <view class="wechat-tip">点击二维码可放大查看</view>
   </view>
 
   <view class="section">
