@@ -75,6 +75,7 @@ Page({
     imgnum: 0,
     hidden: true,
     banDate: "0天",
+    submitting: false,
     option: '',
     animalList: {
       img: [...Array(21)].map((_, i) => `https://yqtech.ltd/animal/${i + 1}.png`),
@@ -110,6 +111,9 @@ Page({
   },
 
   formSubmit(e) {
+    if (this.data.submitting) {
+      return
+    }
     wx.requestSubscribeMessage({
         tmplIds: [SUBSCRIBE_TEMPLATE_IDS]
     });
@@ -125,6 +129,7 @@ Page({
     }
 
     showLoading('发布中，请稍等...')
+    this.setData({ submitting: true })
 
     let userName, avatar
     if (option === 'treehole') {
@@ -154,15 +159,18 @@ Page({
     const encrypted = encryptContent(dataToEncrypt)
     if (prepost == content) {
         wx.hideLoading()
+        this.setData({ submitting: false })
         return showToast('请不要发布重复内容！');
     }
     check.checkString(content, app.globalData.openid).then(result => {
       if (result === null) {
         wx.hideLoading()
+        this.setData({ submitting: false })
         return
       }
       if (!result) {
         wx.hideLoading()
+        this.setData({ submitting: false })
         return showToast('有违规内容！')
       }
       wx.request({
@@ -189,6 +197,7 @@ Page({
         success: res => {
           if (apiCompat.shouldStopForApiError(res)) {
             wx.hideLoading()
+            this.setData({ submitting: false })
             return
           }
           const code = Number(res.data && res.data.code)
@@ -202,14 +211,17 @@ Page({
             wx.setStorageSync('prepost', content)
           }
           wx.hideLoading()
+          this.setData({ submitting: false })
         },
         fail: (e) => {
           wx.hideLoading()
+          this.setData({ submitting: false })
           showToast('提交失败，请稍后再试')
         }
       })
     }).catch(() => {
       wx.hideLoading()
+      this.setData({ submitting: false })
       return showToast('\u5185\u5bb9\u5ba1\u6838\u5931\u8d25\uff0c\u8bf7\u7a0d\u540e\u518d\u8bd5')
     })
   },

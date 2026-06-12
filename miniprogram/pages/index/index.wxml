@@ -33,10 +33,10 @@
 
   <!-- 合并为单一 style，不改变任何样式和功能 -->
   <view style="width:100%;--keyboard_height--:{{bottomEdge}}px;" class="{{ top>200 ? 'topnav' : 'normalnav'}}">
-    <scroll-view class="scrollView {{ top>200 ? 'scrollColor' : ''}}" scroll-x='true' scroll-left="{{scrollLeft}}">
+    <scroll-view class="scrollView ux-safe-transition {{ top>200 ? 'scrollColor' : ''}}" scroll-x='true' scroll-left="{{scrollLeft}}">
       <view class="menu-wrp">
         <view class="menu-list" wx:for="{{menu.imgUrls}}" wx:key="index">
-          <view class="menu-item" data-id="{{ menu.name[index] }}" bindtap='topNavChange' data-current="{{index}}">
+          <view class="menu-item ux-pressable" hover-class="ux-pressable-hover" data-id="{{ menu.name[index] }}" bindtap='topNavChange' data-current="{{index}}">
             <image class="menu-img" src="{{item}}" data-id="{{ menu.name[index] }}" wx:if="{{top <= 200}}"/>
             <view class="menu-desc {{currentTab==index ? 'on' : ''}} {{ top>200 ? 'textNav' : ''}}" data-id="{{ menu.name[index] }}">{{menu.descs[index]}}</view>
           </view>
@@ -47,7 +47,7 @@
 
   <view class="scrollView-small">
     <view class="menu-list-small" wx:for="{{sub_menu.descs}}" wx:key="{{index}}">
-      <view class="menu-item-small" data-id="{{ sub_menu.name[index] }}" bindtap='bottomNavChange' data-current="{{index}}">
+      <view class="menu-item-small ux-pressable" hover-class="ux-pressable-hover" data-id="{{ sub_menu.name[index] }}" bindtap='bottomNavChange' data-current="{{index}}">
         <view class="menu-desc-small {{currentSmallTab==index ? 'on-small' : ''}}" data-id="{{ sub_menu.name[index] }}">{{sub_menu.descs[index]}}</view>
       </view>
     </view>
@@ -63,9 +63,29 @@
   </view>
 </van-popup>
 
-<view id="stories-list">
+<view
+  id="stories-list"
+  class="ux-tab-swipe-viewport"
+  bindtouchstart="onTabSwipeTouchStart"
+  bindtouchmove="onTabSwipeTouchMove"
+  bindtouchend="onTopTabSwipeTouchEnd"
+  bindtouchcancel="onTabSwipeTouchCancel"
+>
+  <view class="ux-tab-swipe-area {{tabSwipeClass}}" style="{{tabSwipeStyle}}">
+  <block wx:if="{{(initialLoading || listLoading) && tasks.length == 0}}">
+    <view class="ux-skeleton-card ux-fade-in" wx:for="{{skeletonRows}}" wx:key="index">
+      <view class="ux-skeleton-row">
+        <view class="ux-skeleton-avatar"></view>
+        <view class="ux-skeleton-line ux-skeleton-line--name"></view>
+        <view class="ux-skeleton-line ux-skeleton-line--meta"></view>
+      </view>
+      <view class="ux-skeleton-line ux-skeleton-line--title"></view>
+      <view class="ux-skeleton-line ux-skeleton-line--sub"></view>
+      <view class="ux-skeleton-thumb"></view>
+    </view>
+  </block>
   <block wx:for="{{ tasks }}" wx:key="index" wx:for-item="task">
-    <view class="task-list-item" data-id="{{ task.id }}" bindtap="goToStoryDetail">
+    <view class="task-list-item ux-fade-up ux-pressable" hover-class="ux-pressable-hover" data-id="{{ task.id }}" bindtap="goToStoryDetail">
       <view class="box-left" data-id="{{ task.id }}">
         <view class="head" data-id="{{ task.id }}">
           <image class="img" src='{{ task.avatar +"?imageView2/2/w/50"}}' mode="aspectFit" data-id="{{ task.id }}"></image>
@@ -143,4 +163,10 @@
       </view>
     </view>
   </block>
+  <view wx:if="{{loadingMore}}" class="ux-bottom-loading">
+    <text class="ux-bottom-loading__dot"></text>
+    <text class="ux-bottom-loading__dot"></text>
+    <text class="ux-bottom-loading__dot"></text>
+  </view>
+  </view>
 </view>

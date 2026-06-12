@@ -76,6 +76,9 @@ border-radius: 20rpx;
   display: block;
   font-size: 28rpx;
   font-weight: 800;
+  transition-property: color;
+  transition-duration: 160ms;
+  transition-timing-function: ease-out;
 }
 
 
@@ -86,6 +89,78 @@ border-radius: 20rpx;
   background: #f6f6f6;
   border-radius: 20rpx;
   height: 240rpx;
+}
+
+.treehole-skeleton-card {
+  background: #f6f6f6;
+  height: 240rpx;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.treehole-skeleton-card .box-left,
+.treehole-skeleton-card .box-right {
+  height: 100%;
+}
+
+.treehole-skeleton-card .head {
+  height: 30%;
+}
+
+.treehole-skeleton-card .title_box {
+  height: 70%;
+}
+
+.treehole-skeleton-card .task_title {
+  height: 50%;
+  box-sizing: border-box;
+}
+
+.treehole-skeleton-card .button_box {
+  height: 50%;
+  box-sizing: border-box;
+}
+
+.treehole-skeleton-card .img {
+  background-size: 400% 100%;
+}
+
+.treehole-skeleton-name {
+  width: 160rpx;
+  margin-top: 22rpx;
+  margin-left: 20rpx;
+}
+
+.treehole-skeleton-meta {
+  width: 160rpx;
+  margin-left: 20rpx;
+}
+
+.treehole-skeleton-title {
+  width: 78%;
+}
+
+.treehole-skeleton-sub {
+  width: 58%;
+  margin-top: 18rpx;
+}
+
+.treehole-skeleton-footer {
+  width: 220rpx;
+  margin-left: 20rpx;
+}
+
+.treehole-skeleton-time {
+  width: 90rpx;
+  float: right;
+  margin-top: 20rpx;
+  margin-right: 30rpx;
+}
+
+.treehole-skeleton-thumb {
+  float: none;
+  margin-top: 0;
+  background-size: 400% 100%;
 }
 .box-left {
   width: 60%;
@@ -214,6 +289,9 @@ border-radius: 20rpx;
   background-color: white;
   padding-bottom: 20rpx;
   opacity: 0.85;
+  transition-property: opacity, background-color;
+  transition-duration: 180ms;
+  transition-timing-function: ease-out;
 }
 
 .navColor {
@@ -298,6 +376,9 @@ border-radius: 20rpx;
   line-height: 28rpx;
   display: block;
   padding-bottom: 20rpx;
+  transition-property: color, border-color;
+  transition-duration: 160ms;
+  transition-timing-function: ease-out;
 }
 
 .hotBanner {

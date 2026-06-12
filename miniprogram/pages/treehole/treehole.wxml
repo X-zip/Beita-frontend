@@ -42,7 +42,7 @@
     </view>
   </navigation>
 
-  <view style="margin-top:{{navBarHeight}}px;padding-top:20rpx;" class="hotBanner" bindtap="goHotList">
+  <view style="margin-top:{{navBarHeight}}px;padding-top:20rpx;" class="hotBanner ux-fade-in ux-pressable" hover-class="ux-pressable-hover" bindtap="goHotList">
     <van-row style="height: 80rpx !important;">
       <van-col span="4" offset="1"><image src="../../images/hotlist2.png" mode="heightFix" style="height: 100rpx"/></van-col>
       <van-col span="19">
@@ -71,10 +71,10 @@
   </view>
 
   <view style="width:100%;--keyboard_height--:{{bottomEdge}}px;" class="{{ top>60 ? 'topnav' : ''}}" >
-    <scroll-view class="scrollView {{ top>150 ? 'scrollColor' : ''}}" scroll-x='true' scroll-left="{{scrollLeft}}">
+    <scroll-view class="scrollView ux-safe-transition {{ top>150 ? 'scrollColor' : ''}}" scroll-x='true' scroll-left="{{scrollLeft}}">
       <view class="menu-wrp" >
         <view class="menu-list" wx:for="{{menu.descs}}" wx:key="{{index}}">
-          <view class="menu-item" data-id="{{ menu.name[index] }}" bindtap='topNavChange'  data-current="{{index}}">
+          <view class="menu-item ux-pressable" hover-class="ux-pressable-hover" data-id="{{ menu.name[index] }}" bindtap='topNavChange'  data-current="{{index}}">
             <view class="menu-desc {{currentTab==index ? 'on' : ''}} {{ top>60 ? 'textNav' : ''}}" data-id="{{ menu.name[index] }}">{{menu.descs[index]}}</view>
           </view>
         </view>
@@ -85,7 +85,7 @@
   <view style="width:100%" >
     <view class="scrollView-small" >
       <view class="menu-list-small" wx:for="{{sub_menu.descs}}" wx:key="{{index}}">
-        <view class="menu-item-small" data-id="{{ sub_menu.name[index] }}" bindtap='bottomNavChange'  data-current="{{index}}">
+        <view class="menu-item-small ux-pressable" hover-class="ux-pressable-hover" data-id="{{ sub_menu.name[index] }}" bindtap='bottomNavChange'  data-current="{{index}}">
           <view class="menu-desc-small {{currentSmallTab==index ? 'on-small' : ''}}" data-id="{{ sub_menu.name[index] }}">{{sub_menu.descs[index]}}</view>
         </view>
       </view>
@@ -94,11 +94,53 @@
 </view>
 
 <view class="container" >
-  <view id="stories-list" style="width:100%;">
+  <view
+    id="stories-list"
+    class="ux-tab-swipe-viewport"
+    style="width:100%;"
+    bindtouchstart="onTabSwipeTouchStart"
+    bindtouchmove="onTabSwipeTouchMove"
+    bindtouchend="onTopTabSwipeTouchEnd"
+    bindtouchcancel="onTabSwipeTouchCancel"
+  >
+    <view class="ux-tab-swipe-area {{tabSwipeClass}}" style="{{tabSwipeStyle}}">
+    <block wx:if="{{(initialLoading || listLoading) && tasks.length == 0}}">
+      <view class="task-list-item treehole-skeleton-card ux-fade-in" wx:for="{{skeletonRows}}" wx:key="index">
+        <view class="box-left">
+          <view class="head">
+            <view class="img ux-skeleton-avatar"></view>
+            <view class="box">
+              <view class="shead_clear">
+                <view class="ux-skeleton-line treehole-skeleton-name"></view>
+              </view>
+              <view class="ux-skeleton-line treehole-skeleton-meta"></view>
+            </view>
+          </view>
+          <view class="title_box">
+            <view class="task_title">
+              <view class="ux-skeleton-line treehole-skeleton-title"></view>
+              <view class="ux-skeleton-line treehole-skeleton-sub"></view>
+            </view>
+            <view class="button">
+              <view class="ux-skeleton-line treehole-skeleton-footer"></view>
+            </view>
+          </view>
+        </view>
+        <view class="box-right">
+          <view class="time_box">
+            <view class="ux-skeleton-line treehole-skeleton-time"></view>
+          </view>
+          <view class="img_box">
+            <view class="task_img ux-skeleton-thumb treehole-skeleton-thumb"></view>
+          </view>
+        </view>
+      </view>
+    </block>
     <block wx:for="{{ tasks }}" wx:key="{{ index }}" wx:for-item="task" >
       <!-- 以前为 radio40/radio4、41、42、43 各写一份；现在合并为一份，通过 class 与文案控制 -->
       <view
-        class="task-list-item {{ style_tools.bgClass(task.radioGroup) }}"
+        class="task-list-item ux-fade-up ux-pressable {{ style_tools.bgClass(task.radioGroup) }}"
+        hover-class="ux-pressable-hover"
         bindtap="goToStoryDetail"
         data-id="{{ task.id }}"
         wx:if="{{ task.radioGroup == 'radio40' || task.radioGroup == 'radio41' || task.radioGroup == 'radio42' || task.radioGroup == 'radio43' || task.radioGroup == 'radio4' }}"
@@ -153,5 +195,11 @@
         </view>
       </view>
     </block>
+    <view wx:if="{{loadingMore}}" class="ux-bottom-loading">
+      <text class="ux-bottom-loading__dot"></text>
+      <text class="ux-bottom-loading__dot"></text>
+      <text class="ux-bottom-loading__dot"></text>
+    </view>
+    </view>
   </view>
 </view>

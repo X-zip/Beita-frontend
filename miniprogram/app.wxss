@@ -24,4 +24,227 @@ page {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  overflow-x: hidden;
+}
+
+.ux-fade-in {
+  animation: uxFadeIn 180ms ease-out both;
+}
+
+.ux-fade-up {
+  animation: uxFadeUp 180ms ease-out both;
+}
+
+.ux-pressable {
+  transition-property: opacity, transform, background-color, border-color;
+  transition-duration: 160ms;
+  transition-timing-function: ease-out;
+}
+
+.ux-pressable-hover {
+  opacity: .88;
+  transform: scale(.985);
+}
+
+.ux-safe-transition {
+  transition-property: opacity, transform, background-color, border-color;
+  transition-duration: 180ms;
+  transition-timing-function: ease-out;
+}
+
+.ux-skeleton-card {
+  width: 90%;
+  height: 240rpx;
+  margin-left: 5%;
+  margin-top: 10rpx;
+  border-radius: 20rpx;
+  background: #f6f6f6;
+  box-sizing: border-box;
+  padding: 20rpx;
+}
+
+.ux-skeleton-card--spaced {
+  margin-top: 20rpx;
+  margin-bottom: 5%;
+}
+
+.ux-skeleton-row {
+  display: flex;
+  align-items: center;
+}
+
+.ux-skeleton-avatar,
+.ux-skeleton-line,
+.ux-skeleton-thumb {
+  background: linear-gradient(90deg, #eeeeee 25%, #f7f7f7 37%, #eeeeee 63%);
+  background-size: 400% 100%;
+  animation: uxSkeleton 1.2s ease-in-out infinite;
+}
+
+.ux-skeleton-avatar {
+  width: 48rpx;
+  height: 48rpx;
+  border-radius: 50%;
+  flex: 0 0 auto;
+}
+
+.ux-skeleton-line {
+  height: 22rpx;
+  border-radius: 12rpx;
+}
+
+.ux-skeleton-line--name {
+  width: 180rpx;
+  margin-left: 20rpx;
+}
+
+.ux-skeleton-line--meta {
+  width: 110rpx;
+  margin-left: 20rpx;
+}
+
+.ux-skeleton-line--title {
+  width: 58%;
+  height: 30rpx;
+  margin-top: 38rpx;
+}
+
+.ux-skeleton-line--sub {
+  width: 42%;
+  margin-top: 24rpx;
+}
+
+.ux-skeleton-thumb {
+  width: 192rpx;
+  height: 144rpx;
+  border-radius: 10rpx;
+  float: right;
+  margin-top: -96rpx;
+}
+
+.ux-bottom-loading {
+  width: 100%;
+  padding: 24rpx 0 36rpx;
+  text-align: center;
+  font-size: 24rpx;
+  color: #999;
+  box-sizing: border-box;
+}
+
+.ux-bottom-loading__dot {
+  display: inline-block;
+  width: 10rpx;
+  height: 10rpx;
+  margin: 0 5rpx;
+  border-radius: 50%;
+  background: currentColor;
+  animation: uxDot 900ms ease-in-out infinite;
+}
+
+.ux-bottom-loading__dot:nth-child(2) {
+  animation-delay: 120ms;
+}
+
+.ux-bottom-loading__dot:nth-child(3) {
+  animation-delay: 240ms;
+}
+
+.ux-tab-swipe-viewport {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.ux-tab-swipe-area {
+  width: 100%;
+  transform: translateX(0);
+  will-change: opacity, transform;
+}
+
+.ux-tab-dragging {
+  transition: none;
+}
+
+.ux-tab-swipe-reset {
+  transition-property: opacity, transform;
+  transition-duration: 180ms;
+  transition-timing-function: ease-out;
+}
+
+.ux-tab-swipe-left {
+  animation: uxTabSwipeLeft 220ms ease-out both;
+}
+
+.ux-tab-swipe-right {
+  animation: uxTabSwipeRight 220ms ease-out both;
+}
+
+@keyframes uxFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes uxFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(12rpx);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes uxSkeleton {
+  0% { background-position: 100% 50%; }
+  100% { background-position: 0 50%; }
+}
+
+@keyframes uxDot {
+  0%, 80%, 100% {
+    opacity: .35;
+    transform: translateY(0);
+  }
+  40% {
+    opacity: 1;
+    transform: translateY(-4rpx);
+  }
+}
+
+@keyframes uxTabSwipeLeft {
+  0% {
+    opacity: .82;
+    transform: translateX(28rpx);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes uxTabSwipeRight {
+  0% {
+    opacity: .82;
+    transform: translateX(-28rpx);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .ux-skeleton-card {
+    background: #292929;
+  }
+
+  .ux-skeleton-avatar,
+  .ux-skeleton-line,
+  .ux-skeleton-thumb {
+    background: linear-gradient(90deg, #333333 25%, #3d3d3d 37%, #333333 63%);
+    background-size: 400% 100%;
+  }
+
+  .ux-bottom-loading {
+    color: #c8c8c8;
+  }
 }

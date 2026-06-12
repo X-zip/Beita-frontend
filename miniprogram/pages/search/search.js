@@ -24,6 +24,10 @@ Page({
    */
   data: {
     tasks: [],
+    noMore: false,
+    initialLoading: false,
+    loadingMore: false,
+    skeletonRows: [1, 2, 3]
   },
 
   /**
@@ -34,10 +38,10 @@ Page({
     var UV = app.globalData.UV
     that.setData({
       ser_data: options.search_item,
-      UV
-    })
-    wx.showLoading({
-      title: '加载中',
+      UV,
+      initialLoading: true,
+      loadingMore: false,
+      noMore: false
     })
     that.getTaskInfo()
   },
@@ -63,15 +67,26 @@ Page({
       },
     //   header: { "Content-Type": "application/x-www-form-urlencoded" },
       success (res) {
-        var data = res.data.taskList
+        var data = (res.data && res.data.taskList) || []
         for (var i in data){
           data[i].img = data[i].img.replace('[','').replace(']','').replace('\"','').replace('\"','').split(',')
         }
         wx.hideLoading()
+        if (data.length == 0) {
+          that.setData({ noMore: true })
+        }
         that.setData({
-          tasks: old_data.concat(data)
+          tasks: old_data.concat(data),
+          initialLoading: false,
+          loadingMore: false
         })
       },
+      fail () {
+        that.setData({
+          initialLoading: false,
+          loadingMore: false
+        })
+      }
     })
   },
 
@@ -114,12 +129,11 @@ Page({
    * Page event handler function--Called when user drop down
    */
   onPullDownRefresh: function () {
-    wx.showLoading({
-      title: '加载中，请稍后',
-      mask: true,
-    })
     this.setData({
-      tasks: []
+      tasks: [],
+      noMore: false,
+      initialLoading: true,
+      loadingMore: false
     })
     this.getTaskInfo()
   },
@@ -128,10 +142,17 @@ Page({
    * Called when page reach bottom
    */
   onReachBottom: function () {
-    wx.showLoading({
-      title: '加载中，请稍后',
-      mask: true,
-    })
+    if (this.data.noMore) {
+      wx.showToast({
+        title: '没有更多内容',
+        icon: 'none'
+      })
+      return
+    }
+    if (this.data.loadingMore || this.data.initialLoading) {
+      return
+    }
+    this.setData({ loadingMore: true })
     this.getTaskInfo()
   },
 

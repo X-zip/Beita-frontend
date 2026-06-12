@@ -115,7 +115,6 @@ Component({
     uploadPaths(paths) {
       if (!paths || !paths.length) return
       this.setData({ uploading: true })
-      wx.showLoading({ title: this.data.loadingText, mask: true })
       const startList = this.data.replaceWhenFull ? [] : normalizeList(this.data.value)
       const uploaded = []
       const uploadNext = index => {
@@ -140,7 +139,6 @@ Component({
     },
 
     finishUpload(nextList) {
-      wx.hideLoading()
       this.setData({
         uploading: false,
         displayList: nextList
@@ -149,7 +147,6 @@ Component({
     },
 
     failUpload(error) {
-      wx.hideLoading()
       this.setData({ uploading: false })
       const message = (error && error.message) || '上传失败'
       wx.showToast({ title: message, icon: 'none' })

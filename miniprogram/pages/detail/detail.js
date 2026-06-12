@@ -6,6 +6,12 @@ var api = require('../../config/api.js');
 var CryptoJS = require('../../utils/aes.js')
 const session = require('../../utils/session.js')
 const apiCompat = require('../../utils/apiCompat.js')
+const tabSwipe = require('../../utils/tabSwipe.js')
+const COMMENT_SWIPE_OPTIONS = {
+  classField: 'commentSwipeClass',
+  styleField: 'commentSwipeStyle',
+  indexField: 'currentSmallTab'
+}
 const {
     AES_KEY,
     AES_IV,
@@ -79,6 +85,15 @@ Page({
     currentSmallTab: 0,
     clickList:[],
     likeList:[],
+    detailLoading: true,
+    commentLoading: true,
+    commentLoadingMore: false,
+    submittingComment: false,
+    pageReady: false,
+    commentSwipeClass: '',
+    commentSwipeStyle: '',
+    width: 375,
+    skeletonRows: [1, 2, 3]
   },
 
   onShareAppMessage: function() {
@@ -212,6 +227,9 @@ Page({
     var avatar = wx.getStorageSync('avatarUrl');
     var form = e.detail.value;
     var that = this;
+    if (that.data.submittingComment) {
+      return
+    }
     var pk = that.data.pk
     var isVerified = wx.getStorageSync('isVerified')
     if(isVerified != 1) {
@@ -249,6 +267,7 @@ Page({
     wx.showLoading({
       title: '发送中',
     })
+    that.setData({ submittingComment: true })
     if (that.data.reply) {
       var applyTo = that.data.cengzhu
       var level = 2
@@ -306,6 +325,7 @@ Page({
     if (form.comment == "") {
     //if (1) {
       wx.hideLoading()
+      that.setData({ submittingComment: false })
       wx.showToast({
         title: '回复不能为空！',
         icon: 'none',
@@ -315,6 +335,7 @@ Page({
       let checkResult = check.checkString(that.data.comment.comment,app.globalData.openid).then(function(result) {
         if (result === null) {
           wx.hideLoading()
+          that.setData({ submittingComment: false })
           return
         }
         if (result) {
@@ -337,27 +358,36 @@ Page({
               success (res) {
                 if (apiCompat.shouldStopForApiError(res)) {
                   wx.hideLoading()
+                  that.setData({ submittingComment: false })
                   return
                 }
                 if(res.data.code==200) {
+                    wx.hideLoading()
+                    that.setData({ submittingComment: false })
                     wx.showToast({
                       title: '您已被禁言！请联系管理员解封！'+'id: '+res.data.id,
                       icon: 'none',
                       duration: 1500
                     })
                   } else if(res.data.code==1){
+                    wx.hideLoading()
+                    that.setData({ submittingComment: false })
                     wx.showToast({
                       title: '您已被禁言1天！请联系管理员解封！'+'id: '+res.data.id,
                       icon: 'none',
                       duration: 1500
                     })
                   } else if(res.data.code==3){
+                    wx.hideLoading()
+                    that.setData({ submittingComment: false })
                     wx.showToast({
                       title: '您已被禁言3天！请联系管理员解封！'+'id: '+res.data.id,
                       icon: 'none',
                       duration: 1500
                     })
                   } else if(res.data.code==7){
+                    wx.hideLoading()
+                    that.setData({ submittingComment: false })
                     wx.showToast({
                       title: '您已被禁言7天！请联系管理员解封！'+'id: '+res.data.id,
                       icon: 'none',
@@ -389,6 +419,7 @@ Page({
                     that.setData({
                         form_info: '',
                         reply: false,
+                        submittingComment: false
                     })
                     wx.hideLoading()
                     wx.showToast({
@@ -399,11 +430,21 @@ Page({
                 }
 
               },
+              fail () {
+                wx.hideLoading()
+                that.setData({ submittingComment: false })
+                wx.showToast({
+                  title: '发送失败，请稍后再试',
+                  icon: 'none',
+                  duration: 1500
+                })
+              }
             })
 
 
         } else {
           wx.hideLoading()
+          that.setData({ submittingComment: false })
           wx.showToast({
             title: '有违规内容！',
             icon: 'none',
@@ -412,6 +453,7 @@ Page({
         }
       }).catch(function() {
         wx.hideLoading()
+        that.setData({ submittingComment: false })
         wx.showToast({
           title: '\u5185\u5bb9\u5ba1\u6838\u5931\u8d25\uff0c\u8bf7\u7a0d\u540e\u518d\u8bd5',
           icon: 'none',
@@ -507,7 +549,8 @@ Page({
     var UV = app.globalData.UV
     that.setData({
       current_openid:openid,
-      UV
+      UV,
+      width: wx.getSystemInfoSync().windowWidth
     })
     if (wx.getStorageSync('nickName')) {
       var nickNameInfo = wx.getStorageSync('nickName')
@@ -580,6 +623,11 @@ Page({
     var that = this
     var openid = app.globalData.openid
     var pk = that.data.pk
+    that.setData({
+      detailLoading: that.data.task.length == 0,
+      commentLoading: that.data.list.length == 0,
+      commentLoadingMore: false
+    })
     const dataToEncrypt = { verify: 'zzyq', c_time: new Date() }
     const encrypted = encryptContent(dataToEncrypt)
     wx.request({
@@ -617,9 +665,15 @@ Page({
           that.setData({
             img: res.data.taskList[0].img.split(','),
             task:res.data.taskList,
-            flag: '1'
+            flag: '1',
+            detailLoading: false,
+            pageReady: true
           })
         }  else {
+          that.setData({
+            detailLoading: false,
+            pageReady: true
+          })
           wx.showModal({
             title: '提示',
             content: '该内容已被发布者删除,请返回首页查看其他内容',
@@ -633,6 +687,12 @@ Page({
               }
           })
         }
+      },
+      fail () {
+        that.setData({
+          detailLoading: false,
+          pageReady: true
+        })
       }
     })
     var e = that.data.currentSmallTab
@@ -795,7 +855,9 @@ Page({
       },
       success (res) {
         that.setData({
-          list: old_data.concat(res.data.commentList)
+          list: old_data.concat(res.data.commentList),
+          commentLoading: false,
+          commentLoadingMore: false
         })
         var getComment = new Date().getTime()
         if (res.data.commentList.length == 0) {
@@ -804,6 +866,12 @@ Page({
           })
         }
       },
+      fail () {
+        that.setData({
+          commentLoading: false,
+          commentLoadingMore: false
+        })
+      }
     })
   },
 
@@ -814,8 +882,16 @@ Page({
   },
 
   bottomNavChange: function(e) {
-    var _this = this,nextActiveIndex = e.currentTarget.dataset.current,
-      currentIndex = _this.data.currentSmallTab;
+    this.switchCommentTab(e.currentTarget.dataset.current)
+  },
+
+  switchCommentTab: function(nextActiveIndex) {
+    var _this = this
+    nextActiveIndex = Number(nextActiveIndex)
+    var currentIndex = Number(_this.data.currentSmallTab) || 0
+    if (isNaN(nextActiveIndex)) {
+      return false
+    }
     if (currentIndex != nextActiveIndex) {
       _this.setData({
         currentSmallTab: nextActiveIndex,
@@ -823,9 +899,46 @@ Page({
       });
       _this.setData({
         list:[],
+        noMore: false,
+        commentLoading: true,
+        commentLoadingMore: false
       });
       _this.getComment(_this.data.currentSmallTab)
+      return true
     }
+    return false
+  },
+
+  onCommentSwipeTouchStart: function(e) {
+    if (this.data.commentLoading || this.data.commentLoadingMore || this.data.submittingComment) {
+      return
+    }
+    tabSwipe.touchStart(this, e, COMMENT_SWIPE_OPTIONS)
+  },
+
+  onCommentSwipeTouchMove: function(e) {
+    tabSwipe.touchMove(this, e, COMMENT_SWIPE_OPTIONS)
+  },
+
+  onCommentSwipeTouchCancel: function() {
+    tabSwipe.touchCancel(this, COMMENT_SWIPE_OPTIONS)
+  },
+
+  onCommentSwipeTouchEnd: function(e) {
+    var direction = tabSwipe.getDirection(this, e, COMMENT_SWIPE_OPTIONS)
+    if (!direction || this.data.commentLoading || this.data.commentLoadingMore) {
+      tabSwipe.reset(this, COMMENT_SWIPE_OPTIONS)
+      return
+    }
+    var currentIndex = Number(this.data.currentSmallTab) || 0
+    var maxIndex = this.data.sub_menu.descs.length - 1
+    var nextIndex = currentIndex + direction
+    if (nextIndex < 0 || nextIndex > maxIndex) {
+      tabSwipe.reset(this, COMMENT_SWIPE_OPTIONS)
+      return
+    }
+    tabSwipe.playTransition(this, direction, 'commentSwipeClass', 'commentSwipeStyle')
+    this.switchCommentTab(nextIndex)
   },
 
   clickComment:function(e){
@@ -942,13 +1055,18 @@ Page({
   onReachBottom: function() {
     var that = this
     var e = that.data.currentSmallTab
-    that.getComment(e)
     if (that.data.noMore) {
       wx.showToast({
         title: '没有更多内容',
         icon: 'none'
       })
+      return
     }
+    if (that.data.commentLoadingMore || that.data.commentLoading) {
+      return
+    }
+    that.setData({ commentLoadingMore: true })
+    that.getComment(e)
   },
   /**
  *  点击确认

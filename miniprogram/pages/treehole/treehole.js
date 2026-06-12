@@ -1,5 +1,6 @@
 var app = getApp();
 var api = require('../../config/api.js');
+var tabSwipe = require('../../utils/tabSwipe.js');
 const CryptoJS = require('../../utils/aes.js')
 const {
     AES_KEY,
@@ -80,7 +81,14 @@ Page({
       { "icon": "../../images/rent.png", "name": "租房信息","type":"rent" },
     //   { "icon": "../../images/saylove.png", "name": "情感倾诉","type":"talk" },
     ],
-    hasUserInfo:false
+    hasUserInfo:false,
+    initialLoading: false,
+    listLoading: false,
+    loadingMore: false,
+    pageReady: false,
+    tabSwipeClass: '',
+    tabSwipeStyle: '',
+    skeletonRows: [1, 2, 3, 4]
   },
 
   /**
@@ -117,17 +125,17 @@ Page({
   },
 
   onLoad: function (options) {
-    wx.showLoading({
-        title: '加载中',
-        mask: true,
-      })
     var that = this
     that.setData({
       noMore: false,
       tasks:[],
       lastId:9999999,
       height: wx.getSystemInfoSync().windowHeight,
-      width: wx.getSystemInfoSync().windowWidth
+      width: wx.getSystemInfoSync().windowWidth,
+      initialLoading: true,
+      listLoading: true,
+      loadingMore: false,
+      pageReady: false
     })
     var bannerList = wx.getStorageSync('bannerList1')
     var bannerListtime = wx.getStorageSync('bannerListtime1')
@@ -248,7 +256,11 @@ Page({
         }
         wx.hideLoading()
         that.setData({
-          tasks: old_data.concat(data)
+          tasks: old_data.concat(data),
+          initialLoading: false,
+          listLoading: false,
+          loadingMore: false,
+          pageReady: true
         })
         wx.setStorageSync('tasks2', old_data.concat(data))
         wx.setStorageSync('taskstime2', Date.parse(new Date()))
@@ -258,6 +270,14 @@ Page({
           })
         }
       },
+      fail () {
+        that.setData({
+          initialLoading: false,
+          listLoading: false,
+          loadingMore: false,
+          pageReady: true
+        })
+      }
     })
   },
 
@@ -300,10 +320,18 @@ Page({
     var now = Date.parse(new Date());
     if (tasks && tasks.length > 0 && (now - taskstime)/1000 < 60*60 ) {
         that.setData({
-            tasks: tasks
+            tasks: tasks,
+            initialLoading: false,
+            listLoading: false,
+            loadingMore: false,
+            pageReady: true
         })
         wx.hideLoading()
     } else {
+        that.setData({
+          initialLoading: true,
+          listLoading: true
+        })
         this.getTaskInfo(e,t)
     }
   },
@@ -323,15 +351,57 @@ Page({
   },
 
   topNavChange: function(e) {
-    var _this = this,nextActiveIndex = e.currentTarget.dataset.current,
-      currentIndex = _this.data.currentTab;
+    this.switchTopTab(e.currentTarget.dataset.current)
+  },
+
+  switchTopTab: function(nextActiveIndex) {
+    var _this = this
+    nextActiveIndex = Number(nextActiveIndex)
+    var currentIndex = Number(_this.data.currentTab) || 0
+    if (isNaN(nextActiveIndex)) {
+      return false
+    }
     if (currentIndex != nextActiveIndex) {
       _this.setData({
         currentTab: nextActiveIndex,
         prevIndex: currentIndex
       });
       this.scrollTopNav()
+      return true
     }
+    return false
+  },
+
+  onTabSwipeTouchStart: function(e) {
+    if (this.data.listLoading || this.data.loadingMore) {
+      return
+    }
+    tabSwipe.touchStart(this, e)
+  },
+
+  onTabSwipeTouchMove: function(e) {
+    tabSwipe.touchMove(this, e)
+  },
+
+  onTabSwipeTouchCancel: function() {
+    tabSwipe.touchCancel(this)
+  },
+
+  onTopTabSwipeTouchEnd: function(e) {
+    var direction = tabSwipe.getDirection(this, e)
+    if (!direction || this.data.listLoading || this.data.loadingMore) {
+      tabSwipe.reset(this)
+      return
+    }
+    var currentIndex = Number(this.data.currentTab) || 0
+    var maxIndex = this.data.menu.name.length - 1
+    var nextIndex = currentIndex + direction
+    if (nextIndex < 0 || nextIndex > maxIndex) {
+      tabSwipe.reset(this)
+      return
+    }
+    tabSwipe.playTransition(this, direction)
+    this.switchTopTab(nextIndex)
   },
 
   bottomNavChange: function(e) {
@@ -345,6 +415,8 @@ Page({
       _this.setData({
         tasks:[],
         lastId:9999999,
+        listLoading: true,
+        loadingMore: false
       });
       _this.getTaskInfo(_this.data.currentTab,_this.data.currentSmallTab)
     }
@@ -368,7 +440,9 @@ Page({
     }
     _this.setData({
       tasks:[],
-      lastId:9999999
+      lastId:9999999,
+      listLoading: true,
+      loadingMore: false
     });
     _this.getTaskInfo(_this.data.currentTab,_this.data.currentSmallTab)
   },
@@ -385,13 +459,11 @@ Page({
    * Page event handler function--Called when user drop down
    */
   onPullDownRefresh: function() {
-    wx.showLoading({
-      title: '加载中，请稍后',
-      mask: true,
-    })
     this.setData({
       tasks: [],
-      lastId:9999999
+      lastId:9999999,
+      listLoading: true,
+      loadingMore: false
     })
     var e = this.data.currentTab
     var t = this.data.currentSmallTab
@@ -406,19 +478,20 @@ Page({
    */
   onReachBottom: function() {
     var that = this
-    wx.showLoading({
-      title: '加载中，请稍后',
-      mask: true,
-    })
-    var e = that.data.currentTab
-    var t = that.data.currentSmallTab
-    this.getTaskInfo(e,t)
     if (that.data.noMore) {
       wx.showToast({
         title: '没有更多内容',
         icon: 'none'
       })
+      return
     }
+    if (that.data.loadingMore || that.data.listLoading) {
+      return
+    }
+    that.setData({ loadingMore: true })
+    var e = that.data.currentTab
+    var t = that.data.currentSmallTab
+    this.getTaskInfo(e,t)
   },
   goToSection(e) {
     wx.navigateTo({

@@ -9,7 +9,7 @@
 </modal>
 
 <!-- 📝 表单区域 -->
-<view class="task">
+<view class="task ux-fade-in">
   <form bindsubmit="formSubmit" bindreset="formReset">
 
     <!-- ✨ 校区选择 -->
@@ -147,9 +147,9 @@
 
     <!-- 📤 提交按钮 -->
     <view class="btn-area">
-      <button class="submit" form-type="submit" wx:if="{{hasUserInfo}}">提交</button>
-      <button class="submit" bindtap="nologin" wx:else>提交</button>
-      <button class="reset" form-type="reset">重置</button>
+      <button class="submit ux-pressable" hover-class="ux-pressable-hover" form-type="submit" disabled="{{submitting}}" wx:if="{{hasUserInfo}}">提交</button>
+      <button class="submit ux-pressable" hover-class="ux-pressable-hover" bindtap="nologin" wx:else>提交</button>
+      <button class="reset ux-pressable" hover-class="ux-pressable-hover" form-type="reset">重置</button>
     </view>
   </form>
 

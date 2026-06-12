@@ -29,5 +29,8 @@
         </view>
       </view>
     </block>
+    <view wx:if="{{uploading}}" class="image-uploader__uploading">
+      <view class="image-uploader__spinner"></view>
+    </view>
   </view>
 </view>

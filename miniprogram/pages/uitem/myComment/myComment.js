@@ -10,7 +10,11 @@ Page({
    */
   data: {
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
-    tasks: []
+    tasks: [],
+    noMore: false,
+    initialLoading: false,
+    loadingMore: false,
+    skeletonRows: [1, 2, 3]
   },
 
   /**
@@ -95,7 +99,10 @@ Page({
   onShow: function () {
     var that=this
     that.setData({
-      tasks: []
+      tasks: [],
+      noMore: false,
+      initialLoading: true,
+      loadingMore: false
     })
     this.getTaskInfo()
   },
@@ -113,10 +120,22 @@ Page({
       },
       header: session.authHeader({ 'content-type': 'application/json' }),
       success (res) {
+        var data = (res.data && res.data.commentList) || []
+        if (data.length == 0) {
+          that.setData({ noMore: true })
+        }
         that.setData({
-          tasks: old_data.concat(res.data.commentList)
+          tasks: old_data.concat(data),
+          initialLoading: false,
+          loadingMore: false
         })
       },
+      fail () {
+        that.setData({
+          initialLoading: false,
+          loadingMore: false
+        })
+      }
     })
   },
 
@@ -139,7 +158,10 @@ Page({
    */
   onPullDownRefresh: function () {
     this.setData({
-      tasks: []
+      tasks: [],
+      noMore: false,
+      initialLoading: true,
+      loadingMore: false
     })
     this.getTaskInfo()
   },
@@ -148,6 +170,17 @@ Page({
    * Called when page reach bottom
    */
   onReachBottom: function () {
+    if (this.data.noMore) {
+      wx.showToast({
+        title: '没有更多内容',
+        icon: 'none'
+      })
+      return
+    }
+    if (this.data.loadingMore || this.data.initialLoading) {
+      return
+    }
+    this.setData({ loadingMore: true })
     this.getTaskInfo()
   },
 

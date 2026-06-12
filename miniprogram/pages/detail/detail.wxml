@@ -16,7 +16,32 @@
 <view class="container {{ (task[0].radioGroup == 'radio40' || task[0].radioGroup == 'radio41' || task[0].radioGroup == 'radio42' || task[0].radioGroup == 'radio43') ? 'treehole-style' : '' }}">
 
   <!-- 详情 -->
-  <view class="detail" style="width: 100%;">
+  <view wx:if="{{detailLoading}}" class="detail ux-fade-in" style="width: 100%;">
+    <view class="task-list-title">
+      <view class="ux-skeleton-line detail-skeleton-title"></view>
+    </view>
+    <view class="task-list-time">
+      <view class="hot-box">
+        <view class="ux-skeleton-line detail-skeleton-hot"></view>
+      </view>
+      <view class="time-box">
+        <view class="ux-skeleton-line detail-skeleton-time"></view>
+      </view>
+      <view class="campus-box">
+        <view class="ux-skeleton-line detail-skeleton-campus"></view>
+      </view>
+      <view class="delete-box"></view>
+    </view>
+    <view class="task-list-content">
+      <view class="task_content">
+        <view class="ux-skeleton-line detail-skeleton-line-main"></view>
+        <view class="ux-skeleton-line detail-skeleton-line-mid"></view>
+        <view class="ux-skeleton-line detail-skeleton-line-short"></view>
+      </view>
+    </view>
+  </view>
+
+  <view wx:else class="detail ux-fade-in" style="width: 100%;">
     <block wx:for="{{ task }}" wx:key="index" wx:for-item="task">
       <view class="task-list-title">
         <!-- <image wx:if="{{ is_self }}" class="up_img" src='../../images/up.png' bindtap='updatetime' mode='aspectFill'></image> -->
@@ -55,7 +80,7 @@
           <image class="image" wx:for-items="{{ img }}" src="{{ item + '?imageView2/2/w/700'}}" mode="widthFix" data-src="{{item}}" bindtap="imgYu"></image>
         </view>
 
-        <view class="like" bindtap='thumbsup' wx:if="{{ hasUserInfo }}">
+        <view class="like ux-pressable" hover-class="ux-pressable-hover" bindtap='thumbsup' wx:if="{{ hasUserInfo }}">
           <view wx:if="{{ state }}">
             <text wx:if="{{ task.price!= '' }}" class="task_price">￥{{ task.price }}</text>
             <image class="like_img" src='../../images/love2.png' mode='aspectFill'></image>
@@ -68,7 +93,7 @@
           </view>
         </view>
 
-        <view class="like" bindtap='nologin' wx:else>
+        <view class="like ux-pressable" hover-class="ux-pressable-hover" bindtap='nologin' wx:else>
           <view wx:if="{{ state }}">
             <text wx:if="{{ task.price!= '' }}" class="task_price">¥{{ task.price }}</text>
             <image class="like_img" src='../../images/love2.png' mode='aspectFill'></image>
@@ -83,22 +108,41 @@
       </view>
 
       <view class="botton-list">
-        <button class="wx-button-1" bindtap='get_info' wx:if="{{ task.wechat}}"> 联系对方 </button>
-        <button class="wx-button-1" bindtap='return_index' wx:if="{{ !(task[0].radioGroup == 'radio40' || task[0].radioGroup == 'radio41' || task[0].radioGroup == 'radio42' || task[0].radioGroup == 'radio43') }}"> 返回主页 </button>
-        <button class="wx-button-1" bindtap='toTreeHole' wx:else> 返回树洞 </button>
-        <button class="wx-button-1" bindtap='toSuggestion'> 举报 </button>
+        <button class="wx-button-1 ux-pressable" hover-class="ux-pressable-hover" bindtap='get_info' wx:if="{{ task.wechat}}"> 联系对方 </button>
+        <button class="wx-button-1 ux-pressable" hover-class="ux-pressable-hover" bindtap='return_index' wx:if="{{ !(task[0].radioGroup == 'radio40' || task[0].radioGroup == 'radio41' || task[0].radioGroup == 'radio42' || task[0].radioGroup == 'radio43') }}"> 返回主页 </button>
+        <button class="wx-button-1 ux-pressable" hover-class="ux-pressable-hover" bindtap='toTreeHole' wx:else> 返回树洞 </button>
+        <button class="wx-button-1 ux-pressable" hover-class="ux-pressable-hover" bindtap='toSuggestion'> 举报 </button>
       </view>
     </block>
   </view>
 
   <!-- 评论区：只保留一份，通过类名切换树洞 / 普通配色与卡片背景 -->
-  <view class="comment_zone" style="{{ (task[0].radioGroup == 'radio40' || task[0].radioGroup == 'radio41' || task[0].radioGroup == 'radio42' || task[0].radioGroup == 'radio43') ? 'width: 100%; min-height: 900rpx;' : 'width: 100%;' }}">
+  <view
+    class="comment_zone ux-tab-swipe-viewport"
+    style="{{ (task[0].radioGroup == 'radio40' || task[0].radioGroup == 'radio41' || task[0].radioGroup == 'radio42' || task[0].radioGroup == 'radio43') ? 'width: 100%; min-height: 900rpx;' : 'width: 100%;' }}"
+    bindtouchstart="onCommentSwipeTouchStart"
+    bindtouchmove="onCommentSwipeTouchMove"
+    bindtouchend="onCommentSwipeTouchEnd"
+    bindtouchcancel="onCommentSwipeTouchCancel"
+  >
+    <view class="ux-tab-swipe-area {{commentSwipeClass}}" style="{{commentSwipeStyle}}">
     <view style="width:100%" wx:if="{{ list.length > 0 }}">
       <view class="scrollView-small">
         <view class="menu-list-small" wx:for="{{sub_menu.descs}}" wx:key="index">
           <view class="menu-item-small" data-id="{{ sub_menu.name[index] }}" bindtap='bottomNavChange'  data-current="{{index}}">
             <view class="menu-desc-small {{currentSmallTab==index ? 'on-small' : ''}}" data-id="{{ sub_menu.name[index] }}">{{sub_menu.descs[index]}}</view>
           </view>
+        </view>
+      </view>
+    </view>
+
+    <view wx:if="{{commentLoading && list.length == 0}}" class="detail-comment-skeleton-list ux-fade-in">
+      <view class="detail-comment-skeleton-item" wx:for="{{skeletonRows}}" wx:key="index">
+        <view class="detail-comment-skeleton-avatar ux-skeleton-avatar"></view>
+        <view class="detail-comment-skeleton-card normal-color">
+          <view class="ux-skeleton-line detail-comment-skeleton-name"></view>
+          <view class="ux-skeleton-line detail-comment-skeleton-content"></view>
+          <view class="ux-skeleton-line detail-comment-skeleton-meta"></view>
         </view>
       </view>
     </view>
@@ -111,7 +155,7 @@
           </view>
 
           <!-- 核心：只保留一个 pro-box，树洞用 4 色背景，普通用 normal-color -->
-          <view class="pro-box {{ (task[0].radioGroup == 'radio40' || task[0].radioGroup == 'radio41' || task[0].radioGroup == 'radio42' || task[0].radioGroup == 'radio43') ? (item.id % 4 == 1 ? 'bg-1' : (item.id % 4 == 0 ? 'bg-0' : (item.id % 4 == 3 ? 'bg-3' : 'bg-else'))) : 'normal-color' }}">
+          <view class="pro-box ux-fade-up {{ (task[0].radioGroup == 'radio40' || task[0].radioGroup == 'radio41' || task[0].radioGroup == 'radio42' || task[0].radioGroup == 'radio43') ? (item.id % 4 == 1 ? 'bg-1' : (item.id % 4 == 0 ? 'bg-0' : (item.id % 4 == 3 ? 'bg-3' : 'bg-else'))) : 'normal-color' }}">
             <view class="head">
               <view class="box">
                 <view class="shead_clear">
@@ -140,7 +184,7 @@
                     data-user="{{item.userName}}"
                     data-pid="{{ item.id }}"
                     data-second="{{index}}">回复</view>
-              <view>
+              <view class="ux-pressable" hover-class="ux-pressable-hover">
                 <image src="../../images/click_on.png" class="click-img" bindtap="unClickComment" data-id="{{item.id}}" wx:if="{{indexofStr.includes(clickList,item.id)>-1}}"></image>
                 <image src="../../images/click.png" class="click-img" bindtap="clickComment" data-id="{{item.id}}" wx:else></image>
                 <text class="click-text" wx:if="{{item.like_num == 0}}"> 赞</text>
@@ -173,7 +217,7 @@
                           data-user="{{secondLevel.userName}}"
                           data-pid="{{item.id}}"
                           data-second="{{index}}">回复</view>
-                    <view>
+                    <view class="ux-pressable" hover-class="ux-pressable-hover">
                       <image src="../../images/click_on.png" class="click-img" bindtap="unClickComment" data-id="{{secondLevel.id}}" wx:if="{{indexofStr.includes(clickList,secondLevel.id)>-1}}"></image>
                       <image src="../../images/click.png" class="click-img" bindtap="clickComment" data-id="{{secondLevel.id}}" wx:else></image>
                       <text class="click-text" wx:if="{{secondLevel.like_num == 0}}"> 赞</text>
@@ -187,6 +231,12 @@
           </view>
         </view>
       </block>
+    </view>
+    <view wx:if="{{commentLoadingMore}}" class="ux-bottom-loading">
+      <text class="ux-bottom-loading__dot"></text>
+      <text class="ux-bottom-loading__dot"></text>
+      <text class="ux-bottom-loading__dot"></text>
+    </view>
     </view>
   </view>
 
@@ -203,7 +253,7 @@
           <image style="width: 64rpx; height: 64rpx; background-color: #fff;" src="../../images/pic.png" mode="aspectFit" wx:if="{{imgOriList.length == 0}}"></image>
           <image style="width: 64rpx; height: 64rpx; background-color: #fff;" src="{{imgOriList[0] + '?imageView2/2/w/50'}}" mode="aspectFit" wx:else></image>
         </image-uploader>
-        <button form-type="submit" class="submit" wx:if="{{ hasUserInfo }}">发送</button>
+        <button form-type="submit" class="submit ux-pressable" hover-class="ux-pressable-hover" disabled="{{submittingComment}}" wx:if="{{ hasUserInfo }}">发送</button>
         <button bindtap="nologin" class="submit" wx:else>发送</button>
       </view>
 
@@ -213,7 +263,7 @@
           <image style="width: 64rpx; height: 64rpx; background-color: #fff;" src="../../images/pic.png" mode="aspectFit" wx:if="{{imgOriList.length == 0}}"></image>
           <image style="width: 64rpx; height: 64rpx; background-color: #fff;" src="{{imgOriList[0] + '?imageView2/2/w/50'}}" mode="aspectFit" wx:else></image>
         </image-uploader>
-        <button form-type="submit" class="submit" wx:if="{{ hasUserInfo }}">发送</button>
+        <button form-type="submit" class="submit ux-pressable" hover-class="ux-pressable-hover" disabled="{{submittingComment}}" wx:if="{{ hasUserInfo }}">发送</button>
         <button bindtap="nologin" class="submit" wx:else>发送</button>
       </view>
     </view>

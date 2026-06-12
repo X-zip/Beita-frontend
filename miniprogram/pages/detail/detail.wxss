@@ -29,6 +29,9 @@
   .like_img {
     width: 18px;
     height: 18px;
+    transition-property: opacity, transform;
+    transition-duration: 160ms;
+    transition-timing-function: ease-out;
   }
 
 
@@ -96,6 +99,11 @@
     font-size: 40rpx;
   }
 
+  .detail-skeleton-title {
+    width: 45%;
+    height: 40rpx;
+  }
+
   .task-list-time {
     margin-top: 10px;
     margin-left: 5%;
@@ -104,6 +112,27 @@
     color: #999;
     display: flex;
     justify-content: space-between;
+  }
+
+  .detail-skeleton-hot,
+  .detail-skeleton-time,
+  .detail-skeleton-campus {
+    width: 120rpx;
+    height: 22rpx;
+  }
+
+  .detail-skeleton-line-main {
+    width: 92%;
+  }
+
+  .detail-skeleton-line-mid {
+    width: 76%;
+    margin-top: 22rpx;
+  }
+
+  .detail-skeleton-line-short {
+    width: 64%;
+    margin-top: 22rpx;
   }
 
   .wx-button-1 {
@@ -156,6 +185,9 @@
     background-color: #f6f6f6;
     font-size: 28rpx;
     z-index: 999;
+    transition-property: opacity, transform, background-color;
+    transition-duration: 180ms;
+    transition-timing-function: ease-out;
   }
   .nickNameinfo{
     display: flex;
@@ -242,6 +274,51 @@
     position: relative;
     border-radius: 20rpx;
   }
+
+.detail-comment-skeleton-list {
+  width: 100%;
+  margin-bottom: 100px;
+  box-sizing: border-box;
+}
+
+.detail-comment-skeleton-item {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 20rpx;
+  padding: 0 5%;
+  box-sizing: border-box;
+}
+
+.detail-comment-skeleton-avatar {
+  width: 80rpx;
+  height: 80rpx;
+  flex: 0 0 80rpx;
+  background-size: 400% 100%;
+}
+
+.detail-comment-skeleton-card {
+  flex: 1;
+  margin-left: 10rpx;
+  padding: 20rpx;
+  border-radius: 20rpx;
+  box-sizing: border-box;
+  min-height: 150rpx;
+}
+
+.detail-comment-skeleton-name {
+  width: 180rpx;
+}
+
+.detail-comment-skeleton-content {
+  width: 86%;
+  margin-top: 28rpx;
+}
+
+.detail-comment-skeleton-meta {
+  width: 50%;
+  margin-top: 22rpx;
+}
 
   .normal-color{
     background:#f6f6f6;
@@ -428,6 +505,9 @@
     height:28rpx;
     width:28rpx;
     margin-left:20rpx;
+    transition-property: opacity, transform;
+    transition-duration: 160ms;
+    transition-timing-function: ease-out;
   }
 
   .click-text {
@@ -489,4 +569,3 @@
 
   /* 普通模式下“回复”文字颜色（原来是内联 style="color:blue;"） */
   .reply-normal { color: blue; }
-  

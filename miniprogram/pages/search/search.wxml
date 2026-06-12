@@ -7,8 +7,20 @@
 <wxs src="../../WXS/cal_view.wxs" module="random" />
 
 <view id="stories-list" bindtap="goToStoryDetail" >
+  <block wx:if="{{initialLoading && tasks.length == 0}}">
+    <view class="ux-skeleton-card ux-fade-in" wx:for="{{skeletonRows}}" wx:key="index">
+      <view class="ux-skeleton-row">
+        <view class="ux-skeleton-avatar"></view>
+        <view class="ux-skeleton-line ux-skeleton-line--name"></view>
+        <view class="ux-skeleton-line ux-skeleton-line--meta"></view>
+      </view>
+      <view class="ux-skeleton-line ux-skeleton-line--title"></view>
+      <view class="ux-skeleton-line ux-skeleton-line--sub"></view>
+      <view class="ux-skeleton-thumb"></view>
+    </view>
+  </block>
   <block wx:for="{{ tasks }}" wx:key="{{ index }}" wx:for-item="task" >
-    <view class="task-list-item" data-id="{{ task.id }}">
+    <view class="task-list-item ux-fade-up ux-pressable" hover-class="ux-pressable-hover" data-id="{{ task.id }}">
       <view class="box-left" data-id="{{ task.id }}">
         <view class="head" data-id="{{ task.id }}">
           <image class="img" src="{{ task.avatar }}" mode="aspectFit" data-id="{{ task.id }}"></image>
@@ -56,5 +68,10 @@
       </view> 
     </view>
   </block>
+  <view wx:if="{{loadingMore}}" class="ux-bottom-loading">
+    <text class="ux-bottom-loading__dot"></text>
+    <text class="ux-bottom-loading__dot"></text>
+    <text class="ux-bottom-loading__dot"></text>
+  </view>
 
 </view>

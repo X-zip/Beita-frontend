@@ -28,6 +28,9 @@ Page({
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
     tasks: [],
     noMore:false,
+    initialLoading: false,
+    loadingMore: false,
+    skeletonRows: [1, 2, 3]
   },
 
   /**
@@ -114,7 +117,10 @@ Page({
   onShow: function() {
     var that = this
     that.setData({
-      tasks: []
+      tasks: [],
+      noMore: false,
+      initialLoading: true,
+      loadingMore: false
     })
     that.getTaskInfo()
   },
@@ -142,7 +148,9 @@ Page({
         }
         wx.hideLoading()
         that.setData({
-          tasks: old_data.concat(data)
+          tasks: old_data.concat(data),
+          initialLoading: false,
+          loadingMore: false
         })
         if (res.data.taskList.length == 0) {
           that.setData({
@@ -154,6 +162,12 @@ Page({
           })
         }
       },
+      fail () {
+        that.setData({
+          initialLoading: false,
+          loadingMore: false
+        })
+      }
     })
   },
 
@@ -175,12 +189,11 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-    wx.showLoading({
-      title: '加载中，请稍后',
-      mask: true,
-    })
     this.setData({
-      tasks: []
+      tasks: [],
+      noMore: false,
+      initialLoading: true,
+      loadingMore: false
     })
     this.getTaskInfo()
   },
@@ -189,17 +202,18 @@ Page({
    * Called when page reach bottom
    */
   onReachBottom: function () {
-    wx.showLoading({
-      title: '加载中，请稍后',
-      mask: true,
-    })
-    this.getTaskInfo()
     if (this.data.noMore) {
       wx.showToast({
         title: '没有更多内容',
         icon: 'none'
       })
+      return
     }
+    if (this.data.loadingMore || this.data.initialLoading) {
+      return
+    }
+    this.setData({ loadingMore: true })
+    this.getTaskInfo()
   },
 
   /**

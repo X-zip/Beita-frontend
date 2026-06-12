@@ -27,6 +27,9 @@ Page({
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
     tasks: [],
     noMore:false,
+    initialLoading: false,
+    loadingMore: false,
+    skeletonRows: [1, 2, 3]
   },
 
   /**
@@ -60,7 +63,10 @@ Page({
   onShow: function() {
     var that = this
     that.setData({
-      tasks: []
+      tasks: [],
+      noMore: false,
+      initialLoading: true,
+      loadingMore: false
     })
     that.getTaskInfo()
   },
@@ -86,7 +92,9 @@ Page({
       success (res) {
         if (res.data.likeList.length == 0) {
           that.setData({
-            noMore: true
+            noMore: true,
+            initialLoading: false,
+            loadingMore: false
           })
           wx.showToast({
             title: '没有更多内容',
@@ -115,13 +123,27 @@ Page({
               var tasks = that.data.tasks
               var task=res.data.taskList
               that.setData({
-                tasks: tasks.concat(task)
+                tasks: tasks.concat(task),
+                initialLoading: false,
+                loadingMore: false
               })
 
             },
+            fail () {
+              that.setData({
+                initialLoading: false,
+                loadingMore: false
+              })
+            }
           })
         }
       },
+      fail () {
+        that.setData({
+          initialLoading: false,
+          loadingMore: false
+        })
+      }
     })
 
   },
@@ -152,17 +174,18 @@ Page({
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-    wx.showLoading({
-      title: '加载中，请稍后',
-      mask: true,
-    })
-    this.getTaskInfo()
     if (this.data.noMore) {
       wx.showToast({
         title: '没有更多内容',
         icon: 'none'
       })
+      return
     }
+    if (this.data.loadingMore || this.data.initialLoading) {
+      return
+    }
+    this.setData({ loadingMore: true })
+    this.getTaskInfo()
   },
 
   /**

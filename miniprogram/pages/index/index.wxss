@@ -86,6 +86,9 @@
     top:var(--keyboard_height--);
     background-color: whitesmoke;
     opacity: 0.85;
+    transition-property: opacity, background-color;
+    transition-duration: 180ms;
+    transition-timing-function: ease-out;
   }
   .navColor { opacity: 1; z-index: 99; }
   .nav-main { background-color: powderblue; }
@@ -182,6 +185,15 @@
     line-height: 28rpx;
     display: block;
     padding-bottom: 20rpx;
+    transition-property: color, border-color;
+    transition-duration: 160ms;
+    transition-timing-function: ease-out;
+  }
+
+  .menu-desc {
+    transition-property: color;
+    transition-duration: 160ms;
+    transition-timing-function: ease-out;
   }
   
   .qr-list {
@@ -225,4 +237,3 @@
     .price { color: white; }
     .watch-text { color: #e6e6e6;}
   }
-  
