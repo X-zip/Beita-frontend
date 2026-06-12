@@ -50,8 +50,8 @@
 }
 
 .wechat-qr {
-  width: 100%;
-  max-width: 620rpx;
+  width: 76%;
+  max-width: 480rpx;
   margin-top: 24rpx;
   border-radius: 12rpx;
 }
