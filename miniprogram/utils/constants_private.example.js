@@ -8,7 +8,7 @@ const AES_IV = CryptoJS.enc.Utf8.parse('YOUR_AES_IV_HERE')
 const QINIU_CONFIG = {
   ak: 'YOUR_QINIU_AK_HERE',
   sk: 'YOUR_QINIU_SK_HERE',
-  bkt: 'your-bucket-name'
+  bkt: 'beifanggx'
 }
 
 const SUBSCRIBE_TEMPLATE_IDS = 'your-subscribe-template-id'

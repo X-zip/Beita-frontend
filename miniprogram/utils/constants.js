@@ -13,7 +13,7 @@ const AES_IV = CryptoJS.enc.Utf8.parse('YOUR_AES_IV_HERE');
 const QINIU_CONFIG = {
   ak: 'YOUR_QINIU_AK_HERE',
   sk: 'YOUR_QINIU_SK_HERE',
-  bkt: 'your-bucket-name',
+  bkt: 'beifanggx',
 };
 
 // 🔔 订阅消息模板 ID（示例占位）
