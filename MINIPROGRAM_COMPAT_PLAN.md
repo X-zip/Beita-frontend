@@ -336,3 +336,34 @@ POST /qiniu/uploadToken
 - 高频发帖/评论会收到明确 toast。
 - 重复内容会收到明确 toast。
 - 七牛 AK/SK 不再出现在小程序包内。
+
+## 2026-06-18 unionid 自动补齐策略
+
+目标：让历史小程序用户在不打断线上使用的情况下，尽可能自动补齐 `unionid`，为后续 iOS 微信登录账号合并提供稳定依据。
+
+原则：
+
+- 小程序端不能自行生成 `unionid`，只能通过 `wx.login` 拿到 `code` 后请求后端 `/wxLogin`，由后端调用微信 `jscode2session` 获取。
+- 小程序启动时应检查本地 `openid`、`loginSession`、`unionid`。只要缺少 `openid`、缺少后端登录 session，或本地没有 `unionid`，都可以静默触发一次 `/wxLogin`。
+- 缺少 `unionid` 不能阻断小程序正常使用；补齐失败时继续使用已有 `openid` 和 session。
+- `/wxLogin` 返回 `unionid` 后，小程序写入 `wx.setStorageSync('unionid', unionid)`；后端按 `openid` 回填 `user_verify.unionid`。
+- `/wxLogin` 未返回 `unionid` 时，后端不能把登录判为失败，也不要向数据库写入空字符串；缺失值保持 `NULL`。
+- 为避免每次打开都额外请求登录接口，建议记录最近一次 unionid 补齐失败时间，例如 `unionidBackfillFailedAt`，24 小时内失败过则当天不重复补齐；缺 `openid` 或缺 session 的正常登录刷新不受这个节流影响。
+
+建议前端判断：
+
+```js
+const hasOpenid = !!wx.getStorageSync('openid')
+const hasUnionid = !!wx.getStorageSync('unionid')
+const hasSession = !!session.getLoginSession()
+
+if (!hasOpenid || !hasSession || !hasUnionid) {
+  // 静默 wx.login -> /wxLogin
+}
+```
+
+后端契约：
+
+- `/wxLogin` 有 `unionid`：登录成功，返回 `openid/unionid/sessionToken/loginSession`，并补齐或合并 `user_verify`。
+- `/wxLogin` 无 `unionid` 但有 `openid`：登录成功，返回 `openid/sessionToken/loginSession`，不影响小程序线上服务。
+- `/wxLogin` 无 `openid` 或微信返回明确错误：登录失败，记录微信 `errcode/errmsg`，但不得记录 secret 或 session_key。

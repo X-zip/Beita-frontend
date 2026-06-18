@@ -62,6 +62,10 @@ App({
               })
             }
           })
+        } else if (!wx.getStorageSync('unionid')) {
+          session.ensureUnionidBackfill().catch(function(err) {
+            console.error('unionid backfill failed:', err)
+          })
         }
         wx.request({
             url: api.CheckVerifyUserQuanzi,

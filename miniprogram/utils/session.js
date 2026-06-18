@@ -1,5 +1,7 @@
 const SESSION_KEY = 'loginSession'
 const SESSION_SUPPORTED_KEY = 'loginSessionSupported'
+const UNIONID_BACKFILL_FAILED_AT_KEY = 'unionidBackfillFailedAt'
+const UNIONID_BACKFILL_RETRY_INTERVAL = 24 * 60 * 60 * 1000
 let loginPromise = null
 
 function getClientVersion() {
@@ -51,7 +53,7 @@ function saveLoginIdentity(result) {
   }
 }
 
-function requestLoginSession() {
+function requestLoginSession(preserveExistingSession) {
   return new Promise((resolve, reject) => {
     const api = require('../config/api.js')
     wx.login({
@@ -72,6 +74,10 @@ function requestLoginSession() {
           success(res) {
             const result = res.data && res.data.result
             saveLoginIdentity(result)
+            if (preserveExistingSession && getLoginSession() && !extractLoginSession(result)) {
+              resolve(result)
+              return
+            }
             saveLoginSession(result)
             resolve(result)
           },
@@ -106,6 +112,30 @@ function ensureLoginSession(force) {
   return loginPromise
 }
 
+function ensureUnionidBackfill() {
+  if (wx.getStorageSync('unionid')) {
+    return Promise.resolve(wx.getStorageSync('unionid'))
+  }
+  const failedAt = Number(wx.getStorageSync(UNIONID_BACKFILL_FAILED_AT_KEY) || 0)
+  if (failedAt && Date.now() - failedAt < UNIONID_BACKFILL_RETRY_INTERVAL) {
+    return Promise.resolve('')
+  }
+  return requestLoginSession(true)
+    .then(result => {
+      const unionid = result && result.unionid ? result.unionid : ''
+      if (unionid) {
+        wx.removeStorageSync(UNIONID_BACKFILL_FAILED_AT_KEY)
+        return unionid
+      }
+      wx.setStorageSync(UNIONID_BACKFILL_FAILED_AT_KEY, Date.now())
+      return ''
+    })
+    .catch(err => {
+      wx.setStorageSync(UNIONID_BACKFILL_FAILED_AT_KEY, Date.now())
+      throw err
+    })
+}
+
 function clearLoginSession() {
   wx.removeStorageSync(SESSION_KEY)
   wx.removeStorageSync(SESSION_SUPPORTED_KEY)
@@ -115,6 +145,7 @@ module.exports = {
   saveLoginSession,
   getLoginSession,
   ensureLoginSession,
+  ensureUnionidBackfill,
   clearLoginSession,
   authHeader
 }
