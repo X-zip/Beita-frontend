@@ -8,7 +8,7 @@
 
 ![贝塔驿站小程序码](docs/assets/miniprogram-code.png)
 
-联系方式：vxuziping@gmail.com
+联系方式：xuziping@zzyqtech.cn
 
 ## 项目定位
 

@@ -167,7 +167,7 @@ The main API interfaces include:
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details. 
 ## 📞 Contact Information 
 - Project maintainer: [zp_x520]
-- Email: [vxuziping@gmail.com]
+- Email: [xuziping@zzyqtech.cn]
 - Project address: [https://github.com/X-zip/Beita-frontend] 
 ## 🙏 Acknowledgements 
 Thank you to all the developers and users who have contributed to the Beta Station project! 
