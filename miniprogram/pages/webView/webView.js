@@ -13,8 +13,12 @@ Page({
    */
   onLoad: function (options) {
     var that= this
+    var src = options.id || ''
+    try {
+      src = decodeURIComponent(src)
+    } catch (e) {}
     that.setData({
-      src:options.id
+      src:src
     })
   },
 

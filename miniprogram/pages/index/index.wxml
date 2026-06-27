@@ -23,10 +23,10 @@
     </view>
   </navigation>
 
-  <swiper class="index-swiper" indicator-dots="{{indicatorDots}}" catchtap="onSwiperTap" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" wx:if="{{showBanner}}" style="margin-top:{{navBarHeight}}px">
+  <swiper class="index-swiper" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" wx:if="{{showBanner}}" style="margin-top:{{navBarHeight}}px">
     <block wx:for="{{bannerList}}" class="slide-block">
       <swiper-item>
-        <image src="{{item.imageUrl}}" class="slide-image" mode="widthFix" data-id="{{item.navUrl}}" />
+        <image src="{{item.imageUrl}}" class="slide-image" mode="widthFix" data-url="{{item.navUrl}}" catchtap="onSwiperTap" />
       </swiper-item>
     </block>
   </swiper>

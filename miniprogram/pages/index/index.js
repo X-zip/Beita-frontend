@@ -10,6 +10,24 @@ const {
     SUBSCRIBE_TEMPLATE_IDS,
     MAX_IMAGE_COUNT,
 } = require('../../utils/constants_private.js');
+
+var BANNER_TAB_PAGES = [
+  '/pages/index/index',
+  '/pages/treehole/treehole',
+  '/pages/usercenter/usercenter'
+]
+
+function normalizeBannerPath(url) {
+  if (url.indexOf('/pages/') === 0) return url
+  if (url.indexOf('pages/') === 0) return '/' + url
+  if (url.indexOf('../') === 0) return '/pages/' + url.replace('../', '')
+  return ''
+}
+
+function isBannerImageUrl(url) {
+  var cleanUrl = url.split('?')[0].split('#')[0].toLowerCase()
+  return /\.(png|jpe?g|gif|webp)$/.test(cleanUrl)
+}
 function encryptContent(contentObj) {
     const encrypted = CryptoJS.AES.encrypt(JSON.stringify(contentObj), AES_KEY, {
       iv: AES_IV,
@@ -176,34 +194,56 @@ Page({
 
 
   onSwiperTap: function(event) {
-    var id = event.target.dataset.id;
-    var that = this
-    if (id.indexOf('pages') != -1) {
-        wx.navigateTo({
-          url: '/'+id,
-        // url: "/pages/uitem/contact/contact"
+    var id = ((event.currentTarget.dataset && event.currentTarget.dataset.url) || '').trim()
+    if (!id) {
+      return
+    }
+
+    var pagePath = normalizeBannerPath(id)
+    if (pagePath) {
+      if (BANNER_TAB_PAGES.indexOf(pagePath) > -1) {
+        wx.switchTab({
+          url: pagePath
         })
-    } else if (id.indexOf('http') === 0) {
-      wx.previewImage({
-        current: id,
-        urls: id.split(),
+      } else {
+        wx.navigateTo({
+          url: pagePath
+        })
+      }
+      return
+    }
+
+    if (id.indexOf('http://') === 0 || id.indexOf('https://') === 0) {
+      if (isBannerImageUrl(id)) {
+        wx.previewImage({
+          current: id,
+          urls: [id],
+        })
+      } else {
+        wx.navigateTo({
+          url: '../webView/webView?id=' + encodeURIComponent(id),
+        })
+      }
+      return
+    }
+
+    if (id.indexOf('wx') === 0) {
+      wx.navigateToMiniProgram({
+        appId: id,
+        path: 'pages/index/index',
+        extraData: {
+          foo: 'bar'
+        },
+        envVersion: 'release',
+        success(res) {
+          // 打开成功
+        }
       })
-    } else if (id.indexOf('https://') != -1) {
-        wx.navigateTo({
-          url: '../webView/webView?id=' + id,
-        })
     } else {
-        wx.navigateToMiniProgram({
-          appId: id,
-          path: 'pages/index/index',
-          extraData: {
-            foo: 'bar'
-          },
-          envVersion: 'release',
-          success(res) {
-            // 打开成功
-          }
-        })
+      wx.showToast({
+        title: '暂不支持该跳转',
+        icon: 'none'
+      })
     }
   },
   /**
